@@ -10,7 +10,7 @@ import '../styles/global.css';
 		<title>김철수 ♥ 이영희 결혼식</title>
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
 	</head>
-	<body class="bg-rose-50 text-gray-800 font-sans">
+	<body id="bodyElement" class="text-gray-800 font-sans" style="background: none; visibility: hidden;">
 		<!-- 페이드인 오버레이 -->
 		<div id="fadeOverlay" class="fixed inset-0 bg-white z-50 opacity-0"></div>
 		
@@ -355,8 +355,13 @@ import '../styles/global.css';
 		
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
+				const bodyElement = document.getElementById('bodyElement');
 				const fadeOverlay = document.getElementById('fadeOverlay');
 				const mainContent = document.getElementById('mainContent');
+				
+				// 0단계: body 표시 및 배경 설정
+				bodyElement.style.visibility = 'visible';
+				bodyElement.classList.add('bg-rose-50');
 				
 				// 1단계: 빈 화면에서 흰색 오버레이가 나타남 (0.5초)
 				setTimeout(function() {
