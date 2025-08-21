@@ -12,9 +12,9 @@ import '../styles/global.css';
 	</head>
 	<body class="bg-rose-50 text-gray-800 font-sans">
 		<!-- 페이드인 오버레이 -->
-		<div id="fadeOverlay" class="fixed inset-0 bg-white z-50 opacity-100"></div>
+		<div id="fadeOverlay" class="fixed inset-0 bg-white z-50 opacity-0"></div>
 		
-		<main class="max-w-md mx-auto bg-white min-h-screen">
+		<main id="mainContent" class="max-w-md mx-auto bg-white min-h-screen" style="display: none;">
 			
 			<!-- Phase 1: 필수 요소 -->
 			
@@ -356,16 +356,28 @@ import '../styles/global.css';
 		<script>
 			document.addEventListener('DOMContentLoaded', function() {
 				const fadeOverlay = document.getElementById('fadeOverlay');
+				const mainContent = document.getElementById('mainContent');
 				
-				// 페이드인 애니메이션 (cube in 효과)
+				// 1단계: 빈 화면에서 흰색 오버레이가 나타남 (0.5초)
 				setTimeout(function() {
-					fadeOverlay.style.transition = 'opacity 1s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
-					fadeOverlay.style.opacity = '0';
+					fadeOverlay.style.transition = 'opacity 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+					fadeOverlay.style.opacity = '1';
 					
-					// 애니메이션 완료 후 요소 제거
+					// 2단계: 흰색 오버레이 뒤에 청첩장 콘텐츠 표시
 					setTimeout(function() {
-						fadeOverlay.style.display = 'none';
-					}, 1000);
+						mainContent.style.display = 'block';
+						
+						// 3단계: 흰색 오버레이가 사라짐 (0.5초)
+						setTimeout(function() {
+							fadeOverlay.style.transition = 'opacity 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
+							fadeOverlay.style.opacity = '0';
+							
+							// 애니메이션 완료 후 오버레이 제거
+							setTimeout(function() {
+								fadeOverlay.style.display = 'none';
+							}, 500);
+						}, 100);
+					}, 500);
 				}, 100);
 			});
 		</script>
