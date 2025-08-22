@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:salondeletter.com)",
+      "WebSearch",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright:*)",
+      "Bash(node:*)",
+      "mcp__ide__executeCode",
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(claude mcp add playwright --scope user -- npx -y playwright-mcp-server:*)",
+      "Bash(claude mcp:*)",
+      "mcp__playwright__puppeteer_navigate",
+      "mcp__playwright__puppeteer_screenshot",
+      "mcp__playwright__puppeteer_evaluate",
+      "WebFetch(domain:ko.wix.com)",
+      "WebFetch(domain:docs.astro.build)",
+      "Bash(npm create:*)",
+      "Bash(npx astro add tailwind:*)",
+      "Bash(npm run dev:*)",
+      "Bash(gh repo create:*)",
+      "mcp__github__push_files",
+      "mcp__github__create_or_update_file",
+      "mcp__playwright__puppeteer_click",
+      "mcp__github__get_file_contents",
+      "mcp__github__create_branch",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
