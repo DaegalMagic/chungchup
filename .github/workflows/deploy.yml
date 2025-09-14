@@ -17,23 +17,26 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./wedding-invitation-demo
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      
+          cache: npm
+          cache-dependency-path: './wedding-invitation-demo/package-lock.json'
+
       - name: Install dependencies
-        working-directory: ./wedding-invitation-demo
-        run: npm install
-      
+        run: npm ci
+
       - name: Build site
-        working-directory: ./wedding-invitation-demo
         run: npm run build
-      
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
