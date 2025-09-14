@@ -13,6 +13,9 @@ import '../styles/global.css';
 	<body class="text-gray-800 font-sans bg-rose-50">
 		<!-- 커튼 효과 요소들 -->
 		<div id="curtain-overlay" class="fixed inset-0 z-50 pointer-events-none" data-curtain="true" style="display: block;">
+			<!-- 검은 화면 (본 화면을 가리는 용도) -->
+			<div id="black-screen" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; inset: 0; background-color: black; opacity: 1;" data-curtain="black-screen"><!-- 검은 화면 --></div>
+			
 			<!-- 초기 전체 화면 덮개 -->
 			<div id="initial-overlay" class="absolute bg-white" style="z-index: 50; display: block; position: absolute; inset: 0; background-color: white; opacity: 0;" data-curtain="initial-overlay"><!-- 초기 화면 덮개 --></div>
 			
@@ -958,12 +961,29 @@ import '../styles/global.css';
 				}
 				
 				cleanup() {
-					// 애니메이션 완료 후 모든 커튼 요소 제거
+					// 애니메이션 완료 후 검은 화면 먼저 페이드아웃
+					const blackScreen = document.getElementById('black-screen');
 					const overlay = document.getElementById('curtain-overlay');
-					overlay.style.opacity = '0';
-					setTimeout(() => {
-						overlay.remove();
-					}, 300);
+					
+					if (blackScreen) {
+						// 검은 화면을 500ms에 걸쳐 페이드아웃
+						blackScreen.style.transition = 'opacity 500ms ease-out';
+						blackScreen.style.opacity = '0';
+						
+						// 검은 화면 페이드아웃 완료 후 전체 오버레이 제거
+						setTimeout(() => {
+							overlay.style.opacity = '0';
+							setTimeout(() => {
+								overlay.remove();
+							}, 300);
+						}, 500); // 검은 화면 페이드아웃 시간과 동일
+					} else {
+						// 검은 화면이 없을 경우 기존 방식 유지
+						overlay.style.opacity = '0';
+						setTimeout(() => {
+							overlay.remove();
+						}, 300);
+					}
 				}
 				
 				// 이징 함수들
