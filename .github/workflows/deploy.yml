@@ -27,15 +27,17 @@ jobs:
           node-version: 18
       
       - name: Install dependencies
+        working-directory: ./wedding-invitation-demo
         run: npm install
       
       - name: Build site
+        working-directory: ./wedding-invitation-demo
         run: npm run build
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./wedding-invitation-demo/dist
 
   deploy:
     environment:
