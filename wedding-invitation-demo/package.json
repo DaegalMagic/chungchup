@@ -1,34 +1,16 @@
 {
-<<<<<<< HEAD
   "name": "wedding-invitation-demo",
-=======
-  "name": "wedding-invitation",
->>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-<<<<<<< HEAD
-=======
-    "start": "astro dev",
->>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.2",
     "tailwindcss": "^4.1.12"
   }
 }
-=======
-    "astro": "^4.0.0"
-  },
-  "devDependencies": {
-    "@astrojs/tailwind": "^5.0.0",
-    "tailwindcss": "^3.0.0"
-  }
-}
->>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e

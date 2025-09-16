@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "chungchupjang",
   "version": "1.0.0",
   "main": "index.js",
@@ -14,20 +13,3 @@
     "playwright-mcp-server": "^1.0.0"
   }
 }
-=======
-  "name": "wedding-invitation-demo",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.12",
-    "astro": "^5.13.2",
-    "tailwindcss": "^4.1.12"
-  }
-}
->>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
