@@ -40,7 +40,8 @@
       "WebFetch(domain:daegalmagic.github.io)",
       "WebFetch(domain:api.github.com)",
       "WebFetch(domain:github.com)",
-      "mcp__github__list_commits"
+      "mcp__github__list_commits",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []

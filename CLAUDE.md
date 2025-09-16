@@ -11,12 +11,27 @@
 - **소유자**: DaegalMagic
 
 ### GitHub 작업 시 중요 사항
+<<<<<<< HEAD
 1. **일반 git 명령어만 사용하세요**
    - MCP GitHub 도구 사용 금지
    - bash git 명령어만 사용 (git add, git commit, git push 등)
    - 로컬 git 저장소 관리에 집중
 
 2. **파일 업로드 시 주의사항**
+=======
+1. **MCP GitHub 도구를 최우선으로 사용하세요**
+   - 일반 bash git 명령어 대신 `mcp__github__*` 도구들을 사용
+   - 더 안전하고 효율적인 GitHub 연동 가능
+   - 예: `mcp__github__push_files`, `mcp__github__create_or_update_file` 등
+
+2. **주요 MCP GitHub 도구들**
+   - `mcp__github__push_files`: 여러 파일을 한 번에 푸시
+   - `mcp__github__create_or_update_file`: 단일 파일 생성/업데이트
+   - `mcp__github__create_branch`: 새 브랜치 생성
+   - `mcp__github__create_pull_request`: PR 생성
+
+3. **파일 업로드 시 주의사항**
+>>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
    - node_modules, .env 파일 등은 .gitignore에 추가하여 제외
    - 한국어 파일명도 정상적으로 처리됨
 
@@ -30,8 +45,13 @@
 
 2. **커밋과 푸시 구분**
    - **자잘한 변경사항**: 로컬 커밋만 실행 (bash git 사용)
+<<<<<<< HEAD
    - **큰 요구사항 완료**: 사용자가 만족하고 확정되면 그때 푸시 (bash git 사용)
    - 기능 구현 → 로컬 테스트 → 정상 작동 확인 → 로컬 커밋 → (확정 시) bash git push
+=======
+   - **큰 요구사항 완료**: 사용자가 만족하고 확정되면 그때 푸시 (MCP GitHub 도구 사용)
+   - 기능 구현 → 로컬 테스트 → 정상 작동 확인 → 로컬 커밋 → (확정 시) GitHub 푸시
+>>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
 
 3. **커밋 메시지 규칙**
    ```
@@ -46,7 +66,11 @@
    - 기능 개발 → `npm run dev`로 로컬 테스트
    - Playwright MCP로 브라우저 테스트
    - 정상 작동 확인 → 로컬 커밋 (bash git 사용)
+<<<<<<< HEAD
    - 사용자 확정 시 → bash git push
+=======
+   - 사용자 확정 시 → MCP GitHub 도구로 푸시
+>>>>>>> 8c6e42a6df0d824d5e441f1ddcd3325e9b80f62e
 
 ## 프로젝트 구조
 ```

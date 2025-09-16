@@ -10,31 +10,7 @@ import '../styles/global.css';
 		<title>김철수 ♥ 이영희 결혼식</title>
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
 	</head>
-	<body class="text-gray-800 font-sans bg-rose-50">
-		<!-- 커튼 효과 요소들 -->
-		<div id="curtain-overlay" class="fixed inset-0 z-50 pointer-events-none" data-curtain="true" style="display: block;">
-			<!-- 검은 화면 (본 화면을 가리는 용도) -->
-			<div id="black-screen" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; inset: 0; background-color: black; opacity: 1;" data-curtain="black-screen"><!-- 검은 화면 --></div>
-			
-			<!-- 초기 전체 화면 덮개 -->
-			<div id="initial-overlay" class="absolute bg-white" style="z-index: 50; display: block; position: absolute; inset: 0; background-color: white; opacity: 0;" data-curtain="initial-overlay"><!-- 초기 화면 덮개 --></div>
-			
-			<!-- 4개의 하얀 사각형 -->
-			<div id="curtain-top-left" class="absolute bg-white" style="z-index: 51; display: block; position: absolute; background-color: white;" data-curtain="panel"><!-- 커튼 패널 --></div>
-			<div id="curtain-top-right" class="absolute bg-white" style="z-index: 51; display: block; position: absolute; background-color: white;" data-curtain="panel"><!-- 커튼 패널 --></div>
-			<div id="curtain-bottom-left" class="absolute bg-white" style="z-index: 51; display: block; position: absolute; background-color: white;" data-curtain="panel"><!-- 커튼 패널 --></div>
-			<div id="curtain-bottom-right" class="absolute bg-white" style="z-index: 51; display: block; position: absolute; background-color: white;" data-curtain="panel"><!-- 커튼 패널 --></div>
-			
-			<!-- 초기 회색 가로줄 -->
-			<div id="initial-gray-line-left" class="absolute bg-gray-400" style="z-index: 53; display: block; height: 2px; opacity: 0;" data-curtain="initial-line"><!-- 초기 가로줄 왼쪽 --></div>
-			<div id="initial-gray-line-right" class="absolute bg-gray-400" style="z-index: 53; display: block; height: 2px; opacity: 0;" data-curtain="initial-line"><!-- 초기 가로줄 오른쪽 --></div>
-			
-			<!-- 20개의 주름 세로선 -->
-			<svg id="wrinkles-container" style="z-index: 52; display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;" data-curtain="wrinkles">
-				<!-- 주름 선들이 여기에 동적으로 추가됩니다 -->
-			</svg>
-		</div>
-
+	<body class="bg-rose-50 text-gray-800 font-sans">
 		<main class="max-w-md mx-auto bg-white min-h-screen">
 			
 			<!-- Phase 1: 필수 요소 -->
@@ -373,19 +349,5 @@ import '../styles/global.css';
 			</footer>
 
 		</main>
-		
-		<style>
-			/* 커튼 효과 스타일 */
-			.wrinkle-line {
-				transition: all 0.1s ease-out;
-			}
-			
-			.wrinkle-visible {
-				opacity: 0.7 !important;
-			}
-		</style>
-
-		<script src="/curtain-animation.js" is:inline></script>
-
 	</body>
 </html>
