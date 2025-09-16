@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://daegalmagic.github.io',
-  // base: '/chungchup', // 로컬 개발시 주석 처리
+  base: '/chungchup',
   vite: {
     plugins: [tailwindcss()]
   }

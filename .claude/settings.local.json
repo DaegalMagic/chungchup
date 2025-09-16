@@ -31,7 +31,16 @@
       "Bash(git remote set-url:*)",
       "Bash(git add:*)",
       "Bash(git reset:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(gh workflow list:*)",
+      "Bash(npm run build:*)",
+      "WebFetch(domain:daegalmagic.github.io)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:github.com)",
+      "mcp__github__list_commits"
     ],
     "deny": [],
     "ask": []
