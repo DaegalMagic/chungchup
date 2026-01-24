@@ -357,7 +357,7 @@ import '../styles/global.css';
 				overflow-x: hidden;
 				transform-style: preserve-3d;
 				transform-origin: center -30px;
-				transition: transform 0.6s ease-in-out, z-index 0s;
+				transition: transform 0.9s ease-in-out;
 				backface-visibility: hidden;
 				scrollbar-width: none;
 				-ms-overflow-style: none;
@@ -388,23 +388,24 @@ import '../styles/global.css';
 			}
 
 			/* 페이지 상태 클래스 */
+			#tab-home { z-index: 4; }
+			#tab-location { z-index: 3; }
+			#tab-gallery { z-index: 2; }
+			#tab-heart { z-index: 1; }
+
 			.tab-panel.active {
-				z-index: 4;
 				transform: rotateX(0deg);
 			}
 
 			.tab-panel.flipped {
-				z-index: 3;
-				transform: rotateX(180deg);
+				transform: rotateX(100deg);
 			}
 
 			.tab-panel.hidden-flipped {
-				z-index: 1;
-				transform: rotateX(180deg);
+				transform: rotateX(100deg);
 			}
 
 			.tab-panel.hidden-under {
-				z-index: 2;
 				transform: rotateX(0deg);
 			}
 
@@ -481,18 +482,14 @@ import '../styles/global.css';
 					if (isAnimating || targetIndex === currentPage) return;
 					isAnimating = true;
 
-					const animationDuration = 600; // CSS transition duration
+					const animationDuration = 100; // JS-driven timing for state cleanup (independent of CSS transition)
 					const stepDuration = 100; // 한 페이지 넘어가는 시간
-
 					// 앞으로 넘기기 (아래 -> 위)
 					if (targetIndex > currentPage) {
 						for (let i = currentPage; i < targetIndex; i++) {
 							const pageToFlip = document.getElementById('tab-' + tabOrder[i]);
 							
-							// 애니메이션을 위해 z-index를 일시적으로 높여 맨 앞으로 가져옴
-							pageToFlip.style.zIndex = `${100 + i}`;
-							
-							pageToFlip.classList.remove('active', 'hidden-under');
+pageToFlip.classList.remove('active', 'hidden-under');
 							pageToFlip.classList.add('flipped');
 							
 							// 다음 페이지 애니메이션을 위해 잠시 대기
@@ -504,10 +501,7 @@ import '../styles/global.css';
 						for (let i = currentPage - 1; i >= targetIndex; i--) {
 							const pageToUnflip = document.getElementById('tab-' + tabOrder[i]);
 							
-							// 애니메이션을 위해 z-index를 일시적으로 높여 맨 앞으로 가져옴
-							pageToUnflip.style.zIndex = `${100 + (currentPage - i)}`;
-							
-							pageToUnflip.classList.remove('flipped', 'hidden-flipped');
+pageToUnflip.classList.remove('flipped', 'hidden-flipped');
 							pageToUnflip.classList.add('active');
 							
 							// 다음 페이지 애니메이션을 위해 잠시 대기
@@ -521,8 +515,7 @@ import '../styles/global.css';
 					// 모든 페이지의 상태를 최종적으로 정리
 					currentPage = targetIndex;
 					tabPanels.forEach((panel, index) => {
-						panel.style.zIndex = ''; // 인라인으로 추가했던 z-index 제거
-						panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
+panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
 						
 						if (index === currentPage) {
 							panel.classList.add('active');
