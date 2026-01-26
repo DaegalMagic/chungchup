@@ -573,28 +573,65 @@ class CurtainEffect {
 	}
 
 	cleanup() {
-		// 애니메이션 완료 후 검은 화면 먼저 페이드아웃
-		const blackScreen = document.getElementById('black-screen');
+		console.log('애니메이션 완료 및 정리 중...');
+		const leftScreen = document.getElementById('black-screen-left');
+		const rightScreen = document.getElementById('black-screen-right');
 		const overlay = document.getElementById('curtain-overlay');
+		const notebookContainer = document.getElementById('notebook-container');
 
-		if (blackScreen) {
-			// 검은 화면을 500ms에 걸쳐 페이드아웃
-			blackScreen.style.transition = 'opacity 500ms ease-out';
-			blackScreen.style.opacity = '0';
+		if (leftScreen && rightScreen) {
+			// 노트북 컨테이너를 부드럽게 나타나게 함
+			if (notebookContainer) {
+				notebookContainer.style.opacity = '1';
+				notebookContainer.style.pointerEvents = 'auto';
+			}
 
-			// 검은 화면 페이드아웃 완료 후 전체 오버레이 제거
+			// 1. 즉시 스포트라이트 효과 적용
+			leftScreen.style.transformOrigin = 'top right';
+			rightScreen.style.transformOrigin = 'top left';
+			leftScreen.style.transform = 'translateX(-20px) rotate(10deg)';
+			rightScreen.style.transform = 'translateX(20px) rotate(-10deg)';
+
+			// 2. 1초 대기
 			setTimeout(() => {
+				// 3. 1.3초에 걸쳐 화면 밖으로 이동하는 애니메이션 설정
+				leftScreen.style.transition = 'transform 1.3s ease-in-out';
+				rightScreen.style.transition = 'transform 1.3s ease-in-out';
+
+				leftScreen.style.transform = 'translateX(-20px) rotate(90deg)';
+				rightScreen.style.transform = 'translateX(20px) rotate(-90deg)';
+
+				// 4. 애니메이션 완료 후 정리
+				setTimeout(() => {
+					if (overlay) {
+						overlay.style.opacity = '0';
+						setTimeout(() => {
+							overlay.remove();
+							console.log('커튼 애니메이션 완료!');
+							window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
+						}, 300); // opacity transition 후 제거
+					} else {
+						console.log('커튼 애니메이션 완료!');
+						window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
+					}
+				}, 1300); // 1.3초 애니메이션 시간
+			}, 1000); // 1초 대기 시간
+
+		} else {
+			// fallback: 기존 로직과 유사하게 처리
+			if (notebookContainer) {
+				notebookContainer.style.opacity = '1';
+				notebookContainer.style.pointerEvents = 'auto';
+			}
+			if (overlay) {
 				overlay.style.opacity = '0';
 				setTimeout(() => {
 					overlay.remove();
+					window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 				}, 300);
-			}, 500); // 검은 화면 페이드아웃 시간과 동일
-		} else {
-			// 검은 화면이 없을 경우 기존 방식 유지
-			overlay.style.opacity = '0';
-			setTimeout(() => {
-				overlay.remove();
-			}, 300);
+			} else {
+				window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
+			}
 		}
 	}
 

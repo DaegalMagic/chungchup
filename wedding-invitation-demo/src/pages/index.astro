@@ -10,11 +10,15 @@ import '../styles/global.css';
 		<title>김철수 ♥ 이영희 결혼식</title>
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
 	</head>
-	<body class="text-gray-800 font-sans overflow-hidden">
+	<body class="text-gray-800 font-sans">
+		<!-- 흩날리는 꽃잎 배경 -->
+		<div id="petal-container" aria-hidden="true"></div>
+		
 		<!-- 커튼 효과 요소들 -->
 		<div id="curtain-overlay" class="fixed inset-0 z-50 pointer-events-none" data-curtain="true" style="display: block;">
-			<!-- 검은 화면 (본 화면을 가리는 용도) -->
-			<div id="black-screen" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; inset: 0; background-color: black; opacity: 1;" data-curtain="black-screen"><!-- 검은 화면 --></div>
+			<!-- 검은 화면 (좌우 분리) -->
+			<div id="black-screen-left" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; top: 0; left: -50%; background-color: black; opacity: 0.97; width: 100%; height: 200%;" data-curtain="black-screen-left"></div>
+			<div id="black-screen-right" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; top: 0; left: 50%; background-color: black; opacity: 0.97; width: 100%; height: 200%;" data-curtain="black-screen-right"></div>
 
 			<!-- 초기 전체 화면 덮개 -->
 			<div id="initial-overlay" class="absolute bg-white" style="z-index: 50; display: block; position: absolute; inset: 0; background-color: white; opacity: 0;" data-curtain="initial-overlay"><!-- 초기 화면 덮개 --></div>
@@ -36,7 +40,7 @@ import '../styles/global.css';
 		</div>
 
 		<!-- 메인 컨테이너 - 수첩 형태 -->
-		<main class="notebook-container h-screen flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative;">
+		<main id="notebook-container" class="notebook-container h-screen flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;">
 
 			<!-- 수첩 고리들 -->
 			<div class="notebook-rings">
@@ -50,8 +54,13 @@ import '../styles/global.css';
 			<!-- 수첩 페이지 (3D 플립 컨테이너) -->
 			<div id="tab-content" class="notebook-page flex-1" style="perspective: 1500px; position: relative;">
 
+				<!-- 표지 페이지 -->
+				<div id="tab-cover" class="tab-panel active" style="z-index: 5; position: relative;">
+					<img src="/chungchup/play_timed.gif" alt="play animation" style="width: 85%; height: auto; object-fit: contain; border-radius: 10px; position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);" />
+				</div>
+
 				<!-- 탭 1: 홈/인사 -->
-				<div id="tab-home" class="tab-panel active" data-page="0">
+				<div id="tab-home" class="tab-panel hidden-under" data-page="0">
 					<!-- 신랑신부 정보 + 결혼식 정보 -->
 					<section class="text-center py-6 px-4">
 						<div class="mb-4">
@@ -96,7 +105,7 @@ import '../styles/global.css';
 				</div>
 
 				<!-- 탭 2: 오시는 길 -->
-				<div id="tab-location" class="tab-panel" data-page="1">
+				<div id="tab-location" class="tab-panel hidden-under" data-page="1">
 					<!-- 장소 정보 -->
 					<section class="px-4 py-4">
 						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">오시는 길</h3>
@@ -147,7 +156,7 @@ import '../styles/global.css';
 				</div>
 
 				<!-- 탭 3: 갤러리 -->
-				<div id="tab-gallery" class="tab-panel" data-page="2">
+				<div id="tab-gallery" class="tab-panel hidden-under" data-page="2">
 					<!-- 사진 갤러리 -->
 					<section class="px-4 py-4">
 						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">갤러리</h3>
@@ -217,7 +226,7 @@ import '../styles/global.css';
 				</div>
 
 				<!-- 탭 4: 마음 전하기 -->
-				<div id="tab-heart" class="tab-panel" data-page="3">
+				<div id="tab-heart" class="tab-panel hidden-under" data-page="3">
 					<!-- 연락처 -->
 					<section class="px-4 py-4">
 						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">연락처</h3>
@@ -333,8 +342,59 @@ import '../styles/global.css';
 
 		</main>
 
-		<style>
-			/* 커튼 효과 스타일 */
+				<style>
+
+					/* 흩날리는 꽃잎 애니메이션 (진단용) */
+
+					#petal-container {
+
+						position: fixed;
+
+						top: 0;
+
+						left: 0;
+
+						width: 100vw;
+
+						height: 100vh;
+
+						pointer-events: none;
+
+						z-index: 999; /* 다른 요소에 가려지는지 확인하기 위해 최상위로 */
+
+					}
+
+		
+
+					.petal {
+
+						position: absolute;
+
+						background: rgba(255, 192, 203, 0.7); /* 연분홍색 */
+
+						border-radius: 50%; /* 단순한 원으로 테스트 */
+
+						animation-name: fall;
+
+						animation-timing-function: linear;
+
+						animation-iteration-count: infinite;
+
+					}
+
+		
+
+					@keyframes fall {
+
+						from { top: -10%; }
+
+						to { top: 110%; }
+
+					}
+
+		
+
+					/* 커튼 효과 스타일 */
 			.wrinkle-line {
 				transition: all 0.1s ease-out;
 			}
@@ -350,7 +410,7 @@ import '../styles/global.css';
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background-color: #F5DEB3;
+				background-color: #F5DEB3; /* Default for all tab-panels, including cover */
 				border: 1px solid black;
 				border-radius: 10px;
 				overflow-y: auto;
@@ -362,13 +422,13 @@ import '../styles/global.css';
 				scrollbar-width: none;
 				-ms-overflow-style: none;
 			}
+            /* Override background for all pages except the cover */
+            .tab-panel:not(#tab-cover) {
+                background-color: white;
+            }
 
-			.tab-panel::-webkit-scrollbar {
-				display: none;
-			}
-
-			/* 종이 질감 - 각 페이지에 적용 */
-			.tab-panel::before {
+			/* 종이 질감 - 표지에만 적용 */
+			#tab-cover::before {
 				content: '';
 				position: absolute;
 				top: 0;
@@ -463,13 +523,10 @@ import '../styles/global.css';
 				let currentPage = 0;
 				let isAnimating = false;
 
-				// 초기 상태 설정
+				// 초기 상태 설정 (커버가 있으므로 홈을 active로 시작하지 않음)
 				function initPages() {
-					tabPanels.forEach((panel, index) => {
-						panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
-						if (index === 0) {
-							panel.classList.add('active');
-						} else {
+					tabPanels.forEach((panel) => {
+						if (panel.id !== 'tab-cover') {
 							panel.classList.add('hidden-under');
 						}
 					});
@@ -489,7 +546,7 @@ import '../styles/global.css';
 						for (let i = currentPage; i < targetIndex; i++) {
 							const pageToFlip = document.getElementById('tab-' + tabOrder[i]);
 							
-pageToFlip.classList.remove('active', 'hidden-under');
+							pageToFlip.classList.remove('active', 'hidden-under');
 							pageToFlip.classList.add('flipped');
 							
 							// 다음 페이지 애니메이션을 위해 잠시 대기
@@ -501,7 +558,7 @@ pageToFlip.classList.remove('active', 'hidden-under');
 						for (let i = currentPage - 1; i >= targetIndex; i--) {
 							const pageToUnflip = document.getElementById('tab-' + tabOrder[i]);
 							
-pageToUnflip.classList.remove('flipped', 'hidden-flipped');
+							pageToUnflip.classList.remove('flipped', 'hidden-flipped');
 							pageToUnflip.classList.add('active');
 							
 							// 다음 페이지 애니메이션을 위해 잠시 대기
@@ -514,12 +571,16 @@ pageToUnflip.classList.remove('flipped', 'hidden-flipped');
 
 					// 모든 페이지의 상태를 최종적으로 정리
 					currentPage = targetIndex;
-					tabPanels.forEach((panel, index) => {
-panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
+					tabPanels.forEach((panel) => {
+						// tab-cover는 이 로직에서 제외
+						if (panel.id === 'tab-cover') return;
+
+						const panelIndex = parseInt(panel.dataset.page, 10);
+						panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
 						
-						if (index === currentPage) {
+						if (panelIndex === currentPage) {
 							panel.classList.add('active');
-						} else if (index < currentPage) {
+						} else if (panelIndex < currentPage) {
 							panel.classList.add('hidden-flipped');
 						} else {
 							panel.classList.add('hidden-under');
@@ -527,7 +588,7 @@ panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
 					});
 
 					const targetPanel = document.getElementById('tab-' + tabOrder[targetIndex]);
-					targetPanel.scrollTop = 0;
+					if(targetPanel) targetPanel.scrollTop = 0;
 					isAnimating = false;
 				}
 
@@ -545,10 +606,94 @@ panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
 						flipToPage(targetIndex);
 					});
 				});
+
+				// 커튼 애니메이션 종료 후 자동 페이지 플립
+				window.addEventListener('curtain-animation-finished', () => {
+					console.log('커튼 애니메이션 종료 신호 수신. 3초 후 표지를 넘깁니다.');
+					setTimeout(() => {
+						console.log('1.8초 경과. 표지를 넘깁니다.');
+						const coverPage = document.getElementById('tab-cover');
+						const homePage = document.getElementById('tab-home');
+						if (coverPage && homePage) {
+							coverPage.classList.remove('active');
+							coverPage.classList.add('flipped');
+							homePage.classList.remove('hidden-under');
+							homePage.classList.add('active');
+
+							// 홈 버튼을 활성 상태로 만듦
+							const homeButton = document.querySelector('.tab-btn[data-tab="home"]');
+							if(homeButton) homeButton.classList.add('active');
+						}
+					}, 1800);
+				});
 			});
 		</script>
 
-		<script src="/chungchup/curtain-animation.js" is:inline></script>
+				<script src="/chungchup/curtain-animation.js" is:inline></script>
 
-	</body>
+				
+
+				<script is:inline>
+
+					// 배경 꽃잎 애니메이션 생성 (진단용)
+
+					document.addEventListener('DOMContentLoaded', function() {
+
+						const petalContainer = document.getElementById('petal-container');
+
+						if (!petalContainer) return;
+
+		
+
+						const petalCount = 40;
+
+		
+
+						for (let i = 0; i < petalCount; i++) {
+
+							const petal = document.createElement('div');
+
+							petal.classList.add('petal');
+
+		
+
+							// 애니메이션에 필요한 최소한의 속성만 무작위로 설정
+
+							const size = Math.random() * 8 + 6; // 6px to 14px
+
+							const startX = Math.random() * 100; // 가로 시작 위치
+
+							const duration = Math.random() * 10 + 12; // 떨어지는 시간 (12s to 22s)
+
+							const delay = Math.random() * 15; // 애니메이션 시작 지연 시간
+
+		
+
+							petal.style.width = `${size}px`;
+
+							petal.style.height = `${size}px`;
+
+							petal.style.left = `${startX}vw`; // 가로 시작 위치 적용
+
+							petal.style.opacity = Math.random() * 0.5 + 0.5; // 투명도
+
+		
+
+							petal.style.animationDuration = `${duration}s`;
+
+							petal.style.animationDelay = `${delay}s`;
+
+		
+
+							petalContainer.appendChild(petal);
+
+						}
+
+					});
+
+				</script>
+
+		
+
+			</body>
 </html>
