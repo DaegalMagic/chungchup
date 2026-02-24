@@ -9,16 +9,27 @@ import '../styles/global.css';
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title>김철수 ♥ 이영희 결혼식</title>
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
+		<link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
 	</head>
-	<body class="text-gray-800 font-sans">
+	<body class="text-gray-800 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f3f4f6; position: relative; overflow: hidden;">
 		<!-- 흩날리는 꽃잎 배경 -->
-		<div id="petal-container" aria-hidden="true"></div>
+		<div id="petal-container" aria-hidden="true" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden;"></div>
 		
 		<!-- 커튼 효과 요소들 -->
-		<div id="curtain-overlay" class="fixed inset-0 z-50 pointer-events-none" data-curtain="true" style="display: block;">
-			<!-- 검은 화면 (좌우 분리) -->
-			<div id="black-screen-left" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; top: 0; left: -50%; background-color: black; opacity: 0.97; width: 100%; height: 200%;" data-curtain="black-screen-left"></div>
-			<div id="black-screen-right" class="absolute bg-black" style="z-index: 49; display: block; position: absolute; top: 0; left: 50%; background-color: black; opacity: 0.97; width: 100%; height: 200%;" data-curtain="black-screen-right"></div>
+		<div id="curtain-overlay" class="absolute inset-0 z-50 pointer-events-none" data-curtain="true" style="display: block; width: 100%; height: 100%; overflow: hidden;">
+			<!-- 검은 화면 (SVG Mask를 이용한 정밀 스포트라이트) -->
+			<div id="black-overlay-container" class="absolute inset-0 z-49 pointer-events-none" style="display: block; width: 100%; height: 100%;">
+				<svg width="100%" height="100%" preserveAspectRatio="none">
+					<defs>
+						<mask id="spotlight-mask">
+							<!-- 흰색은 불투명(검은 판), 검은색은 투명(구멍/빛) -->
+							<rect width="100%" height="100%" fill="white" />
+							<path id="spotlight-path" d="" fill="black" />
+						</mask>
+					</defs>
+					<rect width="100%" height="100%" fill="black" opacity="0.97" mask="url(#spotlight-mask)" />
+				</svg>
+			</div>
 
 			<!-- 초기 전체 화면 덮개 -->
 			<div id="initial-overlay" class="absolute bg-white" style="z-index: 50; display: block; position: absolute; inset: 0; background-color: white; opacity: 0;" data-curtain="initial-overlay"><!-- 초기 화면 덮개 --></div>
@@ -40,7 +51,7 @@ import '../styles/global.css';
 		</div>
 
 		<!-- 메인 컨테이너 - 수첩 형태 -->
-		<main id="notebook-container" class="notebook-container h-screen flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;">
+		<main id="notebook-container" class="notebook-container h-full flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; z-index: 10; opacity: 0; pointer-events: none; box-sizing: border-box;">
 
 			<!-- 수첩 고리들 -->
 			<div class="notebook-rings">
@@ -60,52 +71,139 @@ import '../styles/global.css';
 				</div>
 
 				<!-- 탭 1: 홈/인사 -->
-				<div id="tab-home" class="tab-panel hidden-under" data-page="0">
-					<!-- 신랑신부 정보 + 결혼식 정보 -->
-					<section class="text-center py-6 px-4">
-						<div class="mb-4">
-							<h1 class="text-2xl font-bold text-rose-800 mb-1">
-								김철수 ♥ 이영희
-							</h1>
-							<p class="text-xs text-gray-600">
-								김○○ · 박○○ 의 장남 철수<br>
-								이○○ · 최○○ 의 장녀 영희
-							</p>
-						</div>
+				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
+					<!-- 상단 영역: 사진 + 정보 겹침 (벽에서 띄움) -->
+					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
+						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-md border border-gray-100 bg-gray-100">
+							<!-- 메인 사진 -->
+							<div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('/chungchup/image/DSC05105.jpg');">
+							</div>
 
-						<div class="text-center">
-							<h2 class="text-base font-semibold text-gray-700 mb-1">
-								2024년 10월 25일 토요일
-							</h2>
-							<p class="text-sm text-rose-700">
-								오후 2시
-							</p>
-						</div>
-					</section>
+							<!-- 신랑신부 정보 (사진 위에 오버레이) -->
+							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col">
+								<div class="mb-2">
+									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-lg whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em;">
+										김철수 ♥ 이영희
+									</h1>
+								</div>
 
-					<!-- 메인 사진 -->
-					<section class="px-4 py-4">
-						<div class="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-							<span class="text-gray-500 text-sm font-medium">[메인 웨딩사진]</span>
+								<div class="mt-auto bg-white/10 backdrop-blur-[1px] py-4 rounded-xl">
+									<h2 class="text-[clamp(1rem,4.5vw,1.25rem)] font-bold text-gray-800 mb-0.5 drop-shadow-sm whitespace-nowrap">
+										2024년 10월 25일 토요일
+									</h2>
+									<p class="text-[clamp(0.85rem,3.5vw,1rem)] font-semibold text-rose-800 whitespace-nowrap">
+										오후 2시
+									</p>
+								</div>
+							</div>
 						</div>
 					</section>
 
-					<!-- 기본 인사말 -->
-					<section class="px-4 py-4 text-center">
-						<div class="bg-rose-50 rounded-lg p-4">
-							<h3 class="text-sm font-semibold mb-2 text-rose-800">소중한 분들께</h3>
-							<p class="text-xs text-gray-700 leading-relaxed">
-								저희 두 사람이 사랑의 결실을 맺게 되었습니다.<br>
-								소중한 분들과 함께 새로운 시작을 하고자 합니다.<br>
-								바쁘신 중에도 참석하시어 축복해 주시면<br>
-								더없는 기쁨이겠습니다.
-							</p>
+					<!-- 인삿말 (하단 고정 - 높이 고정 및 슬림화) -->
+					<section class="px-2 pb-2 pt-1 text-center flex-shrink-0">
+						<div class="bg-rose-50 rounded-2xl p-2 shadow-sm border border-rose-100 h-[110px] flex flex-col justify-center">
+							<div class="text-[clamp(11px,3.6vw,13.5px)] text-gray-700 leading-[1.4] flex flex-col items-center font-medium">
+								<span class="whitespace-nowrap">우연히 시작된 만남은 적잖은 필연이 되었습니다.</span>
+								<span class="whitespace-nowrap">그 필연을 켜켜이 포개보니 운명임을 알았습니다.</span>
+								<span class="whitespace-nowrap">그러니 서로 함께 하는것이 행복임을 알겠습니다.</span>
+								<span class="whitespace-nowrap">그 다짐의 기쁨을 여러분과 나누려하니</span>
+								<span class="whitespace-nowrap">빛나는 축복을 선물해주시길 부탁드립니다.</span>
+							</div>
 						</div>
 					</section>
 				</div>
 
-				<!-- 탭 2: 오시는 길 -->
-				<div id="tab-location" class="tab-panel hidden-under" data-page="1">
+				<!-- 탭 2: 갤러리 -->
+				<div id="tab-gallery" class="tab-panel hidden-under" data-page="1">
+					<!-- 사진 갤러리 -->
+					<section id="gallery-section" class="px-0 py-4 flex flex-col h-full overflow-hidden relative">
+						<h3 class="text-lg font-semibold text-center mb-2 text-rose-800 flex-shrink-0">갤러리</h3>
+						
+						<!-- 모드 전환 버튼 -->
+						<button id="gallery-mode-btn" class="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-xl transition-all active:scale-90 border border-rose-100">
+							<span id="mode-icon-viewer" class="opacity-0 invisible absolute">🖼️</span>
+							<span id="mode-icon-grid" class="opacity-100 visible absolute">📱</span>
+						</button>
+
+						<!-- 갤러리 컨텐츠 컨테이너 (레이어 겹침 구조) -->
+						<div class="gallery-content-layers flex-1 relative w-full overflow-hidden">
+							
+							<!-- 1. 뷰어 모드 레이어 -->
+							<div id="viewer-mode-layer" class="absolute inset-0 flex flex-col transition-all duration-300 opacity-100 visible z-10">
+								<!-- 메인 큰 이미지 - 레이어 구조 (렉 방지) -->
+								<div class="main-image-viewport flex-1 w-full relative flex items-center justify-center overflow-hidden mb-4 px-4">
+									<div id="main-image-layers" class="relative w-full h-full flex items-center justify-center">
+										<img data-id="img-0" src="/chungchup/image/DSC05105.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-100" />
+										<img data-id="img-1" src="/chungchup/image/DSC05106.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-0" />
+										<img data-id="img-2" src="/chungchup/image/DSC05107.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-0" />
+										<img data-id="img-3" src="/chungchup/image/DSC05108.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-0" />
+										<img data-id="img-4" src="/chungchup/image/DSC05109.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-0" />
+										<img data-id="img-5" src="/chungchup/image/DSC05110.jpg" class="absolute max-w-full max-h-full object-contain rounded-lg shadow-md transition-opacity duration-500 opacity-0" />
+									</div>
+								</div>
+
+								<!-- 썸네일 슬라이더 컨테이너 -->
+								<div class="gallery-slider-wrapper relative px-0 mb-8 flex-shrink-0">
+									<div id="thumbnail-slider" class="flex items-center gap-3 overflow-x-auto py-4 snap-x snap-mandatory scrollbar-hide cursor-grab active:cursor-grabbing" style="scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-x;">
+										<!-- 좌우 여백을 위한 더미 요소 -->
+										<div class="flex-shrink-0 w-[42%] h-1"></div>
+										
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="0">
+											<img src="/chungchup/image/DSC05105.jpg" class="w-full h-full object-cover" />
+										</div>
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="1">
+											<img src="/chungchup/image/DSC05106.jpg" class="w-full h-full object-cover" />
+										</div>
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="2">
+											<img src="/chungchup/image/DSC05107.jpg" class="w-full h-full object-cover" />
+										</div>
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="3">
+											<img src="/chungchup/image/DSC05108.jpg" class="w-full h-full object-cover" />
+										</div>
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="4">
+											<img src="/chungchup/image/DSC05109.jpg" class="w-full h-full object-cover" />
+										</div>
+										<div class="thumb-item snap-center flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent transition-all duration-300" data-index="5">
+											<img src="/chungchup/image/DSC05110.jpg" class="w-full h-full object-cover" />
+										</div>
+
+										<!-- 좌우 여백을 위한 더미 요소 -->
+										<div class="flex-shrink-0 w-[42%] h-1"></div>
+									</div>
+								</div>
+							</div>
+
+							<!-- 2. 그리드 모드 레이어 -->
+							<div id="grid-mode-layer" class="absolute inset-0 transition-all duration-300 opacity-0 invisible z-0 overflow-y-auto px-4 pb-8">
+								<div class="grid grid-cols-5 gap-2 pt-2">
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="0">
+										<img src="/chungchup/image/DSC05105.jpg" class="w-full h-full object-cover" />
+									</div>
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="1">
+										<img src="/chungchup/image/DSC05106.jpg" class="w-full h-full object-cover" />
+									</div>
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="2">
+										<img src="/chungchup/image/DSC05107.jpg" class="w-full h-full object-cover" />
+									</div>
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="3">
+										<img src="/chungchup/image/DSC05108.jpg" class="w-full h-full object-cover" />
+									</div>
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="4">
+										<img src="/chungchup/image/DSC05109.jpg" class="w-full h-full object-cover" />
+									</div>
+									<div class="thumb-click-item aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100 active:scale-95 transition-transform" data-index="5">
+										<img src="/chungchup/image/DSC05110.jpg" class="w-full h-full object-cover" />
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</section>
+				</div>
+
+				<!-- 탭 3: 오시는 길 -->
+				<div id="tab-location" class="tab-panel hidden-under" data-page="2">
 					<!-- 장소 정보 -->
 					<section class="px-4 py-4">
 						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">오시는 길</h3>
@@ -150,76 +248,6 @@ import '../styles/global.css';
 									지하 1층~3층 (3시간 무료)<br>
 									발렛파킹 가능 (1만원)
 								</p>
-							</div>
-						</div>
-					</section>
-				</div>
-
-				<!-- 탭 3: 갤러리 -->
-				<div id="tab-gallery" class="tab-panel hidden-under" data-page="2">
-					<!-- 사진 갤러리 -->
-					<section class="px-4 py-4">
-						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">갤러리</h3>
-
-						<div class="grid grid-cols-2 gap-2">
-							<div class="aspect-square bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-								<span class="text-gray-500 text-xs">[사진1]</span>
-							</div>
-							<div class="aspect-square bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-								<span class="text-gray-500 text-xs">[사진2]</span>
-							</div>
-							<div class="aspect-square bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-								<span class="text-gray-500 text-xs">[사진3]</span>
-							</div>
-							<div class="aspect-square bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-								<span class="text-gray-500 text-xs">[사진4]</span>
-							</div>
-						</div>
-					</section>
-
-					<!-- 연애 스토리 -->
-					<section class="px-4 py-4">
-						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">우리의 이야기</h3>
-
-						<div class="space-y-3">
-							<div class="flex gap-3 items-center">
-								<div class="w-10 h-10 bg-rose-200 rounded-full flex items-center justify-center flex-shrink-0 text-sm">
-									💕
-								</div>
-								<div>
-									<h4 class="font-semibold text-sm text-rose-800">2019.03 첫 만남</h4>
-									<p class="text-xs text-gray-600">대학교 동아리에서 처음 만났어요</p>
-								</div>
-							</div>
-
-							<div class="flex gap-3 items-center">
-								<div class="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center flex-shrink-0 text-sm">
-									💖
-								</div>
-								<div>
-									<h4 class="font-semibold text-sm text-pink-800">2020.05 첫 고백</h4>
-									<p class="text-xs text-gray-600">서로가 힘이 되어주었어요</p>
-								</div>
-							</div>
-
-							<div class="flex gap-3 items-center">
-								<div class="w-10 h-10 bg-red-200 rounded-full flex items-center justify-center flex-shrink-0 text-sm">
-									💍
-								</div>
-								<div>
-									<h4 class="font-semibold text-sm text-red-800">2022.12 프로포즈</h4>
-									<p class="text-xs text-gray-600">눈 내리는 겨울날, 특별한 순간</p>
-								</div>
-							</div>
-
-							<div class="flex gap-3 items-center">
-								<div class="w-10 h-10 bg-rose-300 rounded-full flex items-center justify-center flex-shrink-0 text-sm">
-									💒
-								</div>
-								<div>
-									<h4 class="font-semibold text-sm text-rose-800">2024.10 결혼</h4>
-									<p class="text-xs text-gray-600">평생을 함께하게 되었습니다</p>
-								</div>
 							</div>
 						</div>
 					</section>
@@ -325,13 +353,13 @@ import '../styles/global.css';
 						<span class="text-lg">🏠</span>
 						<span class="text-xs mt-0.5">홈</span>
 					</button>
-					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="location">
-						<span class="text-lg">📍</span>
-						<span class="text-xs mt-0.5">오시는 길</span>
-					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="gallery">
 						<span class="text-lg">📷</span>
 						<span class="text-xs mt-0.5">갤러리</span>
+					</button>
+					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="location">
+						<span class="text-lg">📍</span>
+						<span class="text-xs mt-0.5">오시는 길</span>
 					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="heart">
 						<span class="text-lg">💝</span>
@@ -342,59 +370,40 @@ import '../styles/global.css';
 
 		</main>
 
-				<style>
+		<style is:global>
+			/* 흩날리는 꽃잎 애니메이션 */
+			#petal-container {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				z-index: 20; /* 수첩(10)보다 위, 커튼(49)보다 아래 */
+				overflow: hidden;
+			}
 
-					/* 흩날리는 꽃잎 애니메이션 (진단용) */
+			.petal {
+				position: absolute;
+				background: rgba(255, 192, 203, 0.6); /* 투명도 약간 강화 */
+				border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+				animation-name: fall;
+				animation-timing-function: linear;
+				animation-iteration-count: infinite;
+			}
 
-					#petal-container {
+			@keyframes fall {
+				from {
+					transform: translateY(-20vh) translateX(var(--sway-start)) rotate(var(--rotate-start));
+				}
+				to {
+					transform: translateY(110vh) translateX(var(--sway-end)) rotate(var(--rotate-end));
+				}
+			}
+		</style>
 
-						position: fixed;
-
-						top: 0;
-
-						left: 0;
-
-						width: 100vw;
-
-						height: 100vh;
-
-						pointer-events: none;
-
-						z-index: 999; /* 다른 요소에 가려지는지 확인하기 위해 최상위로 */
-
-					}
-
-		
-
-					.petal {
-
-						position: absolute;
-
-						background: rgba(255, 192, 203, 0.7); /* 연분홍색 */
-
-						border-radius: 50%; /* 단순한 원으로 테스트 */
-
-						animation-name: fall;
-
-						animation-timing-function: linear;
-
-						animation-iteration-count: infinite;
-
-					}
-
-		
-
-					@keyframes fall {
-
-						from { top: -10%; }
-
-						to { top: 110%; }
-
-					}
-
-		
-
-					/* 커튼 효과 스타일 */
+		<style>
+			/* 커튼 효과 스타일 */
 			.wrinkle-line {
 				transition: all 0.1s ease-out;
 			}
@@ -449,8 +458,8 @@ import '../styles/global.css';
 
 			/* 페이지 상태 클래스 */
 			#tab-home { z-index: 4; }
-			#tab-location { z-index: 3; }
-			#tab-gallery { z-index: 2; }
+			#tab-gallery { z-index: 3; }
+			#tab-location { z-index: 2; }
 			#tab-heart { z-index: 1; }
 
 			.tab-panel.active {
@@ -458,11 +467,11 @@ import '../styles/global.css';
 			}
 
 			.tab-panel.flipped {
-				transform: rotateX(100deg);
+				transform: rotateX(90deg);
 			}
 
 			.tab-panel.hidden-flipped {
-				transform: rotateX(100deg);
+				transform: rotateX(90deg);
 			}
 
 			.tab-panel.hidden-under {
@@ -477,6 +486,26 @@ import '../styles/global.css';
 
 			.tab-btn.active {
 				color: #be185d;
+			}
+
+			/* 갤러리 슬라이더 스타일 */
+			.scrollbar-hide::-webkit-scrollbar {
+				display: none;
+			}
+			.thumb-item {
+				will-change: transform, border-color;
+				transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+				user-select: none;
+				-webkit-user-drag: none;
+			}
+            .thumb-item img {
+                pointer-events: none; /* 이미지 자체가 드래그되는 현상 방지 */
+                -webkit-user-drag: none;
+            }
+			.thumb-item.active {
+				transform: scale(1.18);
+				border-color: #be185d;
+				z-index: 5;
 			}
 
 			/* iOS safe area 대응 */
@@ -519,9 +548,10 @@ import '../styles/global.css';
 			document.addEventListener('DOMContentLoaded', function() {
 				const tabBtns = document.querySelectorAll('.tab-btn');
 				const tabPanels = document.querySelectorAll('.tab-panel');
-				const tabOrder = ['home', 'location', 'gallery', 'heart'];
+				const tabOrder = ['home', 'gallery', 'location', 'heart'];
 				let currentPage = 0;
 				let isAnimating = false;
+				let canFlip = false; // 인트로 종료 전까지 입력 차단
 
 				// 초기 상태 설정 (커버가 있으므로 홈을 active로 시작하지 않음)
 				function initPages() {
@@ -536,48 +566,33 @@ import '../styles/global.css';
 
 				// 페이지 전환 함수 (순차적 애니메이션 적용)
 				async function flipToPage(targetIndex) {
-					if (isAnimating || targetIndex === currentPage) return;
+					if (isAnimating || !canFlip || targetIndex === currentPage) return;
 					isAnimating = true;
 
-					const animationDuration = 100; // JS-driven timing for state cleanup (independent of CSS transition)
-					const stepDuration = 100; // 한 페이지 넘어가는 시간
-					// 앞으로 넘기기 (아래 -> 위)
+					const animationDuration = 100;
+					const stepDuration = 100;
 					if (targetIndex > currentPage) {
 						for (let i = currentPage; i < targetIndex; i++) {
 							const pageToFlip = document.getElementById('tab-' + tabOrder[i]);
-							
 							pageToFlip.classList.remove('active', 'hidden-under');
 							pageToFlip.classList.add('flipped');
-							
-							// 다음 페이지 애니메이션을 위해 잠시 대기
 							await new Promise(res => setTimeout(res, stepDuration));
 						}
-					}
-					// 뒤로 넘기기 (위 -> 아래)
-					else {
+					} else {
 						for (let i = currentPage - 1; i >= targetIndex; i--) {
 							const pageToUnflip = document.getElementById('tab-' + tabOrder[i]);
-							
 							pageToUnflip.classList.remove('flipped', 'hidden-flipped');
 							pageToUnflip.classList.add('active');
-							
-							// 다음 페이지 애니메이션을 위해 잠시 대기
 							await new Promise(res => setTimeout(res, stepDuration));
 						}
 					}
 
-					// 마지막 애니메이션이 끝날 때까지 대기
 					await new Promise(res => setTimeout(res, animationDuration));
-
-					// 모든 페이지의 상태를 최종적으로 정리
 					currentPage = targetIndex;
 					tabPanels.forEach((panel) => {
-						// tab-cover는 이 로직에서 제외
 						if (panel.id === 'tab-cover') return;
-
 						const panelIndex = parseInt(panel.dataset.page, 10);
 						panel.classList.remove('active', 'flipped', 'hidden-flipped', 'hidden-under');
-						
 						if (panelIndex === currentPage) {
 							panel.classList.add('active');
 						} else if (panelIndex < currentPage) {
@@ -586,7 +601,6 @@ import '../styles/global.css';
 							panel.classList.add('hidden-under');
 						}
 					});
-
 					const targetPanel = document.getElementById('tab-' + tabOrder[targetIndex]);
 					if(targetPanel) targetPanel.scrollTop = 0;
 					isAnimating = false;
@@ -595,23 +609,190 @@ import '../styles/global.css';
 				// 탭 버튼 클릭 이벤트
 				tabBtns.forEach((btn, index) => {
 					btn.addEventListener('click', function() {
+						if (!canFlip) return;
 						const targetTab = this.getAttribute('data-tab');
 						const targetIndex = tabOrder.indexOf(targetTab);
-
-						// 버튼 활성화 상태 변경
-						tabBtns.forEach(b => b.classList.remove('active'));
-						this.classList.add('active');
-
-						// 페이지 플립
+						updateTabButtons(targetIndex);
 						flipToPage(targetIndex);
 					});
 				});
 
-				// 커튼 애니메이션 종료 후 자동 페이지 플립
+				function updateTabButtons(index) {
+					tabBtns.forEach((b, i) => {
+						if (i === index) b.classList.add('active');
+						else b.classList.remove('active');
+					});
+				}
+
+				// 제스처 제어
+				let lastFlipTime = 0;
+				const flipCooldown = 500;
+				function handleDirectionalFlip(direction) {
+					const now = Date.now();
+					if (isAnimating || !canFlip || (now - lastFlipTime < flipCooldown)) return;
+					let targetIndex = currentPage;
+					if (direction === 'next' && currentPage < tabOrder.length - 1) targetIndex++;
+					else if (direction === 'prev' && currentPage > 0) targetIndex--;
+					if (targetIndex !== currentPage) {
+						lastFlipTime = now;
+						updateTabButtons(targetIndex);
+						flipToPage(targetIndex);
+					}
+				}
+
+				window.addEventListener('wheel', (e) => {
+					if (!canFlip) return;
+					if (e.deltaY > 0) handleDirectionalFlip('next');
+					else if (e.deltaY < 0) handleDirectionalFlip('prev');
+				}, { passive: true });
+
+				let touchStartY = 0;
+				window.addEventListener('touchstart', (e) => {
+					if (!canFlip) return;
+					touchStartY = e.touches[0].clientY;
+				}, { passive: true });
+
+				window.addEventListener('touchend', (e) => {
+					if (!canFlip) return;
+					const touchEndY = e.changedTouches[0].clientY;
+					const diff = touchStartY - touchEndY;
+					if (Math.abs(diff) > 50) {
+						if (diff > 0) handleDirectionalFlip('next');
+						else handleDirectionalFlip('prev');
+					}
+				}, { passive: true });
+
+				// 갤러리 슬라이더 로직
+				const thumbSlider = document.getElementById('thumbnail-slider');
+				const thumbItems = document.querySelectorAll('.thumb-item');
+				const mainLayers = document.querySelectorAll('#main-image-layers img');
+
+				if (thumbSlider && mainLayers.length > 0) {
+					let updateTimer = null;
+					const observerOptions = { root: thumbSlider, threshold: 0.6, rootMargin: '0px -40% 0px -40%' };
+					const observer = new IntersectionObserver((entries) => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								const item = entry.target;
+								const index = item.getAttribute('data-index');
+								thumbItems.forEach(t => t.classList.remove('active'));
+								item.classList.add('active');
+								clearTimeout(updateTimer);
+								updateTimer = setTimeout(() => {
+									requestAnimationFrame(() => {
+										mainLayers.forEach((layer, i) => {
+											if (i == index) { layer.style.opacity = '1'; layer.style.zIndex = '2'; }
+											else { layer.style.opacity = '0'; layer.style.zIndex = '1'; }
+										});
+									});
+								}, 50);
+							}
+						});
+					}, observerOptions);
+
+					thumbItems.forEach(item => {
+						observer.observe(item);
+						item.addEventListener('dragstart', (e) => e.preventDefault());
+					});
+
+					let isDragging = false;
+					let startX;
+					let scrollLeft;
+					const startDrag = (e) => {
+						if (!canFlip) return;
+						isDragging = true;
+						thumbSlider.classList.add('active-drag');
+						thumbSlider.style.scrollSnapType = 'none';
+						thumbSlider.style.scrollBehavior = 'auto';
+						startX = e.pageX - thumbSlider.offsetLeft;
+						scrollLeft = thumbSlider.scrollLeft;
+					};
+					const doDrag = (e) => {
+						if (!isDragging) return;
+						e.preventDefault();
+						const x = e.pageX - thumbSlider.offsetLeft;
+						thumbSlider.scrollLeft = scrollLeft - (x - startX) * 1.5;
+					};
+					const stopDrag = () => {
+						if (!isDragging) return;
+						isDragging = false;
+						thumbSlider.classList.remove('active-drag');
+						thumbSlider.style.scrollSnapType = 'x mandatory';
+						thumbSlider.style.scrollBehavior = 'smooth';
+					};
+					thumbSlider.addEventListener('pointerdown', startDrag);
+					window.addEventListener('pointermove', doDrag, { passive: false });
+					window.addEventListener('pointerup', stopDrag);
+					window.addEventListener('pointercancel', stopDrag);
+
+					thumbSlider.addEventListener('wheel', (e) => {
+						if (!canFlip) return;
+						e.stopPropagation();
+						e.preventDefault();
+						thumbSlider.scrollLeft += e.deltaY;
+					}, { passive: false });
+
+					const modeBtn = document.getElementById('gallery-mode-btn');
+					const viewerLayer = document.getElementById('viewer-mode-layer');
+					const gridLayer = document.getElementById('grid-mode-layer');
+					const iconViewer = document.getElementById('mode-icon-viewer');
+					const iconGrid = document.getElementById('mode-icon-grid');
+					let isGridView = false;
+
+					modeBtn.addEventListener('click', () => {
+						isGridView = !isGridView;
+						if (isGridView) {
+							viewerLayer.style.opacity = '0';
+							viewerLayer.style.visibility = 'hidden';
+							viewerLayer.style.zIndex = '0';
+							gridLayer.style.opacity = '1';
+							gridLayer.style.visibility = 'visible';
+							gridLayer.style.zIndex = '10';
+							iconViewer.style.opacity = '1';
+							iconViewer.style.visibility = 'visible';
+							iconGrid.style.opacity = '0';
+							iconGrid.style.visibility = 'hidden';
+						} else {
+							viewerLayer.style.opacity = '1';
+							viewerLayer.style.visibility = 'visible';
+							viewerLayer.style.zIndex = '10';
+							gridLayer.style.opacity = '0';
+							gridLayer.style.visibility = 'hidden';
+							gridLayer.style.zIndex = '0';
+							iconViewer.style.opacity = '0';
+							iconViewer.style.visibility = 'hidden';
+							iconGrid.style.opacity = '1';
+							iconGrid.style.visibility = 'visible';
+						}
+					});
+
+					gridLayer.querySelectorAll('.thumb-click-item').forEach((item, idx) => {
+						item.addEventListener('click', () => {
+							isGridView = false;
+							viewerLayer.style.opacity = '1';
+							viewerLayer.style.visibility = 'visible';
+							viewerLayer.style.zIndex = '10';
+							gridLayer.style.opacity = '0';
+							gridLayer.style.visibility = 'hidden';
+							gridLayer.style.zIndex = '0';
+							iconViewer.style.opacity = '0';
+							iconViewer.style.visibility = 'hidden';
+							iconGrid.style.opacity = '1';
+							iconGrid.style.visibility = 'visible';
+							const targetThumb = thumbItems[idx];
+							if (targetThumb) {
+								thumbSlider.scrollTo({
+									left: targetThumb.offsetLeft - (thumbSlider.offsetWidth / 2) + (targetThumb.offsetWidth / 2),
+									behavior: 'smooth'
+								});
+							}
+						});
+					});
+				}
+
+				// 인트로 종료 핸들러
 				window.addEventListener('curtain-animation-finished', () => {
-					console.log('커튼 애니메이션 종료 신호 수신. 3초 후 표지를 넘깁니다.');
 					setTimeout(() => {
-						console.log('1.8초 경과. 표지를 넘깁니다.');
 						const coverPage = document.getElementById('tab-cover');
 						const homePage = document.getElementById('tab-home');
 						if (coverPage && homePage) {
@@ -619,81 +800,44 @@ import '../styles/global.css';
 							coverPage.classList.add('flipped');
 							homePage.classList.remove('hidden-under');
 							homePage.classList.add('active');
-
-							// 홈 버튼을 활성 상태로 만듦
 							const homeButton = document.querySelector('.tab-btn[data-tab="home"]');
 							if(homeButton) homeButton.classList.add('active');
+							canFlip = true;
 						}
 					}, 1800);
 				});
 			});
 		</script>
-
-				<script src="/chungchup/curtain-animation.js" is:inline></script>
-
-				
-
-				<script is:inline>
-
-					// 배경 꽃잎 애니메이션 생성 (진단용)
-
-					document.addEventListener('DOMContentLoaded', function() {
-
-						const petalContainer = document.getElementById('petal-container');
-
-						if (!petalContainer) return;
-
-		
-
-						const petalCount = 40;
-
-		
-
-						for (let i = 0; i < petalCount; i++) {
-
-							const petal = document.createElement('div');
-
-							petal.classList.add('petal');
-
-		
-
-							// 애니메이션에 필요한 최소한의 속성만 무작위로 설정
-
-							const size = Math.random() * 8 + 6; // 6px to 14px
-
-							const startX = Math.random() * 100; // 가로 시작 위치
-
-							const duration = Math.random() * 10 + 12; // 떨어지는 시간 (12s to 22s)
-
-							const delay = Math.random() * 15; // 애니메이션 시작 지연 시간
-
-		
-
-							petal.style.width = `${size}px`;
-
-							petal.style.height = `${size}px`;
-
-							petal.style.left = `${startX}vw`; // 가로 시작 위치 적용
-
-							petal.style.opacity = Math.random() * 0.5 + 0.5; // 투명도
-
-		
-
-							petal.style.animationDuration = `${duration}s`;
-
-							petal.style.animationDelay = `${delay}s`;
-
-		
-
-							petalContainer.appendChild(petal);
-
-						}
-
-					});
-
-				</script>
-
-		
-
-			</body>
+		<script src="/chungchup/curtain-animation.js" is:inline></script>
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', function() {
+				const petalContainer = document.getElementById('petal-container');
+				if (!petalContainer) return;
+				const petalCount = 40;
+				for (let i = 0; i < petalCount; i++) {
+					const petal = document.createElement('div');
+					petal.classList.add('petal');
+					const size = Math.random() * 8 + 6;
+					const startX = Math.random() * 100;
+					const duration = Math.random() * 10 + 12;
+					const delay = Math.random() * 5;
+					const swayStartX = Math.random() * 100 - 50;
+					const swayEndX = Math.random() * 100 - 50;
+					const rotateStart = Math.random() * 360;
+					const rotateEnd = (Math.random() * 360) + rotateStart;
+					petal.style.width = `${size}px`;
+					petal.style.height = `${size}px`;
+					petal.style.left = `${startX}vw`;
+					petal.style.animationDuration = `${duration}s`;
+					petal.style.animationDelay = `${delay}s`;
+					petal.style.opacity = Math.random() * 0.4 + 0.5;
+					petal.style.setProperty('--sway-start', `${swayStartX}px`);
+					petal.style.setProperty('--sway-end', `${swayEndX}px`);
+					petal.style.setProperty('--rotate-start', `${rotateStart}deg`);
+					petal.style.setProperty('--rotate-end', `${rotateEnd}deg`);
+					petalContainer.appendChild(petal);
+				}
+			});
+		</script>
+	</body>
 </html>

@@ -1,7 +1,8 @@
 class CurtainEffect {
 	constructor() {
-		this.viewportWidth = window.innerWidth;
-		this.viewportHeight = window.innerHeight;
+		const overlay = document.getElementById('curtain-overlay');
+		this.viewportWidth = overlay ? overlay.offsetWidth : window.innerWidth;
+		this.viewportHeight = overlay ? overlay.offsetHeight : window.innerHeight;
 		this.centerX = this.viewportWidth / 2;
 		this.centerY = this.viewportHeight * 2 / 3; // 아래서 1/3 지점 (위에서 2/3 지점)
 
@@ -573,35 +574,52 @@ class CurtainEffect {
 	}
 
 	cleanup() {
-		console.log('애니메이션 완료 및 정리 중...');
-		const leftScreen = document.getElementById('black-screen-left');
-		const rightScreen = document.getElementById('black-screen-right');
+		console.log('애니메이션 완료 및 정리 중 (정밀 좌표 계산 모드)...');
+		const container = document.getElementById('black-overlay-container');
+		const path = document.getElementById('spotlight-path');
 		const overlay = document.getElementById('curtain-overlay');
 		const notebookContainer = document.getElementById('notebook-container');
+		const tabBar = document.getElementById('tab-bar');
 
-		if (leftScreen && rightScreen) {
-			// 노트북 컨테이너를 부드럽게 나타나게 함
-			if (notebookContainer) {
-				notebookContainer.style.opacity = '1';
-				notebookContainer.style.pointerEvents = 'auto';
+		// 수첩 컨테이너를 가장 먼저 즉시 나타나게 함 (스포트라이트 전 대기)
+		if (notebookContainer) {
+			notebookContainer.style.opacity = '1';
+			notebookContainer.style.pointerEvents = 'auto';
+		}
+
+		if (container && path) {
+			// 0. 좌표 계산
+			const angleRad = 8 * Math.PI / 180; // 8도 라디안 변환
+			const tanVal = Math.tan(angleRad);
+			
+			// 하단 탭 바 위치를 기준으로 스포트라이트가 멈출 높이 결정
+			let stopHeight = this.viewportHeight;
+			if (tabBar) {
+				// 탭 바의 상단 위치에서 약 10px 정도 아래까지만 비추도록 설정 (메모지 아주 살짝 아래)
+				stopHeight = tabBar.offsetTop + 10;
 			}
+			
+			const bottomOffset = stopHeight * tanVal; // 멈추는 높이 기준 벌어짐 정도
 
-			// 1. 즉시 스포트라이트 효과 적용
-			leftScreen.style.transformOrigin = 'top right';
-			rightScreen.style.transformOrigin = 'top left';
-			leftScreen.style.transform = 'translateX(-20px) rotate(10deg)';
-			rightScreen.style.transform = 'translateX(20px) rotate(-10deg)';
+			const x1 = this.viewportWidth * 0.3; // 스포트라이트 1 (30%)
+			const x2 = this.viewportWidth * 0.7; // 스포트라이트 2 (70%)
 
-			// 2. 1초 대기
+			// 1. SVG Path 생성 (두 개의 삼각형 구멍)
+			// stopHeight까지만 구멍을 뚫음으로써 그 아래(탭 바)는 검은색으로 남게 함
+			const spot1Path = `M ${x1},0 L ${x1 - bottomOffset},${stopHeight} L ${x1 + bottomOffset},${stopHeight} Z`;
+			const spot2Path = `M ${x2},0 L ${x2 - bottomOffset},${stopHeight} L ${x2 + bottomOffset},${stopHeight} Z`;
+			
+			path.setAttribute('d', `${spot1Path} ${spot2Path}`);
+
+			// 2. 오버레이 표시
+			container.style.display = 'block';
+			container.style.opacity = '1';
+			container.style.transition = 'opacity 1.3s ease-in-out';
+
+			// 3. 1초 대기 후 서서히 투명해짐
 			setTimeout(() => {
-				// 3. 1.3초에 걸쳐 화면 밖으로 이동하는 애니메이션 설정
-				leftScreen.style.transition = 'transform 1.3s ease-in-out';
-				rightScreen.style.transition = 'transform 1.3s ease-in-out';
+				container.style.opacity = '0';
 
-				leftScreen.style.transform = 'translateX(-20px) rotate(90deg)';
-				rightScreen.style.transform = 'translateX(20px) rotate(-90deg)';
-
-				// 4. 애니메이션 완료 후 정리
 				setTimeout(() => {
 					if (overlay) {
 						overlay.style.opacity = '0';
@@ -609,16 +627,15 @@ class CurtainEffect {
 							overlay.remove();
 							console.log('커튼 애니메이션 완료!');
 							window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
-						}, 300); // opacity transition 후 제거
+						}, 300);
 					} else {
-						console.log('커튼 애니메이션 완료!');
 						window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 					}
-				}, 1300); // 1.3초 애니메이션 시간
-			}, 1000); // 1초 대기 시간
+				}, 1300); // 1.3초 투명도 변화 시간
+			}, 1000); // 1초 대기
 
 		} else {
-			// fallback: 기존 로직과 유사하게 처리
+			// fallback
 			if (notebookContainer) {
 				notebookContainer.style.opacity = '1';
 				notebookContainer.style.pointerEvents = 'auto';
@@ -629,8 +646,6 @@ class CurtainEffect {
 					overlay.remove();
 					window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 				}, 300);
-			} else {
-				window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 			}
 		}
 	}
