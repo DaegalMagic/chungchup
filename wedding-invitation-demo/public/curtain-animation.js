@@ -186,8 +186,45 @@ class CurtainEffect {
 		if (currentPhase < 4) {
 			requestAnimationFrame(() => this.animate());
 		} else {
-			this.cleanup();
+			console.log(`[Timer] Curtain animation ended at: ${performance.now().toFixed(2)}ms`);
+			
+			// 이미지 로딩 대기 체크 추가
+			this.waitForImagesBeforeSpotlight(() => this.cleanup());
 		}
+	}
+
+	// 핵심 이미지(커버 GIF, 메인 사진) 로딩 대기 함수
+	waitForImagesBeforeSpotlight(callback) {
+		const imagesToWait = [
+			'/chungchup/play_timed.gif',
+			'/chungchup/image/DSC05105.jpg'
+		];
+		
+		let loadedCount = 0;
+		const checkAllLoaded = () => {
+			loadedCount++;
+			if (loadedCount === imagesToWait.length) {
+				console.log(`[Timer] All critical images loaded. Starting spotlight!`);
+				callback();
+			}
+		};
+
+		// 브라우저 캐시에 이미 있는지 확인 후 없으면 로드 대기
+		imagesToWait.forEach(src => {
+			const img = new Image();
+			img.onload = checkAllLoaded;
+			img.onerror = checkAllLoaded; // 에러나도 일단 진행
+			img.src = src;
+			if (img.complete) checkAllLoaded();
+		});
+
+		// 혹시라도 너무 오래 걸리면(2.5초) 강제로 시작 (무한 대기 방지)
+		setTimeout(() => {
+			if (loadedCount < imagesToWait.length) {
+				console.log(`[Timer] Loading timeout. Starting spotlight anyway...`);
+				callback();
+			}
+		}, 2500);
 	}
 
 	updateInitialOverlay(currentPhase, phaseProgress) {
@@ -595,29 +632,34 @@ class CurtainEffect {
 			// 하단 탭 바 위치를 기준으로 스포트라이트가 멈출 높이 결정
 			let stopHeight = this.viewportHeight;
 			if (tabBar) {
-				// 탭 바의 상단 위치에서 약 10px 정도 아래까지만 비추도록 설정 (메모지 아주 살짝 아래)
 				stopHeight = tabBar.offsetTop + 10;
 			}
 			
-			const bottomOffset = stopHeight * tanVal; // 멈추는 높이 기준 벌어짐 정도
+			const bottomOffset = stopHeight * tanVal;
+			const x1 = this.viewportWidth * 0.3;
+			const x2 = this.viewportWidth * 0.7;
 
-			const x1 = this.viewportWidth * 0.3; // 스포트라이트 1 (30%)
-			const x2 = this.viewportWidth * 0.7; // 스포트라이트 2 (70%)
+			console.log(`[Timer] Calculated - Viewport: ${this.viewportWidth}x${this.viewportHeight}, StopHeight: ${stopHeight}`);
 
-			// 1. SVG Path 생성 (두 개의 삼각형 구멍)
-			// stopHeight까지만 구멍을 뚫음으로써 그 아래(탭 바)는 검은색으로 남게 함
+			// 1. SVG Path 생성
 			const spot1Path = `M ${x1},0 L ${x1 - bottomOffset},${stopHeight} L ${x1 + bottomOffset},${stopHeight} Z`;
 			const spot2Path = `M ${x2},0 L ${x2 - bottomOffset},${stopHeight} L ${x2 + bottomOffset},${stopHeight} Z`;
 			
 			path.setAttribute('d', `${spot1Path} ${spot2Path}`);
 
-			// 2. 오버레이 표시
+			// 2. 오버레이 즉시 표시 (transition 없이)
+			console.log(`[Timer] Spotlight showing at: ${performance.now().toFixed(2)}ms`);
+			container.style.transition = 'none'; // 초기엔 transition 제거
 			container.style.display = 'block';
 			container.style.opacity = '1';
-			container.style.transition = 'opacity 1.3s ease-in-out';
+			
+			// 강제 리플로우 (브라우저가 위 설정을 즉시 반영하도록 함)
+			container.offsetHeight; 
 
 			// 3. 1초 대기 후 서서히 투명해짐
 			setTimeout(() => {
+				console.log(`[Timer] Spotlight fade-out start at: ${performance.now().toFixed(2)}ms`);
+				container.style.transition = 'opacity 1.3s ease-in-out';
 				container.style.opacity = '0';
 
 				setTimeout(() => {
@@ -625,14 +667,14 @@ class CurtainEffect {
 						overlay.style.opacity = '0';
 						setTimeout(() => {
 							overlay.remove();
-							console.log('커튼 애니메이션 완료!');
+							console.log(`[Timer] Full animation finished at: ${performance.now().toFixed(2)}ms`);
 							window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 						}, 300);
 					} else {
 						window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 					}
-				}, 1300); // 1.3초 투명도 변화 시간
-			}, 1000); // 1초 대기
+				}, 1300);
+			}, 1000);
 
 		} else {
 			// fallback

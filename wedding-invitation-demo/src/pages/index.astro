@@ -8,8 +8,18 @@ import '../styles/global.css';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<title>김철수 ♥ 이영희 결혼식</title>
+		<!-- 이미지 사전 로드 (가장 중요) -->
+		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
+		<link rel="preload" as="image" href="/chungchup/image/DSC05105.jpg" />
+		
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
-		<link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&display=swap" rel="stylesheet">
+		<!-- 카카오맵 SDK (가이드 Step 3) -->
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51211e1cc3ff7894096e02e1de129d3d&libraries=services"></script>
+		<!-- 네이버 지도 SDK -->
+		<script type="text/javascript" src="//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=oya3z2iso0"></script>
 	</head>
 	<body class="text-gray-800 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f3f4f6; position: relative; overflow: hidden;">
 		<!-- 흩날리는 꽃잎 배경 -->
@@ -101,8 +111,8 @@ import '../styles/global.css';
 
 					<!-- 인삿말 (하단 고정 - 높이 고정 및 슬림화) -->
 					<section class="px-2 pb-2 pt-1 text-center flex-shrink-0">
-						<div class="bg-rose-50 rounded-2xl p-2 shadow-sm border border-rose-100 h-[110px] flex flex-col justify-center">
-							<div class="text-[clamp(11px,3.6vw,13.5px)] text-gray-700 leading-[1.4] flex flex-col items-center font-medium">
+						<div class="bg-rose-50/50 rounded-2xl p-3 shadow-sm border border-rose-100/30 h-[115px] flex flex-col justify-center backdrop-blur-[1px]">
+							<div class="text-[clamp(12px,3.8vw,14px)] text-gray-800 leading-relaxed flex flex-col items-center font-medium" style="font-family: 'Hahmlet', serif; letter-spacing: -0.03em; font-weight: 500;">
 								<span class="whitespace-nowrap">우연히 시작된 만남은 적잖은 필연이 되었습니다.</span>
 								<span class="whitespace-nowrap">그 필연을 켜켜이 포개보니 운명임을 알았습니다.</span>
 								<span class="whitespace-nowrap">그러니 서로 함께 하는것이 행복임을 알겠습니다.</span>
@@ -208,15 +218,34 @@ import '../styles/global.css';
 					<section class="px-4 py-4">
 						<h3 class="text-lg font-semibold text-center mb-4 text-rose-800">오시는 길</h3>
 
-						<!-- 지도 영역 -->
-						<div class="w-full h-36 bg-gray-200 rounded-lg mb-3 flex items-center justify-center border-2 border-dashed border-gray-300">
-							<span class="text-gray-500 text-sm font-medium">[카카오맵]</span>
+						<!-- 지도 선택 탭 -->
+						<div class="flex space-x-1 mb-0 px-1">
+							<button class="map-tab active flex-1 py-2 text-[11px] font-bold rounded-t-lg transition-all" data-map="kakao">카카오맵</button>
+							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-t-lg transition-all" data-map="naver">네이버맵</button>
+							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-t-lg transition-all" data-map="google">구글맵</button>
 						</div>
 
+						<!-- 지도 컨테이너 영역 -->
+						<div class="relative w-full h-56 rounded-b-lg overflow-hidden shadow-inner border border-gray-200 mb-4 bg-gray-50">
+							<!-- 카카오 (JS SDK) -->
+							<div id="map-kakao" class="map-view absolute inset-0 z-10 opacity-100"></div>
+							<!-- 네이버 (JS SDK) -->
+							<div id="map-naver" class="map-view absolute inset-0 z-0 opacity-0 pointer-events-none"></div>
+							<!-- 구글 (임베드) -->
+							<div id="map-google" class="map-view absolute inset-0 z-0 opacity-0 pointer-events-none">
+								<iframe src="https://maps.google.com/maps?q=아이티컨벤션&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0"></iframe>
+							</div>
+						</div>
+
+						<!-- 길찾기 버튼 -->
+						<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block w-full py-3 bg-rose-600 text-white text-center rounded-lg font-bold shadow-md hover:bg-rose-700 transition-colors mb-4 no-underline">
+							🚩 실시간 길찾기
+						</a>
+
 						<div class="text-center mb-4">
-							<h4 class="text-base font-semibold mb-1">서울웨딩홀</h4>
-							<p class="text-sm text-gray-600">3층 그레이스홀</p>
-							<p class="text-xs text-gray-500">서울시 강남구 테헤란로 123</p>
+							<h4 class="text-base font-semibold mb-1">아이티 컨벤션</h4>
+							<p class="text-sm text-gray-600">흥덕IT밸리 2층</p>
+							<p class="text-xs text-gray-500">경기도 용인시 기흥구 흥덕1로 13</p>
 						</div>
 					</section>
 
@@ -488,6 +517,22 @@ import '../styles/global.css';
 				color: #be185d;
 			}
 
+			/* 지도 탭 스타일 */
+			.map-tab {
+				background-color: #f3f4f6;
+				color: #6b7280;
+				border: 1px solid #e5e7eb;
+				border-bottom: none;
+			}
+
+			.map-tab.active {
+				background-color: white;
+				color: #be185d;
+				border-color: #e5e7eb;
+				border-bottom-color: white;
+				z-index: 5;
+			}
+
 			/* 갤러리 슬라이더 스타일 */
 			.scrollbar-hide::-webkit-scrollbar {
 				display: none;
@@ -516,6 +561,21 @@ import '../styles/global.css';
 			/* 3D 컨테이너 스타일 */
 			#tab-content {
 				transform-style: preserve-3d;
+			}
+
+			/* 그리드 아이템 강조 스타일 */
+			.grid-highlight {
+				outline: 3px solid #be185d;
+				outline-offset: -3px;
+				box-shadow: 0 0 15px rgba(190, 24, 93, 0.4);
+				animation: pulseHighlight 1.5s infinite ease-in-out;
+				z-index: 5;
+			}
+
+			@keyframes pulseHighlight {
+				0% { outline-color: #be185d; transform: scale(1); }
+				50% { outline-color: #fda4af; transform: scale(1.05); }
+				100% { outline-color: #be185d; transform: scale(1); }
 			}
 
 			/* 수첩 고리 컨테이너 */
@@ -603,6 +663,16 @@ import '../styles/global.css';
 					});
 					const targetPanel = document.getElementById('tab-' + tabOrder[targetIndex]);
 					if(targetPanel) targetPanel.scrollTop = 0;
+                    
+                    // '오시는 길' 탭일 경우 지도 레이아웃 재정렬 (깨짐 방지)
+                    if (tabOrder[targetIndex] === 'location' && window.mapInstance) {
+                        setTimeout(() => {
+                            window.mapInstance.relayout();
+                            const moveLatLon = new kakao.maps.LatLng(37.2709214, 127.0661671);
+                            window.mapInstance.setCenter(moveLatLon);
+                        }, 500); // 3D 전환 애니메이션 완료 후 실행
+                    }
+
 					isAnimating = false;
 				}
 
@@ -623,6 +693,109 @@ import '../styles/global.css';
 						else b.classList.remove('active');
 					});
 				}
+
+                // 지도 탭 전환 로직
+                const mapTabs = document.querySelectorAll('.map-tab');
+                const mapViews = document.querySelectorAll('.map-view');
+                const routeBtn = document.getElementById('route-btn');
+                const routeUrls = {
+                    kakao: 'https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671',
+                    naver: 'https://map.naver.com/p/entry/place/33989425',
+                    google: 'https://www.google.com/maps/dir/?api=1&destination=아이티컨벤션+경기도+용인시+기흥구+흥덕1로+13'
+                };
+
+                mapTabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const target = tab.dataset.map;
+                        
+                        // 탭 UI 변경
+                        mapTabs.forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        
+                        // 지도 뷰 변경
+                        mapViews.forEach(v => {
+                            v.classList.remove('z-10', 'opacity-100');
+                            v.classList.add('z-0', 'opacity-0', 'pointer-events-none');
+                        });
+                        const targetView = document.getElementById('map-' + target);
+                        targetView.classList.add('z-10', 'opacity-100');
+                        targetView.classList.remove('z-0', 'opacity-0', 'pointer-events-none');
+                        
+                        // 길찾기 링크 변경
+                        routeBtn.href = routeUrls[target];
+                        
+                        // 카카오맵 복귀 시 레이아웃 재조정
+                        if (target === 'kakao' && window.mapInstance) {
+                            window.mapInstance.relayout();
+                            window.mapInstance.setCenter(new kakao.maps.LatLng(37.2709214, 127.0661671));
+                        }
+                        // 네이버 지도 복귀 시 레이아웃 재조정
+                        if (target === 'naver' && window.naverMapInstance) {
+                            window.naverMapInstance.updateBy({ size: true });
+                            window.naverMapInstance.setCenter(new naver.maps.LatLng(37.2709214, 127.0661671));
+                        }
+                    });
+                });
+
+                // 카카오맵 초기화 (가이드 Step 4)
+                function initKakaoMap() {
+                    var container = document.getElementById('map-kakao'); // 지도를 담을 영역의 DOM 레퍼런스
+                    var options = { // 지도를 생성할 때 필요한 기본 옵션
+                        center: new kakao.maps.LatLng(37.2709214, 127.0661671), // 아이티 컨벤션
+                        level: 3 // 지도의 레벨 (확대, 축소 정도)
+                    };
+
+                    // 지도를 생성합니다
+                    window.mapInstance = new kakao.maps.Map(container, options); 
+
+                    // 마커 표시 (가이드의 마커 예제)
+                    var markerPosition  = new kakao.maps.LatLng(37.2709214, 127.0661671); 
+                    var marker = new kakao.maps.Marker({
+                        position: markerPosition
+                    });
+                    marker.setMap(window.mapInstance);
+                    
+                    // 인포윈도우 표시
+                    var infowindow = new kakao.maps.InfoWindow({
+                        content: '<div style="padding:5px;font-size:12px;text-align:center;width:150px;color:#000;background:#fff;border:1px solid #ccc;">아이티 컨벤션</div>'
+                    });
+                    infowindow.open(window.mapInstance, marker);
+                }
+
+                // 네이버 지도 초기화
+                function initNaverMap() {
+                    const mapContainer = document.getElementById('map-naver');
+                    if (!mapContainer || typeof naver === 'undefined' || !naver.maps) {
+                        // SDK가 아직 로드되지 않았다면 100ms 뒤에 다시 시도
+                        setTimeout(initNaverMap, 100);
+                        return;
+                    }
+
+                    const center = new naver.maps.LatLng(37.2709214, 127.0661671);
+                    window.naverMapInstance = new naver.maps.Map(mapContainer, {
+                        center: center,
+                        zoom: 15
+                    });
+
+                    const marker = new naver.maps.Marker({
+                        position: center,
+                        map: window.naverMapInstance
+                    });
+
+                    const infowindow = new naver.maps.InfoWindow({
+                        content: '<div style="padding:10px;font-size:12px;text-align:center;width:150px;color:#000;background:#fff;border:1px solid #ccc;border-radius:5px;">아이티 컨벤션</div>'
+                    });
+                    infowindow.open(window.naverMapInstance, marker);
+                    console.log("Naver Map Initialized");
+                }
+
+                // SDK 로드 완료 대기
+                if (typeof kakao !== 'undefined' && kakao.maps) {
+                    kakao.maps.load(initKakaoMap);
+                }
+                
+                // 네이버 지도 실행
+                initNaverMap();
 
 				// 제스처 제어
 				let lastFlipTime = 0;
@@ -667,14 +840,17 @@ import '../styles/global.css';
 				const thumbItems = document.querySelectorAll('.thumb-item');
 				const mainLayers = document.querySelectorAll('#main-image-layers img');
 
-				if (thumbSlider && mainLayers.length > 0) {
+				if (thumbSlider && mainLayers.length) {
 					let updateTimer = null;
+					let currentImageIndex = 0; // 현재 보고 있는 이미지 인덱스 추적
 					const observerOptions = { root: thumbSlider, threshold: 0.6, rootMargin: '0px -40% 0px -40%' };
 					const observer = new IntersectionObserver((entries) => {
 						entries.forEach(entry => {
 							if (entry.isIntersecting) {
 								const item = entry.target;
-								const index = item.getAttribute('data-index');
+								const index = parseInt(item.getAttribute('data-index'), 10);
+								currentImageIndex = index; // 인덱스 저장
+								
 								thumbItems.forEach(t => t.classList.remove('active'));
 								item.classList.add('active');
 								clearTimeout(updateTimer);
@@ -752,6 +928,18 @@ import '../styles/global.css';
 							iconViewer.style.visibility = 'visible';
 							iconGrid.style.opacity = '0';
 							iconGrid.style.visibility = 'hidden';
+
+							// [추가] 그리드 모드 진입 시 현재 이미지 강조 및 스크롤
+							setTimeout(() => {
+								const gridItems = gridLayer.querySelectorAll('.thumb-click-item');
+								gridItems.forEach(item => item.classList.remove('grid-highlight'));
+								
+								const targetGridItem = gridItems[currentImageIndex];
+								if (targetGridItem) {
+									targetGridItem.classList.add('grid-highlight');
+									targetGridItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+								}
+							}, 100);
 						} else {
 							viewerLayer.style.opacity = '1';
 							viewerLayer.style.visibility = 'visible';
@@ -768,6 +956,7 @@ import '../styles/global.css';
 
 					gridLayer.querySelectorAll('.thumb-click-item').forEach((item, idx) => {
 						item.addEventListener('click', () => {
+							currentImageIndex = idx; // [수정] 인덱스 즉시 업데이트
 							isGridView = false;
 							viewerLayer.style.opacity = '1';
 							viewerLayer.style.visibility = 'visible';
