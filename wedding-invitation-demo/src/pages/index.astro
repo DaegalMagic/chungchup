@@ -7,6 +7,8 @@ import '../styles/global.css';
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<!-- Referer를 무조건 보내도록 설정 (네이버 지도 인증 필수) -->
+		<meta name="referrer" content="always">
 		<title>김철수 ♥ 이영희 결혼식</title>
 		<!-- 이미지 사전 로드 (가장 중요) -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
@@ -17,9 +19,16 @@ import '../styles/global.css';
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&display=swap" rel="stylesheet">
 		<!-- 카카오맵 SDK (가이드 Step 3) -->
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51211e1cc3ff7894096e02e1de129d3d&libraries=services"></script>
-		<!-- 네이버 지도 SDK -->
-		<script type="text/javascript" src="//openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=oya3z2iso0"></script>
+		<script is:inline type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=51211e1cc3ff7894096e02e1de129d3d&libraries=services"></script>
+		<!-- 네이버 지도 SDK (공식 규격 준수: oapi 사용) -->
+		<script is:inline type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=oya3z2iso0"></script>
+		<script is:inline>
+			// 네이버 지도 인증 실패 핸들러
+			window.navermap_authFailure = function () {
+				console.error("Naver Map Auth Failure: NCP 콘솔의 Web 서비스 URL 설정을 확인하세요.");
+				alert("네이버 지도 인증 실패! 콘솔을 확인하세요.");
+			};
+		</script>
 	</head>
 	<body class="text-gray-800 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f3f4f6; position: relative; overflow: hidden;">
 		<!-- 흩날리는 꽃잎 배경 -->
@@ -226,13 +235,13 @@ import '../styles/global.css';
 						</div>
 
 						<!-- 지도 컨테이너 영역 -->
-						<div class="relative w-full h-56 rounded-b-lg overflow-hidden shadow-inner border border-gray-200 mb-4 bg-gray-50">
+						<div class="relative w-full rounded-b-lg overflow-hidden shadow-inner border border-gray-200 mb-4 bg-gray-50" style="height: 224px;">
 							<!-- 카카오 (JS SDK) -->
-							<div id="map-kakao" class="map-view absolute inset-0 z-10 opacity-100"></div>
+							<div id="map-kakao" class="map-view absolute inset-0 z-10" style="display: block; width: 100%; height: 100%;"></div>
 							<!-- 네이버 (JS SDK) -->
-							<div id="map-naver" class="map-view absolute inset-0 z-0 opacity-0 pointer-events-none"></div>
+							<div id="map-naver" class="map-view absolute inset-0 z-0" style="display: none; width: 100%; height: 100%;"></div>
 							<!-- 구글 (임베드) -->
-							<div id="map-google" class="map-view absolute inset-0 z-0 opacity-0 pointer-events-none">
+							<div id="map-google" class="map-view absolute inset-0 z-0" style="display: none; width: 100%; height: 100%;">
 								<iframe src="https://maps.google.com/maps?q=아이티컨벤션&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0"></iframe>
 							</div>
 						</div>
@@ -665,11 +674,23 @@ import '../styles/global.css';
 					if(targetPanel) targetPanel.scrollTop = 0;
                     
                     // '오시는 길' 탭일 경우 지도 레이아웃 재정렬 (깨짐 방지)
-                    if (tabOrder[targetIndex] === 'location' && window.mapInstance) {
+                    if (tabOrder[targetIndex] === 'location') {
                         setTimeout(() => {
-                            window.mapInstance.relayout();
-                            const moveLatLon = new kakao.maps.LatLng(37.2709214, 127.0661671);
-                            window.mapInstance.setCenter(moveLatLon);
+                            if (window.mapInstance) {
+                                window.mapInstance.relayout();
+                                window.mapInstance.setCenter(new kakao.maps.LatLng(37.2709214, 127.0661671));
+                            }
+                            
+                            // [추가] 네이버 지도 레이지 로딩: 탭이 열릴 때 초기화
+                            const activeMapTab = document.querySelector('.map-tab.active');
+                            if (activeMapTab && activeMapTab.dataset.map === 'naver') {
+                                if (!window.naverMapInstance) {
+                                    initNaverMap();
+                                } else {
+                                    window.naverMapInstance.updateBy(null, true);
+                                    window.naverMapInstance.setCenter(new naver.maps.LatLng(37.2709214, 127.0661671));
+                                }
+                            }
                         }, 500); // 3D 전환 애니메이션 완료 후 실행
                     }
 
@@ -712,14 +733,14 @@ import '../styles/global.css';
                         mapTabs.forEach(t => t.classList.remove('active'));
                         tab.classList.add('active');
                         
-                        // 지도 뷰 변경
+                        // 지도 뷰 변경 (display 방식 사용)
                         mapViews.forEach(v => {
-                            v.classList.remove('z-10', 'opacity-100');
-                            v.classList.add('z-0', 'opacity-0', 'pointer-events-none');
+                            v.style.display = 'none';
                         });
                         const targetView = document.getElementById('map-' + target);
-                        targetView.classList.add('z-10', 'opacity-100');
-                        targetView.classList.remove('z-0', 'opacity-0', 'pointer-events-none');
+                        if (targetView) {
+                            targetView.style.display = 'block';
+                        }
                         
                         // 길찾기 링크 변경
                         routeBtn.href = routeUrls[target];
@@ -729,10 +750,17 @@ import '../styles/global.css';
                             window.mapInstance.relayout();
                             window.mapInstance.setCenter(new kakao.maps.LatLng(37.2709214, 127.0661671));
                         }
-                        // 네이버 지도 복귀 시 레이아웃 재조정
-                        if (target === 'naver' && window.naverMapInstance) {
-                            window.naverMapInstance.updateBy({ size: true });
-                            window.naverMapInstance.setCenter(new naver.maps.LatLng(37.2709214, 127.0661671));
+                        // 네이버 지도 복귀 시 레이아웃 재조정 또는 초기화
+                        if (target === 'naver') {
+                            if (!window.naverMapInstance) {
+                                initNaverMap();
+                            } else {
+                                setTimeout(() => {
+                                    window.naverMapInstance.updateBy(null, true); 
+                                    window.naverMapInstance.setCenter(new naver.maps.LatLng(37.2709214, 127.0661671));
+                                    window.dispatchEvent(new Event('resize'));
+                                }, 50);
+                            }
                         }
                     });
                 });
@@ -765,8 +793,13 @@ import '../styles/global.css';
                 // 네이버 지도 초기화
                 function initNaverMap() {
                     const mapContainer = document.getElementById('map-naver');
+                    // SDK 로드 여부 및 컨테이너 가시성 확인
                     if (!mapContainer || typeof naver === 'undefined' || !naver.maps) {
-                        // SDK가 아직 로드되지 않았다면 100ms 뒤에 다시 시도
+                        return;
+                    }
+                    
+                    // 컨테이너의 너비가 0이면 초기화하지 않음 (에러 방지)
+                    if (mapContainer.offsetWidth === 0) {
                         setTimeout(initNaverMap, 100);
                         return;
                     }
@@ -774,7 +807,8 @@ import '../styles/global.css';
                     const center = new naver.maps.LatLng(37.2709214, 127.0661671);
                     window.naverMapInstance = new naver.maps.Map(mapContainer, {
                         center: center,
-                        zoom: 15
+                        zoom: 15,
+                        autoResize: true
                     });
 
                     const marker = new naver.maps.Marker({
@@ -789,13 +823,12 @@ import '../styles/global.css';
                     console.log("Naver Map Initialized");
                 }
 
-                // SDK 로드 완료 대기
+                // SDK 로드 완료 대기 (카카오만 미리 로드 시도)
                 if (typeof kakao !== 'undefined' && kakao.maps) {
                     kakao.maps.load(initKakaoMap);
                 }
                 
-                // 네이버 지도 실행
-                initNaverMap();
+                // 네이버 지도는 여기서 더 이상 자동으로 호출하지 않음 (Lazy 로딩)
 
 				// 제스처 제어
 				let lastFlipTime = 0;
