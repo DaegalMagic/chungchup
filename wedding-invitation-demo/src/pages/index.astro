@@ -1,5 +1,24 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import '../styles/global.css';
+
+// public/image 폴더 내의 이미지 파일 목록을 자동으로 읽어옵니다.
+const imageDir = path.resolve('./public/image');
+let images = [];
+try {
+  images = fs.readdirSync(imageDir)
+    .filter(file => /\.(jpe?g|png|gif|webp)$/i.test(file))
+    .sort((a, b) => {
+      // 숫자로 된 파일명(1.jpg, 2.jpg 등)을 자연스럽게 정렬합니다.
+      const numA = parseInt(a);
+      const numB = parseInt(b);
+      if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+      return a.localeCompare(b);
+    });
+} catch (e) {
+  console.error('이미지 폴더를 읽는 중 오류 발생:', e);
+}
 ---
 
 <html lang="ko">
@@ -12,7 +31,7 @@ import '../styles/global.css';
 		<title>김철수 & 이영희 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
-		<link rel="preload" as="image" href="/chungchup/image/DSC05105.jpg" />
+		<link rel="preload" as="image" href="/chungchup/image/1.jpg" />
 		
 		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,9 +95,9 @@ import '../styles/global.css';
 				<!-- 탭 1: 홈/인사 -->
 				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
 					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
-						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50">
-							<div class="absolute inset-0 w-full h-full bg-cover bg-center" style="background-image: url('/chungchup/image/DSC05105.jpg');"></div>
-							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col">
+						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 cursor-pointer">
+							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/1.jpg');"></div>
+							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col pointer-events-none">
 								<div class="mb-2">
 									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em;">
 										김철수 · 이영희
@@ -116,9 +135,9 @@ import '../styles/global.css';
 						
 						<div class="flex-1 overflow-y-auto pb-8 scrollbar-hide">
 							<div class="grid grid-cols-3 gap-2 pt-2">
-								{[5,6,7,8,9,10].map(i => (
+								{images.map(img => (
 									<div class="aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100">
-										<img src={`/chungchup/image/DSC051${i < 10 ? '0' + i : i}.jpg`} class="w-full h-full object-cover" />
+										<img src={`/chungchup/image/${img}`} class="w-full h-full object-cover" loading="lazy" />
 									</div>
 								))}
 							</div>
@@ -575,6 +594,18 @@ import '../styles/global.css';
 						}
 					});
 				});
+
+				// 메인 사진 토글 로직
+				const mainPhoto = document.getElementById('main-photo');
+				if (mainPhoto) {
+					let isToggled = false;
+					mainPhoto.parentElement.addEventListener('click', () => {
+						isToggled = !isToggled;
+						mainPhoto.style.backgroundImage = isToggled 
+							? "url('/chungchup/image/43.jpg')" 
+							: "url('/chungchup/image/1.jpg')";
+					});
+				}
 
 				window.addEventListener('curtain-animation-finished', () => {
 					setTimeout(() => {
