@@ -556,7 +556,7 @@ try {
 
 				window.addEventListener('wheel', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view')) return;
+					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
 					if (e.deltaY > 0) handleDirectionalFlip('next');
 					else if (e.deltaY < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
@@ -564,13 +564,13 @@ try {
 				let touchStartY = 0;
 				window.addEventListener('touchstart', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view')) return;
+					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
 					touchStartY = e.touches[0].clientY;
 				}, { passive: true });
 
 				window.addEventListener('touchend', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view')) return;
+					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
 					const touchEndY = e.changedTouches[0].clientY;
 					const diff = touchStartY - touchEndY;
 					if (Math.abs(diff) > 50) {
