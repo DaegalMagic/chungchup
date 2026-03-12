@@ -4,7 +4,7 @@ class CurtainEffect {
 		this.viewportWidth = overlay ? overlay.offsetWidth : window.innerWidth;
 		this.viewportHeight = overlay ? overlay.offsetHeight : window.innerHeight;
 		this.centerX = this.viewportWidth / 2;
-		this.centerY = this.viewportHeight * 2 / 3; // 아래서 1/3 지점 (위에서 2/3 지점)
+		this.centerY = this.viewportHeight / 3; // 위에서 1/3 지점
 
 		// 각 페이즈별 독립적 시간 설정
 		this.initialWaitDuration = 1000; // 초기 1초 대기
@@ -23,7 +23,7 @@ class CurtainEffect {
 
 	init() {
 		this.setupCurtains();
-		this.setupWrinkles();
+		// this.setupWrinkles();
 		this.setupInitialGrayLines();
 		this.startAnimation();
 	}
@@ -181,7 +181,7 @@ class CurtainEffect {
 		this.updateInitialOverlay(currentPhase, phaseProgress);
 		this.updateInitialGrayLines(currentPhase, phaseProgress);
 		this.updateCurtains(currentPhase, phaseProgress);
-		this.updateWrinkles(currentPhase, phaseProgress);
+		// this.updateWrinkles(currentPhase, phaseProgress);
 
 		if (currentPhase < 4) {
 			requestAnimationFrame(() => this.animate());
@@ -266,7 +266,7 @@ class CurtainEffect {
 
 		} else if (currentPhase === 1) {
 			// 페이즈 1: 꼭지점 이동과 함께 띠가 중앙에서 벌어짐 (찢어지는 효과)
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 			const cornerMove = maxCornerMove * this.easeOutCubic(phaseProgress);
 
 			// 왼쪽 띠: 중심에서 왼쪽으로 벌어짐
@@ -279,7 +279,7 @@ class CurtainEffect {
 
 		} else if (currentPhase === 2) {
 			// 페이즈 2: 대기 - 찢어진 상태 유지
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 
 			leftLine.style.left = '0px';
 			leftLine.style.width = (this.centerX - maxCornerMove) + 'px';
@@ -293,7 +293,7 @@ class CurtainEffect {
 			// 페이즈 3: 커튼과 함께 띠도 좌우로 이동 (중앙 꼭지점과 같은 속도)
 			const maxMove = this.viewportWidth * 1.5;
 			const fastMove = maxMove * this.easeInCubic(phaseProgress * 1.5); // 중앙 꼭지점과 같은 속도
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 
 			// 왼쪽 띠: 왼쪽으로 이동
 			leftLine.style.transform = `translateX(${-fastMove}px)`;
@@ -322,7 +322,7 @@ class CurtainEffect {
 				initialOverlay.remove();
 			}
 			// 페이즈 1: 꼭지점만 이동 (400ms)
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 			const cornerMove = maxCornerMove * this.easeOutCubic(phaseProgress);
 
 			// 왼쪽 위: 오른쪽 아래 꼭지점이 왼쪽으로
@@ -331,20 +331,20 @@ class CurtainEffect {
 			// 오른쪽 위: 왼쪽 아래 꼭지점이 오른쪽으로
 			topRight.style.clipPath = `polygon(${(cornerMove/(this.viewportWidth-this.centerX))*100}% 100%, 100% 100%, 100% 0%, 0% 0%)`;
 
-			// 왼쪽 아래: 오른쪽 위 꼭지점이 왼쪽으로
-			bottomLeft.style.clipPath = `polygon(0% 0%, ${100 - (cornerMove/this.centerX)*100}% 0%, 100% 100%, 0% 100%)`;
+			// 왼쪽 아래: 오른쪽 면이 일직선으로 벌어짐 (오각형 형태)
+			bottomLeft.style.clipPath = `polygon(0% 0%, ${100 - (cornerMove/this.centerX)*100}% 0%, ${100 - (cornerMove/this.centerX)*100}% 100%, 0% 100%)`;
 
-			// 오른쪽 아래: 왼쪽 위 꼭지점이 오른쪽으로
-			bottomRight.style.clipPath = `polygon(${(cornerMove/(this.viewportWidth-this.centerX))*100}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+			// 오른쪽 아래: 왼쪽 면이 일직선으로 벌어짐 (오각형 형태)
+			bottomRight.style.clipPath = `polygon(${(cornerMove/(this.viewportWidth-this.centerX))*100}% 0%, 100% 0%, 100% 100%, ${(cornerMove/(this.viewportWidth-this.centerX))*100}% 100%)`;
 
 		} else if (currentPhase === 2) {
 			// 페이즈 2: 대기 (300ms) - clipPath 상태 유지
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 
 			topLeft.style.clipPath = `polygon(0% 0%, 100% 0%, ${100 - (maxCornerMove/this.centerX)*100}% 100%, 0% 100%)`;
 			topRight.style.clipPath = `polygon(${(maxCornerMove/(this.viewportWidth-this.centerX))*100}% 100%, 100% 100%, 100% 0%, 0% 0%)`;
-			bottomLeft.style.clipPath = `polygon(0% 0%, ${100 - (maxCornerMove/this.centerX)*100}% 0%, 100% 100%, 0% 100%)`;
-			bottomRight.style.clipPath = `polygon(${(maxCornerMove/(this.viewportWidth-this.centerX))*100}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+			bottomLeft.style.clipPath = `polygon(0% 0%, ${100 - (maxCornerMove/this.centerX)*100}% 0%, ${100 - (maxCornerMove/this.centerX)*100}% 100%, 0% 100%)`;
+			bottomRight.style.clipPath = `polygon(${(maxCornerMove/(this.viewportWidth-this.centerX))*100}% 0%, 100% 0%, 100% 100%, ${(maxCornerMove/(this.viewportWidth-this.centerX))*100}% 100%)`;
 
 		} else if (currentPhase === 3) {
 			// 페이즈 3: 전체 이동 (1600ms) - 중앙 꼭지점만 더 빨리
@@ -352,7 +352,7 @@ class CurtainEffect {
 			const normalMove = maxMove * this.easeInCubic(phaseProgress); // 모서리 점 속도
 			const fastMove = maxMove * this.easeInCubic(phaseProgress * 1.5); // 중앙 꼭지점 속도
 
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 
 			// 중앙 꼭지점(clipPath 안의 꼭지점)은 빠르게, 모서리는 천천히
 			const fastCornerX = this.centerX - maxCornerMove - fastMove; // 왼쪽 중앙 꼭지점
@@ -366,10 +366,10 @@ class CurtainEffect {
 			topRight.style.clipPath = `polygon(${((fastCornerXRight - normalMove - this.centerX) / this.centerX) * 100}% 100%, 100% 100%, 100% 0%, 0% 0%)`;
 
 			bottomLeft.style.transform = `translateX(${-normalMove}px)`;
-			bottomLeft.style.clipPath = `polygon(0% 0%, ${((fastCornerX + normalMove) / this.centerX) * 100}% 0%, 100% 100%, 0% 100%)`;
+			bottomLeft.style.clipPath = `polygon(0% 0%, ${((fastCornerX + normalMove) / this.centerX) * 100}% 0%, ${((fastCornerX + normalMove) / this.centerX) * 100}% 100%, 0% 100%)`;
 
 			bottomRight.style.transform = `translateX(${normalMove}px)`;
-			bottomRight.style.clipPath = `polygon(${((fastCornerXRight - normalMove - this.centerX) / this.centerX) * 100}% 0%, 100% 0%, 100% 100%, 0% 100%)`;
+			bottomRight.style.clipPath = `polygon(${((fastCornerXRight - normalMove - this.centerX) / this.centerX) * 100}% 0%, 100% 0%, 100% 100%, ${((fastCornerXRight - normalMove - this.centerX) / this.centerX) * 100}% 100%)`;
 		}
 	}
 
@@ -379,7 +379,7 @@ class CurtainEffect {
 
 		if (currentPhase === 1) {
 			// 페이즈 1: clipPath 기반 꼭지점 이동
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 			const currentCornerMove = maxCornerMove * this.easeOutCubic(phaseProgress);
 
 			leftCornerX = this.centerX - currentCornerMove;
@@ -388,7 +388,7 @@ class CurtainEffect {
 		} else if (currentPhase >= 3) {
 			// 페이즈 3: transform 기반 전체 이동
 			// 페이즈 1 완료 시의 최종 꼭지점 위치
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 
 			// 페이즈 3에서의 transform 이동량 - 주름 커튼점은 빠르게
 			const maxMove = this.viewportWidth * 1.5;
@@ -535,7 +535,7 @@ class CurtainEffect {
 			const originalSectionHeight = isTopSection ? this.centerY : (this.viewportHeight - this.centerY);
 
 			// 기본 회전각 c 계산 (1페이즈 완료 시 커튼 기울기)
-			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.2;
+			const maxCornerMove = Math.min(this.centerX, this.centerY) * 0.28;
 			const basicAngle = Math.atan(maxCornerMove / originalSectionHeight);
 
 			// 현재 회전각 계산 (꼭지점 이동에 비례)
@@ -629,9 +629,14 @@ class CurtainEffect {
 			const angleRad = 8 * Math.PI / 180; // 8도 라디안 변환
 			const tanVal = Math.tan(angleRad);
 			
-			// 하단 탭 바 위치를 기준으로 스포트라이트가 멈출 높이 결정
+			// 하단 탭 바 위치 대신 표지 이미지의 발밑(95% 높이)을 기준으로 스포트라이트가 멈출 높이 결정
 			let stopHeight = this.viewportHeight;
-			if (tabBar) {
+			const coverImg = document.querySelector('#tab-cover img');
+			if (coverImg) {
+				const rect = coverImg.getBoundingClientRect();
+				// 이미지의 상단 위치 + 이미지 높이의 90% 지점을 발밑으로 간주
+				stopHeight = rect.top + (rect.height * 0.90);
+			} else if (tabBar) {
 				stopHeight = tabBar.offsetTop + 10;
 			}
 			
@@ -641,9 +646,10 @@ class CurtainEffect {
 
 			console.log(`[Timer] Calculated - Viewport: ${this.viewportWidth}x${this.viewportHeight}, StopHeight: ${stopHeight}`);
 
-			// 1. SVG Path 생성
-			const spot1Path = `M ${x1},0 L ${x1 - bottomOffset},${stopHeight} L ${x1 + bottomOffset},${stopHeight} Z`;
-			const spot2Path = `M ${x2},0 L ${x2 - bottomOffset},${stopHeight} L ${x2 + bottomOffset},${stopHeight} Z`;
+			// 1. SVG Path 생성 (하단을 Q 곡선으로 처리하여 원형 느낌 구현)
+			const dip = bottomOffset * 0.3; // 곡률 정도 (바닥으로 살짝 처지는 느낌)
+			const spot1Path = `M ${x1},0 L ${x1 - bottomOffset},${stopHeight} Q ${x1},${stopHeight + dip} ${x1 + bottomOffset},${stopHeight} Z`;
+			const spot2Path = `M ${x2},0 L ${x2 - bottomOffset},${stopHeight} Q ${x2},${stopHeight + dip} ${x2 + bottomOffset},${stopHeight} Z`;
 			
 			path.setAttribute('d', `${spot1Path} ${spot2Path}`);
 
