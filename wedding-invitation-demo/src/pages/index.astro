@@ -28,12 +28,12 @@ try {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<!-- Referer를 무조건 보내도록 설정 (네이버 지도 인증 필수) -->
 		<meta name="referrer" content="always">
-		<title>김철수 & 이영희 결혼식</title>
+		<title>이찬희 & 원대연 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
 		<link rel="preload" as="image" href="/chungchup/image/1.jpg" />
 		
-		<meta name="description" content="김철수와 이영희의 결혼식에 초대합니다" />
+		<meta name="description" content="이찬희와 원대연의 결혼식에 초대합니다" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@ try {
 			};
 		</script>
 	</head>
-	<body class="text-gray-900 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f9fafb; position: relative; overflow: hidden;">
+	<body class="text-gray-900 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f9fafb; position: relative; overflow: hidden; overscroll-behavior: none;">
 		<!-- 흩날리는 꽃잎 배경 -->
 		<div id="petal-container" aria-hidden="true" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden;"></div>
 		
@@ -92,23 +92,23 @@ try {
 					<img src="/chungchup/play_timed.gif" alt="play animation" style="width: 85%; height: auto; object-fit: contain; border-radius: 10px; position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);" />
 				</div>
 
-				<!-- 탭 1: 홈/인사 -->
+				<!-- 탭 1: 소개/인사 -->
 				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
 					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
 						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 cursor-pointer">
 							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/1.jpg');"></div>
 							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col pointer-events-none">
 								<div class="mb-2">
-									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em;">
-										김철수 · 이영희
+									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em; -webkit-text-stroke: 0.1px white; text-shadow: 0 0 1px white;">
+										이찬희 <span style="color: inherit;">♥</span> 원대연
 									</h1>
 								</div>
 								<div class="mt-auto bg-white/20 backdrop-blur-[2px] py-4 rounded-xl">
 									<h2 class="text-[clamp(1rem,4.5vw,1.25rem)] font-bold text-gray-900 mb-0.5 whitespace-nowrap">
-										2024. 10. 25. SAT
+										2026. 08. 22. (토)
 									</h2>
 									<p class="text-[clamp(0.85rem,3.5vw,1rem)] font-semibold text-gray-700 whitespace-nowrap">
-										PM 2:00
+										오전 11:00
 									</p>
 								</div>
 							</div>
@@ -128,10 +128,10 @@ try {
 					</section>
 				</div>
 
-				<!-- 탭 2: 갤러리 -->
+				<!-- 탭 2: 사진첩 -->
 				<div id="tab-gallery" class="tab-panel hidden-under" data-page="1">
 					<section id="gallery-section" class="px-4 py-4 flex flex-col h-full overflow-hidden relative">
-						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900 flex-shrink-0">GALLERY</h3>
+						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900 flex-shrink-0">사진첩</h3>
 						
 						<div class="flex-1 overflow-y-auto pb-8 scrollbar-hide">
 							<div class="grid grid-cols-3 gap-2 pt-2">
@@ -148,7 +148,7 @@ try {
 				<!-- 탭 3: 오시는 길 -->
 				<div id="tab-location" class="tab-panel hidden-under" data-page="2">
 					<section class="px-4 py-4">
-						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">LOCATION</h3>
+						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">오시는 길</h3>
 						<div class="text-center mb-4">
 							<h4 class="text-base font-bold mb-1">아이티 컨벤션</h4>
 							<p class="text-sm text-gray-600">흥덕IT밸리 2층</p>
@@ -228,58 +228,131 @@ try {
 					</section>
 				</div>
 
-				<!-- 탭 4: 마음 전하기 -->
+				<!-- 탭 4: 연락처 -->
 				<div id="tab-heart" class="tab-panel hidden-under" data-page="3">
-					<section class="px-4 py-4">
-						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">CONTACT</h3>
-						<div class="grid grid-cols-2 gap-3">
-							<div class="text-center bg-gray-50 rounded-lg p-3">
-								<h4 class="font-semibold mb-2 text-sm text-gray-900 underline">신랑측</h4>
-								<div class="space-y-1 text-xs text-gray-700">
-									<p>김철수 010-1234-5678</p>
-									<p>부 김○○ / 모 박○○</p>
+					<section class="px-2 py-4 h-full flex flex-col overflow-y-auto scrollbar-hide">
+						<h3 class="text-lg font-semibold text-center mb-6 text-gray-900">연락처</h3>
+						
+						<div class="grid grid-cols-2 gap-2 flex-1">
+							<!-- 신랑측 -->
+							<div class="space-y-4">
+								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신랑측</div>
+								
+								<!-- 본인 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">신랑 이찬희</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-1234-5678</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-1234-5678">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">국민 123-45-67890</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="123-45-67890">복사</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- 부 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">부 김○○</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-0000-0000">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">우리 1002-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="1002-000-000">복사</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- 모 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">모 박○○</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-1111-1111</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-1111-1111">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">신한 110-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="110-000-000">복사</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="text-center bg-gray-50 rounded-lg p-3">
-								<h4 class="font-semibold mb-2 text-sm text-gray-900 underline">신부측</h4>
-								<div class="space-y-1 text-xs text-gray-700">
-									<p>이영희 010-5678-9012</p>
-									<p>부 이○○ / 모 최○○</p>
+
+							<!-- 신부측 -->
+							<div class="space-y-4">
+								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신부측</div>
+								
+								<!-- 본인 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">신부 원대연</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-5678-9012</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-5678-9012">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">신한 987-65-43210</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="987-65-43210">복사</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- 부 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">부 이○○</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-2222-2222</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-2222-2222">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">하나 000-0000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="000-0000-000">복사</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- 모 -->
+								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
+									<div class="text-xs font-bold text-gray-900 border-b pb-1">모 최○○</div>
+									<div class="flex flex-col gap-1">
+										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
+											<span class="text-[9px] text-gray-500">010-3333-3333</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-3333-3333">복사</button>
+										</div>
+										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
+											<div class="flex justify-between items-center mb-0.5">
+												<span class="text-[9px] text-gray-800 font-medium">기업 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="000-000-000">복사</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</section>
 
-					<section class="px-4 py-4">
-						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">ACCOUNT</h3>
-						<div class="space-y-3">
-							<div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-								<h4 class="font-semibold mb-2 text-sm text-gray-900 text-center">신랑측</h4>
-								<div class="flex justify-between items-center bg-white rounded p-2 shadow-sm">
-									<div>
-										<p class="font-bold text-xs">국민은행 123-456-789012</p>
-										<p class="text-[10px] text-gray-500">예금주: 김철수</p>
-									</div>
-									<button class="text-gray-900 text-[10px] font-bold border border-gray-200 px-2 py-1 rounded">복사</button>
-								</div>
+						<!-- D-Day 섹션 (하단 고정 느낌) -->
+						<div class="mt-8 mb-4">
+							<div class="text-center bg-gray-900 rounded-lg p-4">
+								<div id="d-day-display" class="text-2xl font-bold text-white mb-1">D-DAY</div>
+								<p class="text-[10px] text-gray-400">2026. 08. 22. (토)</p>
 							</div>
-							<div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-								<h4 class="font-semibold mb-2 text-sm text-gray-900 text-center">신부측</h4>
-								<div class="flex justify-between items-center bg-white rounded p-2 shadow-sm">
-									<div>
-										<p class="font-bold text-xs">신한은행 987-654-321098</p>
-										<p class="text-[10px] text-gray-500">예금주: 이영희</p>
-									</div>
-									<button class="text-gray-900 text-[10px] font-bold border border-gray-200 px-2 py-1 rounded">복사</button>
-								</div>
-							</div>
-						</div>
-					</section>
-
-					<section class="px-4 py-4">
-						<div class="text-center bg-gray-900 rounded-lg p-4">
-							<div class="text-2xl font-bold text-white mb-1">D-30</div>
-							<p class="text-[10px] text-gray-400">2024. 10. 25. SAT</p>
 						</div>
 					</section>
 				</div>
@@ -287,18 +360,18 @@ try {
 			</div>
 
 			<nav id="tab-bar" class="flex-shrink-0 bg-white border-t border-gray-100 safe-area-bottom" style="margin: 0 10px;">
-				<div class="flex justify-around items-center h-14">
+				<div class="flex justify-around items-center h-16">
 					<button class="tab-btn active flex flex-col items-center justify-center flex-1 h-full" data-tab="home">
-						<span class="text-[10px] font-bold">HOME</span>
+						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">소개</span>
 					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="gallery">
-						<span class="text-[10px] font-bold">GALLERY</span>
+						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">사진첩</span>
 					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="location">
-						<span class="text-[10px] font-bold">LOCATION</span>
+						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">오시는 길</span>
 					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="heart">
-						<span class="text-[10px] font-bold">ACCOUNT</span>
+						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">연락처</span>
 					</button>
 				</div>
 			</nav>
@@ -541,6 +614,9 @@ try {
 
 				let lastFlipTime = 0;
 				const flipCooldown = 500;
+				let galleryScrollEdge = null; // 'top' or 'bottom' or null
+				let lastWheelTime = 0;
+
 				function handleDirectionalFlip(direction) {
 					const now = Date.now();
 					if (isAnimating || !canFlip || (now - lastFlipTime < flipCooldown)) return;
@@ -549,6 +625,7 @@ try {
 					else if (direction === 'prev' && currentPage > 0) targetIndex--;
 					if (targetIndex !== currentPage) {
 						lastFlipTime = now;
+						galleryScrollEdge = null; // 페이지 넘김 시 플래그 초기화
 						updateTabButtons(targetIndex);
 						flipToPage(targetIndex);
 					}
@@ -556,7 +633,33 @@ try {
 
 				window.addEventListener('wheel', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
+					if (e.target.closest('.map-view')) return;
+					
+					const galleryTab = e.target.closest('#tab-gallery');
+					if (galleryTab) {
+						const scrollContainer = galleryTab.querySelector('.overflow-y-auto');
+						if (scrollContainer && e.target.closest('.overflow-y-auto')) {
+							const isAtTop = scrollContainer.scrollTop <= 2;
+							const isAtBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.clientHeight - scrollContainer.scrollTop) < 5;
+							
+							if (e.deltaY < 0 && isAtTop) {
+								if (galleryScrollEdge === 'top') handleDirectionalFlip('prev');
+								else galleryScrollEdge = 'top';
+								return;
+							} else if (e.deltaY > 0 && isAtBottom) {
+								if (galleryScrollEdge === 'bottom') handleDirectionalFlip('next');
+								else galleryScrollEdge = 'bottom';
+								return;
+							}
+							galleryScrollEdge = null;
+							return;
+						} else {
+							if (e.deltaY > 0) handleDirectionalFlip('next');
+							else if (e.deltaY < 0) handleDirectionalFlip('prev');
+							return;
+						}
+					}
+
 					if (e.deltaY > 0) handleDirectionalFlip('next');
 					else if (e.deltaY < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
@@ -564,19 +667,45 @@ try {
 				let touchStartY = 0;
 				window.addEventListener('touchstart', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
+					if (e.target.closest('.map-view')) return;
 					touchStartY = e.touches[0].clientY;
 				}, { passive: true });
 
 				window.addEventListener('touchend', (e) => {
 					if (!canFlip) return;
-					if (e.target.closest('.map-view') || e.target.closest('#tab-gallery')) return;
+					if (e.target.closest('.map-view')) return;
+					
 					const touchEndY = e.changedTouches[0].clientY;
 					const diff = touchStartY - touchEndY;
-					if (Math.abs(diff) > 50) {
-						if (diff > 0) handleDirectionalFlip('next');
-						else if (diff < 0) handleDirectionalFlip('prev');
+					if (Math.abs(diff) < 50) return;
+
+					const galleryTab = e.target.closest('#tab-gallery');
+					if (galleryTab) {
+						const scrollContainer = galleryTab.querySelector('.overflow-y-auto');
+						if (scrollContainer && e.target.closest('.overflow-y-auto')) {
+							const isAtTop = scrollContainer.scrollTop <= 2;
+							const isAtBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.clientHeight - scrollContainer.scrollTop) < 5;
+
+							if (diff < 0 && isAtTop) {
+								if (galleryScrollEdge === 'top') handleDirectionalFlip('prev');
+								else galleryScrollEdge = 'top';
+								return;
+							} else if (diff > 0 && isAtBottom) {
+								if (galleryScrollEdge === 'bottom') handleDirectionalFlip('next');
+								else galleryScrollEdge = 'bottom';
+								return;
+							}
+							galleryScrollEdge = null;
+							return;
+						} else {
+							if (diff > 0) handleDirectionalFlip('next');
+							else if (diff < 0) handleDirectionalFlip('prev');
+							return;
+						}
 					}
+
+					if (diff > 0) handleDirectionalFlip('next');
+					else if (diff < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
 
 				const accHeaders = document.querySelectorAll('.acc-header');
@@ -595,6 +724,22 @@ try {
 					});
 				});
 
+				// 복사 기능 추가
+				document.querySelectorAll('.copy-btn').forEach(btn => {
+					btn.addEventListener('click', () => {
+						const text = btn.getAttribute('data-copy');
+						navigator.clipboard.writeText(text).then(() => {
+							const originalText = btn.innerText;
+							btn.innerText = '완료';
+							btn.classList.add('bg-gray-900', 'text-white');
+							setTimeout(() => {
+								btn.innerText = originalText;
+								btn.classList.remove('bg-gray-900', 'text-white');
+							}, 1500);
+						});
+					});
+				});
+
 				// 메인 사진 토글 로직
 				const mainPhoto = document.getElementById('main-photo');
 				if (mainPhoto) {
@@ -605,6 +750,16 @@ try {
 							? "url('/chungchup/image/43.jpg')" 
 							: "url('/chungchup/image/1.jpg')";
 					});
+				}
+
+				// D-day 계산 로직
+				const dDayDisplay = document.getElementById('d-day-display');
+				if (dDayDisplay) {
+					const targetDate = new Date('2026-08-22T11:00:00');
+					const today = new Date();
+					const diff = targetDate - today;
+					const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+					dDayDisplay.innerText = days > 0 ? `D-${days}` : days === 0 ? 'D-DAY' : `D+${Math.abs(days)}`;
 				}
 
 				window.addEventListener('curtain-animation-finished', () => {
