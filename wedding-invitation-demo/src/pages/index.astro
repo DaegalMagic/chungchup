@@ -77,6 +77,32 @@ try {
 		<!-- 메인 컨테이너 -->
 		<main id="notebook-container" class="notebook-container h-full flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; z-index: 10; opacity: 0; pointer-events: none; box-sizing: border-box;">
 
+			<!-- 상세보기 모달 (컨테이너 내부로 이동) -->
+			<div id="contact-modal" class="absolute inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 rounded-[30px]" style="background-color: rgba(0,0,0,0.8); margin: 30px 10px 10px 10px;">
+				<div class="absolute top-6 left-6 text-white text-3xl cursor-pointer p-2 z-10" id="modal-close-btn">&times;</div>
+				<div id="modal-content-box" class="bg-white w-[85%] max-w-[300px] rounded-2xl p-6 shadow-2xl transform scale-90 transition-transform duration-300">
+					<h4 id="modal-title" class="text-lg font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4 text-center">신랑 이찬희</h4>
+					<div class="space-y-4">
+						<div>
+							<p class="text-[10px] text-gray-400 mb-1">연락처</p>
+							<div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-lg">
+								<span id="modal-phone" class="text-base font-semibold text-gray-800">010-1234-5678</span>
+								<button class="modal-copy-btn bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded active:scale-95" data-copy-target="modal-phone">복사</button>
+							</div>
+						</div>
+						<div>
+							<p class="text-[10px] text-gray-400 mb-1">계좌번호</p>
+							<div class="flex flex-col bg-gray-50 p-2.5 rounded-lg gap-2">
+								<div class="flex justify-between items-center">
+									<span id="modal-account" class="text-sm font-semibold text-gray-800 leading-tight">국민 123-45-67890</span>
+									<button class="modal-copy-btn bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded active:scale-95" data-copy-target="modal-account">복사</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="notebook-rings">
 				<div class="ring"></div>
 				<div class="ring"></div>
@@ -238,52 +264,49 @@ try {
 							<div class="space-y-4">
 								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신랑측</div>
 								
-								<!-- 본인 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">신랑 이찬희</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신랑 이찬희</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-1234-5678</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-1234-5678">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-1234-5678</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-1234-5678">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">국민 123-45-67890</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="123-45-67890">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">국민 123-45-67890</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="123-45-67890">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
-								<!-- 부 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">부 김○○</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 김○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-0000-0000">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">우리 1002-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="1002-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">우리 1002-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="1002-000-000">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
-								<!-- 모 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">모 박○○</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 박○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-1111-1111</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-1111-1111">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-1111-1111</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-1111-1111">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">신한 110-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="110-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">신한 110-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="110-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -294,52 +317,49 @@ try {
 							<div class="space-y-4">
 								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신부측</div>
 								
-								<!-- 본인 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">신부 원대연</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신부 원대연</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-5678-9012</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-5678-9012">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-5678-9012</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-5678-9012">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">신한 987-65-43210</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="987-65-43210">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">신한 987-65-43210</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="987-65-43210">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
-								<!-- 부 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">부 이○○</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 이○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-2222-2222</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-2222-2222">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-2222-2222</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-2222-2222">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">하나 000-0000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="000-0000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">하나 000-0000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-0000-000">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
-								<!-- 모 -->
-								<div class="bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2">
-									<div class="text-xs font-bold text-gray-900 border-b pb-1">모 최○○</div>
+								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 최○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="text-[9px] text-gray-500">010-3333-3333</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="010-3333-3333">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-3333-3333</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-3333-3333">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="text-[9px] text-gray-800 font-medium">기업 000-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded active:bg-gray-200" data-copy="000-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">기업 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -347,7 +367,7 @@ try {
 							</div>
 						</div>
 
-						<!-- D-Day 섹션 (하단 고정 느낌) -->
+						<!-- D-Day 섹션 -->
 						<div class="mt-8 mb-4">
 							<div class="text-center bg-gray-900 rounded-lg p-4">
 								<div id="d-day-display" class="text-2xl font-bold text-white mb-1">D-DAY</div>
@@ -570,7 +590,7 @@ try {
                     });
                 });
 
-                // 카카오맵 초기화 로직 복구
+                // 카카오맵 초기화 로직
                 function initKakaoMap() {
                     var container = document.getElementById('map-kakao');
                     var options = {
@@ -587,7 +607,7 @@ try {
                     infowindow.open(window.mapInstance, marker);
                 }
 
-                // 네이버 지도 초기화 로직 복구
+                // 네이버 지도 초기화 로직
                 function initNaverMap() {
                     const mapContainer = document.getElementById('map-naver');
                     if (!mapContainer || typeof naver === 'undefined' || !naver.maps) return;
@@ -614,7 +634,7 @@ try {
 
 				let lastFlipTime = 0;
 				const flipCooldown = 500;
-				let galleryScrollEdge = null; // 'top' or 'bottom' or null
+				let galleryScrollEdge = null;
 				let lastWheelTime = 0;
 
 				function handleDirectionalFlip(direction) {
@@ -625,7 +645,7 @@ try {
 					else if (direction === 'prev' && currentPage > 0) targetIndex--;
 					if (targetIndex !== currentPage) {
 						lastFlipTime = now;
-						galleryScrollEdge = null; // 페이지 넘김 시 플래그 초기화
+						galleryScrollEdge = null;
 						updateTabButtons(targetIndex);
 						flipToPage(targetIndex);
 					}
@@ -634,6 +654,7 @@ try {
 				window.addEventListener('wheel', (e) => {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
+					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
 					
 					const galleryTab = e.target.closest('#tab-gallery');
 					if (galleryTab) {
@@ -641,7 +662,6 @@ try {
 						if (scrollContainer && e.target.closest('.overflow-y-auto')) {
 							const isAtTop = scrollContainer.scrollTop <= 2;
 							const isAtBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.clientHeight - scrollContainer.scrollTop) < 5;
-							
 							if (e.deltaY < 0 && isAtTop) {
 								if (galleryScrollEdge === 'top') handleDirectionalFlip('prev');
 								else galleryScrollEdge = 'top';
@@ -659,7 +679,6 @@ try {
 							return;
 						}
 					}
-
 					if (e.deltaY > 0) handleDirectionalFlip('next');
 					else if (e.deltaY < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
@@ -668,12 +687,14 @@ try {
 				window.addEventListener('touchstart', (e) => {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
+					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
 					touchStartY = e.touches[0].clientY;
 				}, { passive: true });
 
 				window.addEventListener('touchend', (e) => {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
+					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
 					
 					const touchEndY = e.changedTouches[0].clientY;
 					const diff = touchStartY - touchEndY;
@@ -685,7 +706,6 @@ try {
 						if (scrollContainer && e.target.closest('.overflow-y-auto')) {
 							const isAtTop = scrollContainer.scrollTop <= 2;
 							const isAtBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.clientHeight - scrollContainer.scrollTop) < 5;
-
 							if (diff < 0 && isAtTop) {
 								if (galleryScrollEdge === 'top') handleDirectionalFlip('prev');
 								else galleryScrollEdge = 'top';
@@ -703,7 +723,6 @@ try {
 							return;
 						}
 					}
-
 					if (diff > 0) handleDirectionalFlip('next');
 					else if (diff < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
@@ -724,19 +743,81 @@ try {
 					});
 				});
 
-				// 복사 기능 추가
+				// 복사 기능 공통 함수
+				function copyToClipboard(text, btn) {
+					navigator.clipboard.writeText(text).then(() => {
+						const originalText = btn.innerText;
+						btn.innerText = '완료';
+						btn.classList.add('bg-gray-900', 'text-white');
+						setTimeout(() => {
+							btn.innerText = originalText;
+							btn.classList.remove('bg-gray-900', 'text-white');
+						}, 1500);
+					});
+				}
+
+				// 기존 복사 버튼 리스너
 				document.querySelectorAll('.copy-btn').forEach(btn => {
+					btn.addEventListener('click', (e) => {
+						e.stopPropagation();
+						copyToClipboard(btn.getAttribute('data-copy'), btn);
+					});
+				});
+
+				// 연락처 모달 제어
+				const modal = document.getElementById('contact-modal');
+				const modalBox = document.getElementById('modal-content-box');
+				const modalTitle = document.getElementById('modal-title');
+				const modalPhone = document.getElementById('modal-phone');
+				const modalAccount = document.getElementById('modal-account');
+				const closeBtn = document.getElementById('modal-close-btn');
+
+				document.querySelectorAll('.contact-card').forEach(card => {
+					card.addEventListener('click', () => {
+						const name = card.querySelector('.info-name').innerText;
+						const phone = card.querySelector('.info-phone').innerText;
+						const account = card.querySelector('.info-account').innerText;
+
+						modalTitle.innerText = name;
+						modalPhone.innerText = phone;
+						modalAccount.innerText = account;
+
+						modal.classList.remove('opacity-0', 'pointer-events-none');
+						modal.classList.add('opacity-100', 'pointer-events-auto');
+						modalBox.classList.remove('scale-90');
+						modalBox.classList.add('scale-100');
+					});
+				});
+
+				function closeModal() {
+					modal.classList.remove('opacity-100', 'pointer-events-auto');
+					modal.classList.add('opacity-0', 'pointer-events-none');
+					modalBox.classList.remove('scale-100');
+					modalBox.classList.add('scale-90');
+				}
+
+				// 전역 클릭 이벤트 리스너 (청첩장 밖 클릭 대응)
+				window.addEventListener('click', (e) => {
+					if (modal.classList.contains('pointer-events-auto')) {
+						// 클릭된 요소가 모달 박스 내부가 아니고, 트리거 버튼(contact-card)도 아닐 때만 닫음
+						if (!modalBox.contains(e.target) && !e.target.closest('.contact-card')) {
+							closeModal();
+						}
+					}
+				});
+
+				closeBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					closeModal();
+				});
+				modalBox.addEventListener('click', (e) => e.stopPropagation());
+
+				// 모달 내 복사 버튼 리스너
+				document.querySelectorAll('.modal-copy-btn').forEach(btn => {
 					btn.addEventListener('click', () => {
-						const text = btn.getAttribute('data-copy');
-						navigator.clipboard.writeText(text).then(() => {
-							const originalText = btn.innerText;
-							btn.innerText = '완료';
-							btn.classList.add('bg-gray-900', 'text-white');
-							setTimeout(() => {
-								btn.innerText = originalText;
-								btn.classList.remove('bg-gray-900', 'text-white');
-							}, 1500);
-						});
+						const targetId = btn.getAttribute('data-copy-target');
+						const text = document.getElementById(targetId).innerText;
+						copyToClipboard(text, btn);
 					});
 				});
 
