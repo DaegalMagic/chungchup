@@ -103,6 +103,17 @@ try {
 				</div>
 			</div>
 
+			<!-- 텍스트 전용 상세보기 모달 (눈이 안 좋으신 분들을 위한 큰 글씨) -->
+			<div id="text-modal" class="absolute inset-0 z-[110] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 rounded-[30px]" style="background-color: rgba(0,0,0,0.8); margin: 30px 10px 10px 10px;">
+				<div class="absolute top-6 left-6 text-white text-3xl cursor-pointer p-2 z-10" id="text-modal-close-btn">&times;</div>
+				<div id="text-modal-content-box" class="bg-white w-[90%] max-w-[350px] rounded-2xl p-8 shadow-2xl transform scale-90 transition-transform duration-300 max-h-[70%] overflow-y-auto">
+					<h4 id="text-modal-title" class="text-xl font-bold text-gray-900 border-b-2 border-gray-100 pb-3 mb-6 text-center">안내</h4>
+					<div id="text-modal-body" class="text-[clamp(1.2rem,5vw,1.6rem)] text-gray-800 leading-relaxed text-center font-medium" style="font-family: 'Hahmlet', serif; word-break: keep-all; overflow-wrap: break-word;">
+						내용이 여기에 표시됩니다.
+					</div>
+				</div>
+			</div>
+
 			<div class="notebook-rings">
 				<div class="ring"></div>
 				<div class="ring"></div>
@@ -114,8 +125,9 @@ try {
 			<div id="tab-content" class="notebook-page flex-1" style="perspective: 1500px; position: relative;">
 
 				<!-- 표지 페이지 -->
-				<div id="tab-cover" class="tab-panel active" style="z-index: 5; position: relative; background-color: #f3f4f6;">
-					<img src="/chungchup/play_timed.gif" alt="play animation" style="width: 85%; height: auto; object-fit: contain; border-radius: 10px; position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);" />
+				<div id="tab-cover" class="tab-panel active" style="z-index: 5; position: relative; background: linear-gradient(135deg, #e3c1a1 0%, #d2b48c 100%); box-shadow: inset 0 0 80px rgba(0,0,0,0.15), inset 0 0 20px rgba(0,0,0,0.1); border: 3px solid #5d4037;">
+					<div class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E');"></div>
+					<img src="/chungchup/play_timed.gif" alt="play animation" style="width: 85%; height: auto; object-fit: contain; border-radius: 10px; position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%); z-index: 10;" />
 				</div>
 
 				<!-- 탭 1: 소개/인사 -->
@@ -130,19 +142,19 @@ try {
 									</h1>
 								</div>
 								<div class="mt-auto bg-white/20 backdrop-blur-[2px] py-4 rounded-xl">
-									<h2 class="text-[clamp(1rem,4.5vw,1.25rem)] font-bold text-gray-900 mb-0.5 whitespace-nowrap">
-										2026. 08. 22. (토)
+									<h2 class="text-[clamp(1.1rem,5vw,1.3rem)] font-bold text-gray-900 mb-1 whitespace-nowrap">
+										2026. 08. 22. (토) 오전 11:00
 									</h2>
-									<p class="text-[clamp(0.85rem,3.5vw,1rem)] font-semibold text-gray-700 whitespace-nowrap">
-										오전 11:00
-									</p>
+									<div id="d-day-display" class="text-[clamp(1.3rem,6vw,1.5rem)] font-bold text-gray-900" style="font-family: 'Hahmlet', serif;">
+										D-DAY
+									</div>
 								</div>
 							</div>
 						</div>
 					</section>
 
 					<section class="px-2 pb-2 pt-1 text-center flex-shrink-0">
-						<div class="bg-gray-50 rounded-2xl p-3 shadow-sm border border-gray-100 h-[115px] flex flex-col justify-center">
+						<div id="intro-box" class="bg-gray-50 rounded-2xl p-3 shadow-sm border border-gray-100 h-[115px] flex flex-col justify-center cursor-pointer hover:bg-gray-100 transition-colors">
 							<div class="text-[clamp(12px,3.8vw,14px)] text-gray-800 leading-relaxed flex flex-col items-center font-medium" style="font-family: 'Hahmlet', serif; letter-spacing: -0.03em;">
 								<span class="whitespace-nowrap">우연히 시작된 만남은 적잖은 필연이 되었습니다.</span>
 								<span class="whitespace-nowrap">그 필연을 켜켜이 포개보니 운명임을 알았습니다.</span>
@@ -175,7 +187,7 @@ try {
 				<div id="tab-location" class="tab-panel hidden-under" data-page="2">
 					<section class="px-4 pt-4 pb-0">
 						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">오시는 길</h3>
-						<div class="text-center mb-4">
+						<div id="venue-box" class="text-center mb-4 cursor-pointer hover:bg-gray-50 rounded-xl p-2 transition-colors">
 							<h4 class="text-base font-bold mb-1">아이티 컨벤션</h4>
 							<p class="text-sm text-gray-600 mb-1">흥덕IT밸리 2층 그레이스 홀</p>
 							<p class="text-xs text-gray-500">경기도 용인시 기흥구 흥덕1로 13</p>
@@ -200,9 +212,10 @@ try {
 						<!-- 교통 정보 및 말풍선 -->
 						<div class="relative px-1 mb-4" id="trans-tab-container">
 							<!-- 말풍선 (Tooltip) -->
-							<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60]">
+							<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60] cursor-pointer">
 								<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto" style="width: 95%;">
 									<div id="balloon-content" class="text-[11px] leading-relaxed">정보가 여기에 표시됩니다.</div>
+									<div class="text-[9px] text-gray-400 mt-2 font-light">💡 클릭하면 크게 보입니다</div>
 									<!-- 말풍선 꼬리 -->
 									<div id="balloon-tail" class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-900"></div>
 								</div>
@@ -335,13 +348,6 @@ try {
 							</div>
 						</div>
 
-						<!-- D-Day 섹션 -->
-						<div class="mt-8 mb-4">
-							<div class="text-center bg-gray-900 rounded-lg p-4">
-								<div id="d-day-display" class="text-2xl font-bold text-white mb-1">D-DAY</div>
-								<p class="text-[10px] text-gray-400">2026. 08. 22. (토)</p>
-							</div>
-						</div>
 					</section>
 				</div>
 
@@ -602,54 +608,9 @@ try {
                     kakao.maps.load(initKakaoMap);
                 }
 
-				// 교통 정보 탭 전환 (말풍선 버전 - 위치 추적 추가)
-				const transTabs = document.querySelectorAll('.trans-tab');
-				const balloon = document.getElementById('trans-balloon');
-				const balloonTail = document.getElementById('balloon-tail');
-				const balloonContent = document.getElementById('balloon-content');
-				const transData = {
-					shuttle: "청명역 5번 출구 셔틀버스 이용 (10분 소요)<br>첫 예식 기준 30분 간격 왕복 무료 운행 (정각/30분)",
-					subway: "<b>수원역(1호선):</b> 4번 출구 버스 환승(10, 10-2, 10-5, 37 등)<br><b>청명역(수인분당선):</b> 5번 출구 셔틀버스 이용",
-					parking: "흥덕IT밸리 단지 내 1,800대 동시 주차 가능<br>하객 분들께는 2시간 무료 주차를 제공합니다."
-				};
-
-				transTabs.forEach(tab => {
-					tab.addEventListener('click', (e) => {
-						const target = tab.dataset.trans;
-						const isActive = tab.classList.contains('active');
-
-						transTabs.forEach(t => t.classList.remove('active'));
-						
-						if (isActive) {
-							balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
-						} else {
-							tab.classList.add('active');
-							balloonContent.innerHTML = transData[target];
-							
-							// 말풍선 및 꼬리 위치 계산
-							const tabRect = tab.getBoundingClientRect();
-							const containerRect = tab.parentElement.getBoundingClientRect();
-							const relativeLeft = tabRect.left - containerRect.left + (tabRect.width / 2);
-							const percentLeft = (relativeLeft / containerRect.width) * 100;
-							
-							balloonTail.style.left = percentLeft + '%';
-							balloon.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
-						}
-					});
-				});
-
-				// 말풍선 외부 클릭 시 닫기
-				document.addEventListener('click', (e) => {
-					if (!e.target.closest('.trans-tab') && !e.target.closest('#trans-balloon')) {
-						transTabs.forEach(t => t.classList.remove('active'));
-						balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
-					}
-				});
-
 				let lastFlipTime = 0;
 				const flipCooldown = 500;
 				let galleryScrollEdge = null;
-				let lastWheelTime = 0;
 
 				function handleDirectionalFlip(direction) {
 					const now = Date.now();
@@ -669,6 +630,7 @@ try {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
 					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
+					if (document.getElementById('text-modal').classList.contains('pointer-events-auto')) return;
 					
 					const galleryTab = e.target.closest('#tab-gallery');
 					if (galleryTab) {
@@ -687,10 +649,6 @@ try {
 							}
 							galleryScrollEdge = null;
 							return;
-						} else {
-							if (e.deltaY > 0) handleDirectionalFlip('next');
-							else if (e.deltaY < 0) handleDirectionalFlip('prev');
-							return;
 						}
 					}
 					if (e.deltaY > 0) handleDirectionalFlip('next');
@@ -702,6 +660,7 @@ try {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
 					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
+					if (document.getElementById('text-modal').classList.contains('pointer-events-auto')) return;
 					touchStartY = e.touches[0].clientY;
 				}, { passive: true });
 
@@ -709,6 +668,7 @@ try {
 					if (!canFlip) return;
 					if (e.target.closest('.map-view')) return;
 					if (document.getElementById('contact-modal').classList.contains('pointer-events-auto')) return;
+					if (document.getElementById('text-modal').classList.contains('pointer-events-auto')) return;
 					
 					const touchEndY = e.changedTouches[0].clientY;
 					const diff = touchStartY - touchEndY;
@@ -731,31 +691,11 @@ try {
 							}
 							galleryScrollEdge = null;
 							return;
-						} else {
-							if (diff > 0) handleDirectionalFlip('next');
-							else if (diff < 0) handleDirectionalFlip('prev');
-							return;
 						}
 					}
 					if (diff > 0) handleDirectionalFlip('next');
 					else if (diff < 0) handleDirectionalFlip('prev');
 				}, { passive: true });
-
-				const accHeaders = document.querySelectorAll('.acc-header');
-				accHeaders.forEach(header => {
-					header.addEventListener('click', () => {
-						const item = header.parentElement;
-						const content = item.querySelector('.acc-content');
-						const icon = item.querySelector('.acc-icon');
-						const isOpen = !content.classList.contains('hidden');
-						document.querySelectorAll('.acc-content').forEach(c => c.classList.add('hidden'));
-						document.querySelectorAll('.acc-icon').forEach(i => i.style.transform = 'rotate(0deg)');
-						if (!isOpen) {
-							content.classList.remove('hidden');
-							icon.style.transform = 'rotate(90deg)';
-						}
-					});
-				});
 
 				// 복사 기능 공통 함수
 				function copyToClipboard(text, btn) {
@@ -770,14 +710,6 @@ try {
 					});
 				}
 
-				// 기존 복사 버튼 리스너
-				document.querySelectorAll('.copy-btn').forEach(btn => {
-					btn.addEventListener('click', (e) => {
-						e.stopPropagation();
-						copyToClipboard(btn.getAttribute('data-copy'), btn);
-					});
-				});
-
 				// 연락처 모달 제어
 				const modal = document.getElementById('contact-modal');
 				const modalBox = document.getElementById('modal-content-box');
@@ -786,8 +718,54 @@ try {
 				const modalAccount = document.getElementById('modal-account');
 				const closeBtn = document.getElementById('modal-close-btn');
 
+				function closeModal() {
+					modal.classList.remove('opacity-100', 'pointer-events-auto');
+					modal.classList.add('opacity-0', 'pointer-events-none');
+					modalBox.classList.remove('scale-100');
+					modalBox.classList.add('scale-90');
+				}
+
+				// 텍스트 모달 제어 (소개, 오시는길용)
+				const textModal = document.getElementById('text-modal');
+				const textModalBox = document.getElementById('text-modal-content-box');
+				const textModalTitle = document.getElementById('text-modal-title');
+				const textModalBody = document.getElementById('text-modal-body');
+				const textModalCloseBtn = document.getElementById('text-modal-close-btn');
+
+				function openTextModal(title, content) {
+					textModalTitle.innerText = title;
+					textModalBody.innerHTML = content;
+					
+					// 인사말의 경우 각 문장을 한 줄씩 표시하되, 화면보다 길면 자연스럽게 줄바꿈
+					if (title === '인사말') {
+						const spans = textModalBody.querySelectorAll('span');
+						spans.forEach(s => {
+							s.style.display = 'block';
+							s.style.whiteSpace = 'normal';
+							s.style.marginBottom = '10px';
+						});
+					}
+					
+					// 고정된 큰 글씨 크기 설정
+					textModalBody.style.fontSize = '1.4rem';
+					
+					textModal.classList.remove('opacity-0', 'pointer-events-none');
+					textModal.classList.add('opacity-100', 'pointer-events-auto');
+					textModalBox.classList.remove('scale-90');
+					textModalBox.classList.add('scale-100');
+				}
+
+				function closeTextModal() {
+					textModal.classList.remove('opacity-100', 'pointer-events-auto');
+					textModal.classList.add('opacity-0', 'pointer-events-none');
+					textModalBox.classList.remove('scale-100');
+					textModalBox.classList.add('scale-90');
+				}
+
+				// 클릭 핸들러 등록
 				document.querySelectorAll('.contact-card').forEach(card => {
-					card.addEventListener('click', () => {
+					card.addEventListener('click', (e) => {
+						e.stopPropagation();
 						const name = card.querySelector('.info-name').innerText;
 						const phone = card.querySelector('.info-phone').innerText;
 						const account = card.querySelector('.info-account').innerText;
@@ -803,56 +781,122 @@ try {
 					});
 				});
 
-				function closeModal() {
-					modal.classList.remove('opacity-100', 'pointer-events-auto');
-					modal.classList.add('opacity-0', 'pointer-events-none');
-					modalBox.classList.remove('scale-100');
-					modalBox.classList.add('scale-90');
+				const introBox = document.getElementById('intro-box');
+				if (introBox) {
+					introBox.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const content = introBox.querySelector('div').innerHTML;
+						openTextModal('인사말', content);
+					});
 				}
 
-				// 전역 클릭 이벤트 리스너 (청첩장 밖 클릭 대응)
+				const venueBox = document.getElementById('venue-box');
+				if (venueBox) {
+					venueBox.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const title = venueBox.querySelector('h4').innerText;
+						const info = Array.from(venueBox.querySelectorAll('p')).map(p => p.innerText).join('<br>');
+						openTextModal(title, info);
+					});
+				}
+
+				// 교통 정보 탭 전환 (말풍선 유지)
+				const transTabs = document.querySelectorAll('.trans-tab');
+				const balloon = document.getElementById('trans-balloon');
+				const balloonTail = document.getElementById('balloon-tail');
+				const balloonContent = document.getElementById('balloon-content');
+				
+				const transTitles = { shuttle: "셔틀버스 안내", subway: "지하철 안내", parking: "주차 안내" };
+				const transData = {
+					shuttle: "청명역 5번 출구 셔틀버스 이용 (10분 소요)<br><br>첫 예식 기준 30분 간격 왕복 무료 운행 (정각/30분)",
+					subway: "<b>수원역(1호선):</b><br>4번 출구 버스 환승(10, 10-2, 10-5, 37 등)<br><br><b>청명역(수인분당선):</b><br>5번 출구 셔틀버스 이용",
+					parking: "흥덕IT밸리 단지 내 1,800대 동시 주차 가능<br><br>하객 분들께는 <b>2시간 무료 주차</b>를 제공합니다."
+				};
+
+				let currentTransType = null;
+
+				transTabs.forEach(tab => {
+					tab.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const target = tab.dataset.trans;
+						const isActive = tab.classList.contains('active');
+
+						transTabs.forEach(t => t.classList.remove('active'));
+						
+						if (isActive) {
+							balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+							currentTransType = null;
+						} else {
+							tab.classList.add('active');
+							currentTransType = target;
+							balloonContent.innerHTML = transData[target];
+							
+							// 말풍선 및 꼬리 위치 계산
+							const tabRect = tab.getBoundingClientRect();
+							const containerRect = tab.parentElement.getBoundingClientRect();
+							const relativeLeft = tabRect.left - containerRect.left + (tabRect.width / 2);
+							const percentLeft = (relativeLeft / containerRect.width) * 100;
+							
+							balloonTail.style.left = percentLeft + '%';
+							balloon.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+						}
+					});
+				});
+
+				// 말풍선 클릭 시 큰 모달 열기
+				balloon.addEventListener('click', (e) => {
+					e.stopPropagation();
+					if (currentTransType) {
+						openTextModal(transTitles[currentTransType], transData[currentTransType]);
+					}
+				});
+
+				// 닫기 및 전역 클릭
+				closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+				textModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeTextModal(); });
+				
 				window.addEventListener('click', (e) => {
 					if (modal.classList.contains('pointer-events-auto')) {
 						if (!modalBox.contains(e.target) && !e.target.closest('.contact-card')) {
 							closeModal();
 						}
 					}
+					if (textModal.classList.contains('pointer-events-auto')) {
+						if (!textModalBox.contains(e.target) && !e.target.closest('#intro-box') && !e.target.closest('#venue-box') && !e.target.closest('#trans-balloon')) {
+							closeTextModal();
+						}
+					}
+					
+					// 오시는 길 말풍선 외부 클릭 시 닫기
+					if (!e.target.closest('.trans-tab') && !e.target.closest('#trans-balloon')) {
+						transTabs.forEach(t => t.classList.remove('active'));
+						balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+						currentTransType = null;
+					}
 				});
 
-				closeBtn.addEventListener('click', (e) => {
-					e.stopPropagation();
-					closeModal();
-				});
-				modalBox.addEventListener('click', (e) => e.stopPropagation());
-
-				// 모달 내 복사 버튼 리스너
-				document.querySelectorAll('.modal-copy-btn').forEach(btn => {
-					btn.addEventListener('click', () => {
-						const targetId = btn.getAttribute('data-copy-target');
-						const text = document.getElementById(targetId).innerText;
-						copyToClipboard(text, btn);
+				// 기타 로직
+				document.querySelectorAll('.copy-btn, .modal-copy-btn').forEach(btn => {
+					btn.addEventListener('click', (e) => {
+						e.stopPropagation();
+						const text = btn.dataset.copy || document.getElementById(btn.dataset.copyTarget)?.innerText;
+						if (text) copyToClipboard(text, btn);
 					});
 				});
 
-				// 메인 사진 토글 로직
 				const mainPhoto = document.getElementById('main-photo');
 				if (mainPhoto) {
 					let isToggled = false;
 					mainPhoto.parentElement.addEventListener('click', () => {
 						isToggled = !isToggled;
-						mainPhoto.style.backgroundImage = isToggled 
-							? "url('/chungchup/image/43.jpg')" 
-							: "url('/chungchup/image/1.jpg')";
+						mainPhoto.style.backgroundImage = isToggled ? "url('/chungchup/image/43.jpg')" : "url('/chungchup/image/1.jpg')";
 					});
 				}
 
-				// D-day 계산 로직
 				const dDayDisplay = document.getElementById('d-day-display');
 				if (dDayDisplay) {
 					const targetDate = new Date('2026-08-22T11:00:00');
-					const today = new Date();
-					const diff = targetDate - today;
-					const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+					const days = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24));
 					dDayDisplay.innerText = days > 0 ? `D-${days}` : days === 0 ? 'D-DAY' : `D+${Math.abs(days)}`;
 				}
 
