@@ -28,7 +28,7 @@ try {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<!-- Referer를 무조건 보내도록 설정 (네이버 지도 인증 필수) -->
 		<meta name="referrer" content="always">
-		<title>이찬희 & 원대연 결혼식</title>
+		<title>이찬희 ♥ 원대연 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
 		<link rel="preload" as="image" href="/chungchup/image/1.jpg" />
@@ -77,7 +77,7 @@ try {
 		<!-- 메인 컨테이너 -->
 		<main id="notebook-container" class="notebook-container h-full flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; z-index: 10; opacity: 0; pointer-events: none; box-sizing: border-box;">
 
-			<!-- 상세보기 모달 (컨테이너 내부로 이동) -->
+			<!-- 상세보기 모달 -->
 			<div id="contact-modal" class="absolute inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 rounded-[30px]" style="background-color: rgba(0,0,0,0.8); margin: 30px 10px 10px 10px;">
 				<div class="absolute top-6 left-6 text-white text-3xl cursor-pointer p-2 z-10" id="modal-close-btn">&times;</div>
 				<div id="modal-content-box" class="bg-white w-[85%] max-w-[300px] rounded-2xl p-6 shadow-2xl transform scale-90 transition-transform duration-300">
@@ -173,11 +173,11 @@ try {
 
 				<!-- 탭 3: 오시는 길 -->
 				<div id="tab-location" class="tab-panel hidden-under" data-page="2">
-					<section class="px-4 py-4">
+					<section class="px-4 pt-4 pb-0">
 						<h3 class="text-lg font-semibold text-center mb-4 text-gray-900">오시는 길</h3>
 						<div class="text-center mb-4">
 							<h4 class="text-base font-bold mb-1">아이티 컨벤션</h4>
-							<p class="text-sm text-gray-600">흥덕IT밸리 2층</p>
+							<p class="text-sm text-gray-600 mb-1">흥덕IT밸리 2층 그레이스 홀</p>
 							<p class="text-xs text-gray-500">경기도 용인시 기흥구 흥덕1로 13</p>
 						</div>
 						<div class="relative w-full rounded-t-lg overflow-hidden border border-gray-200 bg-gray-50" style="height: 224px;">
@@ -187,69 +187,37 @@ try {
 								<iframe src="https://maps.google.com/maps?q=아이티컨벤션&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0"></iframe>
 							</div>
 						</div>
-						<div class="flex space-x-1 mb-4 px-1 mt-[-1px]">
+						<div class="flex space-x-1 mb-1.5 px-1 mt-[-1px]">
 							<button class="map-tab active flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="kakao">KAKAOMAP</button>
 							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="naver">NAVERMAP</button>
 							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="google">GOOGLEMAP</button>
 						</div>
-						<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block w-full py-3 bg-gray-800 text-white text-center rounded-lg font-bold shadow-md hover:bg-gray-900 transition-colors mb-4 no-underline">
+
+						<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block mx-1 py-3 bg-gray-800 text-white text-center rounded-lg font-bold shadow-md hover:bg-gray-900 transition-colors mb-1.5 no-underline">
 							실시간 길찾기
 						</a>
+						
+						<!-- 교통 정보 및 말풍선 -->
+						<div class="relative px-1 mb-4" id="trans-tab-container">
+							<!-- 말풍선 (Tooltip) -->
+							<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60]">
+								<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto" style="width: 95%;">
+									<div id="balloon-content" class="text-[11px] leading-relaxed">정보가 여기에 표시됩니다.</div>
+									<!-- 말풍선 꼬리 -->
+									<div id="balloon-tail" class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-900"></div>
+								</div>
+							</div>
+
+							<div class="flex border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="shuttle">셔틀버스</button>
+								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="subway">지하철</button>
+								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="parking">주차안내</button>
+							</div>
+						</div>
 					</section>
 
-					<section class="px-4 py-2">
-						<div class="space-y-1.5" id="transport-accordion">
-							<div class="acc-item border border-gray-200 rounded-lg overflow-hidden bg-white">
-								<button class="acc-header w-full flex items-center p-3 text-left transition-colors hover:bg-gray-50">
-									<span class="acc-icon text-[10px] mr-2 transition-transform duration-300">▶</span>
-									<span class="font-bold text-sm text-gray-800">셔틀버스 안내</span>
-								</button>
-								<div class="acc-content hidden px-4 pb-3 pt-0">
-									<div class="pl-4 border-l-2 border-gray-300 py-1">
-										<p class="text-[11px] text-gray-700 leading-relaxed">
-											청명역 5번 출구 셔틀버스 이용 (10분 소요)<br>
-											첫 예식 기준 30분 간격 왕복 무료 운행 (정각/30분)
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="acc-item border border-gray-200 rounded-lg overflow-hidden bg-white">
-								<button class="acc-header w-full flex items-center p-3 text-left transition-colors hover:bg-gray-50">
-									<span class="acc-icon text-[10px] mr-2 transition-transform duration-300">▶</span>
-									<span class="font-bold text-sm text-gray-800">지하철 이용 시</span>
-								</button>
-								<div class="acc-content hidden px-4 pb-3 pt-0">
-									<div class="space-y-3 pl-4 border-l-2 border-gray-300 py-1">
-										<div>
-											<h5 class="text-[11px] font-bold text-gray-900 mb-0.5">수원역 (1호선)</h5>
-											<p class="text-[10px] text-gray-600 leading-relaxed">
-												4번 출구 버스 환승: 10, 10-2, 10-5, 13-1, 15-1, 37, 66, 66-4
-											</p>
-										</div>
-										<div>
-											<h5 class="text-[11px] font-bold text-gray-900 mb-0.5">청명역 (수인분당선)</h5>
-											<p class="text-[10px] text-gray-600 leading-relaxed">
-												- 5번 출구: 셔틀버스 이용<br>
-												- 1번 출구: 버스 환승
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="acc-item border border-gray-200 rounded-lg overflow-hidden bg-white">
-								<button class="acc-header w-full flex items-center p-3 text-left transition-colors hover:bg-gray-50">
-									<span class="acc-icon text-[10px] mr-2 transition-transform duration-300">▶</span>
-									<span class="font-bold text-sm text-gray-800">주차 안내</span>
-								</button>
-								<div class="acc-content hidden px-4 pb-3 pt-0">
-									<div class="pl-4 border-l-2 border-gray-300 py-1">
-										<p class="text-[11px] text-gray-700 leading-relaxed">
-											흥덕IT밸리 단지 내 1,800대 동시 주차 가능<br>
-											하객 분들께는 2시간 무료 주차를 제공합니다.
-										</p>
-									</div>
-								</div>
-							</div>
+					<section class="px-4 py-4 mt-2">
+						<div class="space-y-1.5" id="transport-accordion-placeholder">
 						</div>
 					</section>
 				</div>
@@ -261,20 +229,20 @@ try {
 						
 						<div class="grid grid-cols-2 gap-2 flex-1">
 							<!-- 신랑측 -->
-							<div class="space-y-4">
+							<div class="space-y-1.5">
 								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신랑측</div>
 								
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신랑 이찬희</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-1234-5678</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-1234-5678">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-8794-5755</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-8794-5755">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">국민 123-45-67890</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="123-45-67890">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">신한 110-392-817947</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="110-392-817947">복사</button>
 											</div>
 										</div>
 									</div>
@@ -314,7 +282,7 @@ try {
 							</div>
 
 							<!-- 신부측 -->
-							<div class="space-y-4">
+							<div class="space-y-1.5">
 								<div class="text-center font-bold text-sm py-1 bg-gray-100 rounded mb-2">신부측</div>
 								
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
@@ -456,6 +424,8 @@ try {
 			.tab-btn.active { color: #111827; }
 			.map-tab { background-color: #f9fafb; color: #9ca3af; border: 1px solid #f3f4f6; }
 			.map-tab.active { background-color: white; color: #111827; border-color: #e5e7eb; border-top-color: white; z-index: 5; }
+			.trans-tab { background-color: white; color: #111827; border: none; }
+			.trans-tab.active { background-color: #111827; color: white; }
 			.notebook-rings { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-around; padding: 0 10%; z-index: 10; }
 			.ring { width: 12px; height: 22px; border: 2px solid #e5e7eb; border-bottom: none; border-radius: 6px 6px 0 0; }
 		</style>
@@ -632,6 +602,50 @@ try {
                     kakao.maps.load(initKakaoMap);
                 }
 
+				// 교통 정보 탭 전환 (말풍선 버전 - 위치 추적 추가)
+				const transTabs = document.querySelectorAll('.trans-tab');
+				const balloon = document.getElementById('trans-balloon');
+				const balloonTail = document.getElementById('balloon-tail');
+				const balloonContent = document.getElementById('balloon-content');
+				const transData = {
+					shuttle: "청명역 5번 출구 셔틀버스 이용 (10분 소요)<br>첫 예식 기준 30분 간격 왕복 무료 운행 (정각/30분)",
+					subway: "<b>수원역(1호선):</b> 4번 출구 버스 환승(10, 10-2, 10-5, 37 등)<br><b>청명역(수인분당선):</b> 5번 출구 셔틀버스 이용",
+					parking: "흥덕IT밸리 단지 내 1,800대 동시 주차 가능<br>하객 분들께는 2시간 무료 주차를 제공합니다."
+				};
+
+				transTabs.forEach(tab => {
+					tab.addEventListener('click', (e) => {
+						const target = tab.dataset.trans;
+						const isActive = tab.classList.contains('active');
+
+						transTabs.forEach(t => t.classList.remove('active'));
+						
+						if (isActive) {
+							balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+						} else {
+							tab.classList.add('active');
+							balloonContent.innerHTML = transData[target];
+							
+							// 말풍선 및 꼬리 위치 계산
+							const tabRect = tab.getBoundingClientRect();
+							const containerRect = tab.parentElement.getBoundingClientRect();
+							const relativeLeft = tabRect.left - containerRect.left + (tabRect.width / 2);
+							const percentLeft = (relativeLeft / containerRect.width) * 100;
+							
+							balloonTail.style.left = percentLeft + '%';
+							balloon.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+						}
+					});
+				});
+
+				// 말풍선 외부 클릭 시 닫기
+				document.addEventListener('click', (e) => {
+					if (!e.target.closest('.trans-tab') && !e.target.closest('#trans-balloon')) {
+						transTabs.forEach(t => t.classList.remove('active'));
+						balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+					}
+				});
+
 				let lastFlipTime = 0;
 				const flipCooldown = 500;
 				let galleryScrollEdge = null;
@@ -645,7 +659,7 @@ try {
 					else if (direction === 'prev' && currentPage > 0) targetIndex--;
 					if (targetIndex !== currentPage) {
 						lastFlipTime = now;
-						galleryScrollEdge = null;
+						galleryScrollEdge = null; // 페이지 넘김 시 플래그 초기화
 						updateTabButtons(targetIndex);
 						flipToPage(targetIndex);
 					}
@@ -799,7 +813,6 @@ try {
 				// 전역 클릭 이벤트 리스너 (청첩장 밖 클릭 대응)
 				window.addEventListener('click', (e) => {
 					if (modal.classList.contains('pointer-events-auto')) {
-						// 클릭된 요소가 모달 박스 내부가 아니고, 트리거 버튼(contact-card)도 아닐 때만 닫음
 						if (!modalBox.contains(e.target) && !e.target.closest('.contact-card')) {
 							closeModal();
 						}
