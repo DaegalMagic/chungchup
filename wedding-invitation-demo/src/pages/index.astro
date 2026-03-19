@@ -3,12 +3,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import '../styles/global.css';
 
+// --- 샘플 모드 설정 ---
+const useSample = true; // true: 모든 사진을 sample.jpg로 표시, false: 실제 사진 표시
+// --------------------
+
 // public/image 폴더 내의 이미지 파일 목록을 자동으로 읽어옵니다.
 const imageDir = path.resolve('./public/image');
 let images = [];
 try {
   images = fs.readdirSync(imageDir)
-    .filter(file => /\.(jpe?g|png|gif|webp)$/i.test(file))
+    .filter(file => /\.(jpe?g|png|gif|webp)$/i.test(file) && file !== 'sample.jpg')
     .sort((a, b) => {
       // 숫자로 된 파일명(1.jpg, 2.jpg 등)을 자연스럽게 정렬합니다.
       const numA = parseInt(a);
@@ -31,7 +35,7 @@ try {
 		<title>이찬희 ♥ 원대연 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
-		<link rel="preload" as="image" href="/chungchup/image/1.jpg" />
+		<link rel="preload" as="image" href={useSample ? "/chungchup/image/sample.jpg" : "/chungchup/image/1.jpg"} />
 		
 		<meta name="description" content="이찬희와 원대연의 결혼식에 초대합니다" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,7 +138,7 @@ try {
 				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
 					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
 						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 cursor-pointer">
-							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/1.jpg');"></div>
+							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style={`background-image: url('${useSample ? "/chungchup/image/sample.jpg" : "/chungchup/image/1.jpg"}');`}></div>
 							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col pointer-events-none">
 								<div class="mb-2">
 									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em; -webkit-text-stroke: 0.1px white; text-shadow: 0 0 1px white;">
@@ -175,7 +179,7 @@ try {
 							<div class="grid grid-cols-3 gap-2 pt-2">
 								{images.map(img => (
 									<div class="aspect-square rounded-md overflow-hidden shadow-sm border border-gray-100">
-										<img src={`/chungchup/image/${img}`} class="w-full h-full object-cover" loading="lazy" />
+										<img src={useSample ? "/chungchup/image/sample.jpg" : `/chungchup/image/${img}`} class="w-full h-full object-cover" loading="lazy" />
 									</div>
 								))}
 							</div>
@@ -436,7 +440,7 @@ try {
 			.ring { width: 12px; height: 22px; border: 2px solid #e5e7eb; border-bottom: none; border-radius: 6px 6px 0 0; }
 		</style>
 
-		<script is:inline>
+		<script is:inline define:vars={{ useSample }}>
 			document.addEventListener('DOMContentLoaded', function() {
 				const tabBtns = document.querySelectorAll('.tab-btn');
 				const tabPanels = document.querySelectorAll('.tab-panel');
@@ -455,7 +459,6 @@ try {
 				async function flipToPage(targetIndex) {
 					if (isAnimating || !canFlip || targetIndex === currentPage) return;
 					isAnimating = true;
-					const animationDuration = 100;
 					const stepDuration = 100;
 					if (targetIndex > currentPage) {
 						for (let i = currentPage; i < targetIndex; i++) {
@@ -473,7 +476,6 @@ try {
 						}
 					}
 
-					await new Promise(res => setTimeout(res, animationDuration));
 					currentPage = targetIndex;
 					tabPanels.forEach((panel) => {
 						if (panel.id === 'tab-cover') return;
@@ -518,17 +520,13 @@ try {
 						if (!canFlip) return;
 						const targetTab = this.getAttribute('data-tab');
 						const targetIndex = tabOrder.indexOf(targetTab);
-						updateTabButtons(targetIndex);
+						tabBtns.forEach((b, i) => {
+							if (i === targetIndex) b.classList.add('active');
+							else b.classList.remove('active');
+						});
 						flipToPage(targetIndex);
 					});
 				});
-
-				function updateTabButtons(index) {
-					tabBtns.forEach((b, i) => {
-						if (i === index) b.classList.add('active');
-						else b.classList.remove('active');
-					});
-				}
 
                 const mapTabs = document.querySelectorAll('.map-tab');
                 const mapViews = document.querySelectorAll('.map-view');
@@ -621,8 +619,7 @@ try {
 					if (targetIndex !== currentPage) {
 						lastFlipTime = now;
 						galleryScrollEdge = null; // 페이지 넘김 시 플래그 초기화
-						updateTabButtons(targetIndex);
-						flipToPage(targetIndex);
+						tabBtns[targetIndex].click(); // 탭 버튼 클릭 효과 연동
 					}
 				}
 
@@ -856,16 +853,8 @@ try {
 				textModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeTextModal(); });
 				
 				window.addEventListener('click', (e) => {
-					if (modal.classList.contains('pointer-events-auto')) {
-						if (!modalBox.contains(e.target) && !e.target.closest('.contact-card')) {
-							closeModal();
-						}
-					}
-					if (textModal.classList.contains('pointer-events-auto')) {
-						if (!textModalBox.contains(e.target) && !e.target.closest('#intro-box') && !e.target.closest('#venue-box') && !e.target.closest('#trans-balloon')) {
-							closeTextModal();
-						}
-					}
+					if (modal.classList.contains('pointer-events-auto') && !modalBox.contains(e.target)) closeModal();
+					if (textModal.classList.contains('pointer-events-auto') && !textModalBox.contains(e.target)) closeTextModal();
 					
 					// 오시는 길 말풍선 외부 클릭 시 닫기
 					if (!e.target.closest('.trans-tab') && !e.target.closest('#trans-balloon')) {
@@ -888,6 +877,7 @@ try {
 				if (mainPhoto) {
 					let isToggled = false;
 					mainPhoto.parentElement.addEventListener('click', () => {
+						if (useSample) return; // 샘플 모드일 때는 전환 안 함
 						isToggled = !isToggled;
 						mainPhoto.style.backgroundImage = isToggled ? "url('/chungchup/image/43.jpg')" : "url('/chungchup/image/1.jpg')";
 					});
