@@ -665,11 +665,23 @@ class CurtainEffect {
 			// 3. 1초 대기 후 서서히 투명해짐
 			setTimeout(() => {
 				console.log(`[Timer] Spotlight fade-out start at: ${performance.now().toFixed(2)}ms`);
+				
+				// 트랜지션 설정 전 현재 opacity 강제 고정 및 리플로우
+				container.style.opacity = '1';
+				container.offsetHeight; 
+				
+				// 트랜지션 적용
 				container.style.transition = 'opacity 1.3s ease-in-out';
-				container.style.opacity = '0';
+				
+				// 다음 프레임에서 opacity 변경 (트랜지션이 확실히 적용되도록 함)
+				requestAnimationFrame(() => {
+					container.style.opacity = '0';
+				});
 
 				setTimeout(() => {
 					if (overlay) {
+						// 전체 오버레이도 부드럽게 사라지도록 트랜지션 추가
+						overlay.style.transition = 'opacity 0.3s ease-out';
 						overlay.style.opacity = '0';
 						setTimeout(() => {
 							overlay.remove();
