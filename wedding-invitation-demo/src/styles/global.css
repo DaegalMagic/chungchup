@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+/* 카페24 아네모네 */
+@font-face {
+    font-family: 'Cafe24Anemone';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Anemone.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 다함께 찬찬체 */
+@font-face {
+    font-family: 'DahankkeChanchan';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/DahankkeChanchan.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}

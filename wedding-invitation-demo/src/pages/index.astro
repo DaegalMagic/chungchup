@@ -31,12 +31,13 @@ try {
 		<title>이찬희 ♥ 원대연 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
-		<link rel="preload" as="image" href="/chungchup/image/1.jpg" />
+		<link rel="preload" as="image" href="/chungchup/image/42.jpg" />
 		
 		<meta name="description" content="이찬희와 원대연의 결혼식에 초대합니다" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
 		<!-- 카카오맵 SDK -->
 		<script is:inline type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=51211e1cc3ff7894096e02e1de129d3d&libraries=services"></script>
 		<!-- 네이버 지도 SDK -->
@@ -134,18 +135,18 @@ try {
 				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
 					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
 						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 cursor-pointer">
-							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/1.jpg');"></div>
+							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/42.jpg');"></div>
 							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col pointer-events-none">
 								<div class="mb-2">
 									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em; -webkit-text-stroke: 0.1px white; text-shadow: 0 0 1px white;">
 										이찬희 <span style="color: inherit;">♥</span> 원대연
 									</h1>
 								</div>
-								<div class="mt-auto bg-white/20 backdrop-blur-[2px] py-4 rounded-xl">
-									<h2 class="text-[clamp(1.1rem,5vw,1.3rem)] font-bold text-gray-900 mb-1 whitespace-nowrap">
+								<div class="mt-auto bg-white/60 backdrop-blur-[3px] py-4 rounded-xl border border-white/30">
+									<h2 class="text-[clamp(1.5rem,7vw,1.8rem)] font-bold text-gray-900 mb-0 whitespace-nowrap" style="font-family: 'Nanum Pen Script', cursive;">
 										2026. 08. 22. (토) 오전 11:00
 									</h2>
-									<div id="d-day-display" class="text-[clamp(1.3rem,6vw,1.5rem)] font-bold text-gray-900" style="font-family: 'Hahmlet', serif;">
+									<div id="d-day-display" class="text-[clamp(2.0rem,9vw,2.4rem)] font-bold text-gray-900" style="font-family: 'Nanum Pen Script', cursive;">
 										D-DAY
 									</div>
 								</div>
@@ -155,7 +156,7 @@ try {
 
 					<section class="px-2 pb-2 pt-1 text-center flex-shrink-0">
 						<div id="intro-box" class="bg-gray-50 rounded-2xl p-3 shadow-sm border border-gray-100 h-[115px] flex flex-col justify-center cursor-pointer hover:bg-gray-100 transition-colors">
-							<div class="text-[clamp(12px,3.8vw,14px)] text-gray-800 leading-relaxed flex flex-col items-center font-medium" style="font-family: 'Hahmlet', serif; letter-spacing: -0.03em;">
+							<div class="text-[clamp(11px,3.5vw,13px)] text-gray-800 leading-relaxed flex flex-col items-center font-medium" style="font-family: 'NanumSquare', sans-serif; letter-spacing: -0.03em;">
 								<span class="whitespace-nowrap">우연히 시작된 만남은 적잖은 필연이 되었습니다.</span>
 								<span class="whitespace-nowrap">그 필연을 켜켜이 포개보니 운명임을 알았습니다.</span>
 								<span class="whitespace-nowrap">그러니 서로 함께 하는것이 행복임을 알겠습니다.</span>
@@ -206,7 +207,7 @@ try {
 						</div>
 
 						<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block mx-1 py-3 bg-gray-800 text-white text-center rounded-lg font-bold shadow-md hover:bg-gray-900 transition-colors mb-1.5 no-underline">
-							실시간 길찾기
+							길찾기
 						</a>
 						
 						<!-- 교통 정보 및 말풍선 -->
@@ -885,13 +886,7 @@ try {
 				});
 
 				const mainPhoto = document.getElementById('main-photo');
-				if (mainPhoto) {
-					let isToggled = false;
-					mainPhoto.parentElement.addEventListener('click', () => {
-						isToggled = !isToggled;
-						mainPhoto.style.backgroundImage = isToggled ? "url('/chungchup/image/43.jpg')" : "url('/chungchup/image/1.jpg')";
-					});
-				}
+				// Removed click toggle to keep only image 42 visible as per user request
 
 				const dDayDisplay = document.getElementById('d-day-display');
 				if (dDayDisplay) {
