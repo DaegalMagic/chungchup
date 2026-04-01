@@ -232,7 +232,7 @@ try {
 
 							<div class="flex border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
 								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="shuttle">셔틀버스</button>
-								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="subway">지하철</button>
+								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="subway">대중교통</button>
 								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="parking">주차안내</button>
 							</div>
 						</div>
@@ -815,11 +815,11 @@ try {
 				const balloonTail = document.getElementById('balloon-tail');
 				const balloonContent = document.getElementById('balloon-content');
 				
-				const transTitles = { shuttle: "셔틀버스 안내", subway: "지하철 안내", parking: "주차 안내" };
+				const transTitles = { shuttle: "셔틀버스 안내", subway: "대중교통 안내", parking: "주차 안내" };
 				const transData = {
-					shuttle: "청명역 5번 출구 셔틀버스 이용 (10분 소요)<br><br>첫 예식 기준 30분 간격 왕복 무료 운행 (정각/30분)",
-					subway: "<b>수원역(1호선):</b><br>4번 출구 버스 환승(10, 10-2, 10-5, 37 등)<br><br><b>청명역(수인분당선):</b><br>5번 출구 셔틀버스 이용",
-					parking: "흥덕IT밸리 단지 내 1,800대 동시 주차 가능<br><br>하객 분들께는 <b>2시간 무료 주차</b>를 제공합니다."
+					shuttle: "<b>청명역 5번 출구</b> 앞 정차<br>첫 예식 기준 <b>30분 간격</b> 왕복 무료 운행<br>(매시 정각 및 30분 출발)",
+					subway: "<b>■ 정류장별 버스 노선</b><br><b>[흥덕IT밸리 하차]</b><br>10-2, 65, 5006, 5007<br><br><b>[삼성전자입구 하차]</b><br>2-1, 3, 10, 10-2, 10-5, 13-1, 15-1, 27, 37, 65, 66, 66-4, 720-1, 720-3, 7000<br><br><b>■ 지하철 환승 안내</b><br><b>[수인분당선 청명역]</b><br>• <b>5번 출구:</b> 셔틀버스 탑승<br>• <b>1번 출구:</b> 버스 환승 (2-1, 3, 13-1, 720-1, 720-3)<br><br><b>[1호선 수원역]</b><br>• <b>4번 출구:</b> 버스 환승 (10, 10-2, 10-5, 13-1, 15-1, 37, 66, 66-4)",
+					parking: "<b>네비:</b> '아이티컨벤션' 또는 '흥덕IT밸리' 검색<br><b>주차:</b> 단지 내 <b>1,800대</b> 동시 주차 가능<br>(A동 1번 또는 2번 입구 이용 시 편리)<br><br>하객 분들께는 <b>2시간 무료 주차</b>를 제공합니다."
 				};
 
 				let currentTransType = null;
