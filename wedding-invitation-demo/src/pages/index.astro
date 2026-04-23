@@ -8,7 +8,7 @@ const imageDir = path.resolve('./public/image');
 let images = [];
 try {
   images = fs.readdirSync(imageDir)
-    .filter(file => /\.(jpe?g|png|gif|webp)$/i.test(file))
+    .filter(file => /\.(jpe?g|png|gif|webp)$/i.test(file) && file !== 'main.jpg')
     .sort((a, b) => {
       // 숫자로 된 파일명(1.jpg, 2.jpg 등)을 자연스럽게 정렬합니다.
       const numA = parseInt(a);
@@ -31,17 +31,16 @@ try {
 		<title>이찬희 ♥ 원대연 결혼식</title>
 		<!-- 이미지 사전 로드 -->
 		<link rel="preload" as="image" href="/chungchup/play_timed.gif" />
-		<link rel="preload" as="image" href="/chungchup/image/42.jpg" />
-		
+		<link rel="preload" as="image" href="/chungchup/image/main.jpg" />
+
 		<meta name="description" content="이찬희와 원대연의 결혼식에 초대합니다" />
-		
+
 		<!-- Open Graph / KakaoTalk Preview -->
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="이찬희 ♥ 원대연 결혼식 초대장" />
 		<meta property="og:description" content="2026년 8월 22일 토요일 오전 11시, 저희의 시작을 축복해주세요." />
-		<meta property="og:image" content="/chungchup/image/42.jpg" />
+		<meta property="og:image" content="/chungchup/image/main.jpg" />
 		<meta property="og:url" content="https://daegalmagic.github.io/chungchup/" />
-
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=Yeon+Sung&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
@@ -143,7 +142,7 @@ try {
 				<div id="tab-home" class="tab-panel hidden-under flex flex-col" data-page="0">
 					<section class="flex-1 px-2 pt-2 pb-1 flex flex-col overflow-hidden">
 						<div class="flex-1 relative w-full rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-50 cursor-pointer">
-							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/42.jpg');"></div>
+							<div id="main-photo" class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500" style="background-image: url('/chungchup/image/main.jpg');"></div>
 							<div class="relative z-10 text-center pt-2 pb-4 px-4 h-full flex flex-col pointer-events-none">
 								<div class="mb-2">
 									<h1 class="text-[clamp(1.8rem,9vw,2.25rem)] font-bold text-gray-900 mb-1 drop-shadow-md whitespace-nowrap" style="font-family: 'Yeon Sung', cursive; letter-spacing: -0.05em; -webkit-text-stroke: 0.1px white; text-shadow: 0 0 1px white;">
@@ -279,8 +278,8 @@ try {
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">우리 1002-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="1002-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -290,13 +289,13 @@ try {
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 박○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-1111-1111</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-1111-1111">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">신한 110-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="110-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -311,13 +310,13 @@ try {
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신부 원대연</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-5678-9012</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-5678-9012">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">신한 987-65-43210</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="987-65-43210">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -327,13 +326,13 @@ try {
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 이○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-2222-2222</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-2222-2222">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">하나 000-0000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-0000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
 									</div>
@@ -343,12 +342,12 @@ try {
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 최○○</div>
 									<div class="flex flex-col gap-1">
 										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-3333-3333</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-3333-3333">복사</button>
+											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
+											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
 										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">기업 000-000-000</span>
+												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
 												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
 											</div>
 										</div>
