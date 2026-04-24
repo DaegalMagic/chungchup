@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>카카오맵 정밀 진단</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .box { padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; }
+        .error { background: #fee2e2; color: #991b1b; border-color: #f87171; }
+        .info { background: #f0f9ff; color: #075985; border-color: #7dd3fc; }
+        pre { background: #f4f4f4; padding: 10px; overflow: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>카카오맵 정밀 진단</h1>
+    
+    <div id="step1" class="box info">1. 스크립트 태그 삽입됨 (대기 중...)</div>
+    <div id="step2" class="box info">2. kakao 객체 확인 중...</div>
+    
+    <div id="map" style="width:100%; height:400px; background:#eee; display:none;"></div>
+
+    <!-- 스크립트 로드 감시 -->
+    <script is:inline>
+        function logStep(id, msg, isError = false) {
+            const el = document.getElementById(id);
+            el.innerText = (isError ? "❌ " : "✅ ") + msg;
+            el.className = "box " + (isError ? "error" : "success");
+            console.log(msg);
+        }
+
+        // 스크립트 로드 실패 시 실행됨
+        function onScriptError() {
+            logStep('step1', '스크립트 로드 실패! (네트워크 차단, 잘못된 키, 또는 도메인 미등록)', true);
+            document.body.innerHTML += `
+                <div class="box error">
+                    <strong>원인 분석:</strong><br>
+                    1. <strong>도메인 미등록</strong>: 카카오 설정에 http://localhost:4321 등록했나요?<br>
+                    2. <strong>키 종류 확인</strong>: 'JavaScript 키'가 맞나요?<br>
+                    3. <strong>네트워크</strong>: 사내망이나 특정 백신이 dapi.kakao.com을 막고 있나요?
+                </div>
+            `;
+        }
+    </script>
+
+    <script is:inline 
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=51211e1cc3ff7894096e02e1de129d3d&libraries=services"
+        onerror="onScriptError()"
+        onload="logStep('step1', '스크립트 파일 수신 완료!')"
+    ></script>
+
+    <script is:inline>
+        window.onload = function() {
+            if (typeof kakao !== 'undefined') {
+                logStep('step2', 'kakao 객체 생성 성공!');
+                if (kakao.maps) {
+                    logStep('step2', 'kakao.maps 엔진 가동 성공!');
+                    document.getElementById('map').style.display = 'block';
+                    initMap();
+                } else {
+                    logStep('step2', 'kakao 객체는 있으나 maps 엔진이 없습니다 (인증 실패)', true);
+                }
+            } else {
+                // step1에서 onerror가 이미 처리했을 것임
+            }
+        };
+
+        function initMap() {
+            var map = new kakao.maps.Map(document.getElementById('map'), {
+                center: new kakao.maps.LatLng(37.498085, 127.027978),
+                level: 3
+            });
+            console.log("지도 생성 완료");
+        }
+    </script>
+</body>
+</html>

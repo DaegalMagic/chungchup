@@ -17,15 +17,42 @@ class CurtainEffect {
 
 		this.startTime = null;
 		this.wrinkleLines = [];
+		this.introKey = 'seen_intro_2026';
 
 		this.init();
 	}
 
 	init() {
+		// 인트로 시청 여부 확인
+		const hasSeen = localStorage.getItem(this.introKey);
+		console.log('[Debug] LocalStorage check:', this.introKey, '=', hasSeen);
+		
+		if (hasSeen === 'true') {
+			this.skipAnimation();
+			return;
+		}
+
 		this.setupCurtains();
 		// this.setupWrinkles();
 		this.setupInitialGrayLines();
 		this.startAnimation();
+	}
+
+	skipAnimation() {
+		const overlay = document.getElementById('curtain-overlay');
+		const notebookContainer = document.getElementById('notebook-container');
+		if (overlay) {
+			overlay.style.display = 'none';
+			overlay.remove();
+		}
+		if (notebookContainer) {
+			notebookContainer.style.opacity = '1';
+			notebookContainer.style.pointerEvents = 'auto';
+		}
+		console.log('[Timer] Intro already seen, skipping animation.');
+		// 즉시 이벤트 발생
+		console.log('[Debug] Dispatching skip event');
+		window.dispatchEvent(new CustomEvent('curtain-animation-finished', { detail: { skipped: true } }));
 	}
 
 	setupCurtains() {
@@ -686,6 +713,8 @@ class CurtainEffect {
 						setTimeout(() => {
 							overlay.remove();
 							console.log(`[Timer] Full animation finished at: ${performance.now().toFixed(2)}ms`);
+							// 인트로 시청 완료 기록
+							localStorage.setItem(this.introKey, 'true');
 							window.dispatchEvent(new CustomEvent('curtain-animation-finished'));
 						}, 300);
 					} else {

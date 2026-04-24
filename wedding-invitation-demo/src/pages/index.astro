@@ -53,7 +53,22 @@ try {
 			window.navermap_authFailure = function () {
 				console.error("Naver Map Auth Failure");
 			};
+
+			// 인트로 시청 여부 즉시 체크 (번쩍임 방지)
+			if (localStorage.getItem('seen_intro_2026') === 'true') {
+				document.documentElement.classList.add('intro-skipped');
+			}
 		</script>
+		<style is:inline>
+			/* 인트로 건너뛰기 상태일 때의 스타일 */
+			.intro-skipped #curtain-overlay {
+				display: none !important;
+			}
+			.intro-skipped #notebook-container {
+				opacity: 1 !important;
+				pointer-events: auto !important;
+			}
+		</style>
 	</head>
 	<body class="text-gray-900 font-sans mx-auto shadow-2xl" style="max-width: 448px; height: 100dvh; background-color: #f9fafb; position: relative; overflow: hidden; overscroll-behavior: none;">
 		<!-- 흩날리는 꽃잎 배경 -->
@@ -84,6 +99,14 @@ try {
 
 		<!-- 메인 컨테이너 -->
 		<main id="notebook-container" class="notebook-container h-full flex flex-col mx-auto" style="padding: 30px 10px 10px 10px; max-width: 448px; position: relative; z-index: 10; opacity: 0; pointer-events: none; box-sizing: border-box;">
+			<script is:inline>
+				// [초고속 동기화] 브라우저가 아래 HTML을 그리기 전에 실행됨
+				if (localStorage.getItem('seen_intro_2026') === 'true') {
+					window.isIntroSkipped = true;
+					// .intro-skipped 클래스가 있을 때만 이 스타일이 먹히도록 제한
+					document.write('<style>.intro-skipped #tab-cover { transform: rotateX(90deg) !important; transition: none !important; } .intro-skipped #tab-home { transform: rotateX(0deg) !important; transition: none !important; }</style>');
+				}
+			</script>
 
 			<!-- 상세보기 모달 -->
 			<div id="contact-modal" class="absolute inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 rounded-[30px]" style="background-color: rgba(0,0,0,0.8); margin: 30px 10px 10px 10px;">
@@ -393,15 +416,16 @@ try {
 			}
 			.petal {
 				position: absolute;
-				background: rgba(230, 230, 230, 0.5);
+				top: -20vh;
+				background: rgba(255, 183, 197, 0.7);
 				border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
 				animation-name: fall;
 				animation-timing-function: linear;
 				animation-iteration-count: infinite;
 			}
 			@keyframes fall {
-				from { transform: translateY(-20vh) translateX(var(--sway-start)) rotate(var(--rotate-start)); }
-				to { transform: translateY(110vh) translateX(var(--sway-end)) rotate(var(--rotate-end)); }
+				from { transform: translateY(0) translateX(var(--sway-start)) rotate(var(--rotate-start)); }
+				to { transform: translateY(130vh) translateX(var(--sway-end)) rotate(var(--rotate-end)); }
 			}
 			.scrollbar-hide::-webkit-scrollbar { display: none; }
 			.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -454,8 +478,21 @@ try {
 				let canFlip = false;
 
 				function initPages() {
+					if (window.isIntroSkipped) {
+						const cover = document.getElementById('tab-cover');
+						const home = document.getElementById('tab-home');
+						if (cover && home) {
+							cover.classList.add('flipped', 'no-ani');
+							cover.classList.remove('active');
+							home.classList.add('active', 'no-ani');
+							home.classList.remove('hidden-under');
+							canFlip = true;
+						}
+					}
 					tabPanels.forEach((panel) => {
-						if (panel.id !== 'tab-cover') panel.classList.add('hidden-under');
+						if (panel.id === 'tab-cover') return;
+						if (window.isIntroSkipped && panel.id === 'tab-home') return;
+						panel.classList.add('hidden-under');
 					});
 				}
 				initPages();
@@ -902,8 +939,44 @@ try {
 					dDayDisplay.innerText = days > 0 ? `D-${days}` : days === 0 ? 'D-DAY' : `D+${Math.abs(days)}`;
 				}
 
-				window.addEventListener('curtain-animation-finished', () => {
-					setTimeout(() => {
+				// 배경 꽃잎 생성 로직 복구
+				const petalContainer = document.getElementById('petal-container');
+				if (petalContainer) {
+					const petalCount = 66;
+					for (let i = 0; i < petalCount; i++) {
+						const petal = document.createElement('div');
+						petal.classList.add('petal');
+
+						const size = Math.random() * 8 + 6;
+						const startX = Math.random() * 100;
+						const duration = Math.random() * 10 + 12;
+						const delay = Math.random() * 5;
+						const swayStartX = Math.random() * 100 - 50;
+						const swayEndX = Math.random() * 100 - 50;
+						const rotateStart = Math.random() * 360;
+						const rotateEnd = (Math.random() * 360) + rotateStart;
+
+						petal.style.width = `${size}px`;
+						petal.style.height = `${size}px`;
+						petal.style.left = `${startX}vw`;
+						petal.style.animationDuration = `${duration}s`;
+						petal.style.animationDelay = `${delay}s`;
+						petal.style.opacity = Math.random() * 0.4 + 0.5;
+
+						petal.style.setProperty('--sway-start', `${swayStartX}px`);
+						petal.style.setProperty('--sway-end', `${swayEndX}px`);
+						petal.style.setProperty('--rotate-start', `${rotateStart}deg`);
+						petal.style.setProperty('--rotate-end', `${rotateEnd}deg`);
+
+						petalContainer.appendChild(petal);
+					}
+				}
+
+				window.addEventListener('curtain-animation-finished', (e) => {
+					const isSkipped = e.detail && e.detail.skipped;
+					const delay = isSkipped ? 0 : 1400;
+					
+					const applyFlip = () => {
 						const coverPage = document.getElementById('tab-cover');
 						const homePage = document.getElementById('tab-home');
 						if (coverPage && homePage) {
@@ -912,8 +985,19 @@ try {
 							homePage.classList.remove('hidden-under');
 							homePage.classList.add('active');
 							canFlip = true;
+							
+							// 인트로 스킵용 임시 클래스 제거 (이후의 정상적인 탭 전환을 위해)
+							if (isSkipped) {
+								document.documentElement.classList.remove('intro-skipped');
+							}
 						}
-					}, 1400);
+					};
+
+					if (delay === 0) {
+						applyFlip();
+					} else {
+						setTimeout(applyFlip, delay);
+					}
 				});
 			});
 		</script>
