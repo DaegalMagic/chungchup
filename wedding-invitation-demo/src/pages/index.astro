@@ -115,13 +115,6 @@ try {
 					<h4 id="modal-title" class="text-lg font-bold text-gray-900 border-b-2 border-gray-100 pb-2 mb-4 text-center">신랑 이찬희</h4>
 					<div class="space-y-4">
 						<div>
-							<p class="text-[10px] text-gray-400 mb-1">연락처</p>
-							<div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-lg">
-								<span id="modal-phone" class="text-base font-semibold text-gray-800">010-1234-5678</span>
-								<button class="modal-copy-btn bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded active:scale-95" data-copy-target="modal-phone">복사</button>
-							</div>
-						</div>
-						<div>
 							<p class="text-[10px] text-gray-400 mb-1">계좌번호</p>
 							<div class="flex flex-col bg-gray-50 p-2.5 rounded-lg gap-2">
 								<div class="flex justify-between items-center">
@@ -244,9 +237,19 @@ try {
 						<div class="relative px-1 mb-4" id="trans-tab-container">
 							<!-- 말풍선 (Tooltip) -->
 							<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60] cursor-pointer">
-								<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto" style="width: 95%;">
-									<div id="balloon-content" class="text-[11px] leading-relaxed">정보가 여기에 표시됩니다.</div>
-									<div class="text-[9px] text-gray-400 mt-2 font-light">💡 클릭하면 크게 보입니다</div>
+								<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto border border-gray-700" style="width: 95%;">
+									<!-- 닫기 버튼 추가 -->
+									<button id="close-balloon" class="absolute right-2 top-2 text-gray-400 hover:text-white p-1">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+										</svg>
+									</button>
+									<div id="balloon-content" class="text-[13px] leading-relaxed">정보가 여기에 표시됩니다.</div>
+									<div class="flex justify-center mt-3">
+										<div class="inline-flex items-center gap-1.5 bg-gray-700 px-3 py-1 rounded-full border border-gray-600">
+											<span class="text-[12px] text-gray-100 font-bold">🔍 크게 보기</span>
+										</div>
+									</div>
 									<!-- 말풍선 꼬리 -->
 									<div id="balloon-tail" class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-900"></div>
 								</div>
@@ -266,10 +269,10 @@ try {
 					</section>
 				</div>
 
-				<!-- 탭 4: 연락처 -->
+				<!-- 탭 4: 마음전할곳 -->
 				<div id="tab-heart" class="tab-panel hidden-under" data-page="3">
 					<section class="px-2 py-4 h-full flex flex-col overflow-y-auto scrollbar-hide">
-						<h3 class="text-lg font-semibold text-center mb-6 text-gray-900">연락처</h3>
+						<h3 class="text-lg font-semibold text-center mb-6 text-gray-900">마음전할곳</h3>
 						
 						<div class="grid grid-cols-2 gap-2 flex-1">
 							<!-- 신랑측 -->
@@ -279,46 +282,36 @@ try {
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신랑 이찬희</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-8794-5755</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-8794-5755">복사</button>
-										</div>
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
 												<span class="info-account text-[9px] text-gray-800 font-medium">신한 110-392-817947</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="110-392-817947">복사</button>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="신한 110392817947">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
-									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 김○○</div>
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 이상경</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
-										</div>
+
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">농축협 415079-52-160173</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="농축협 41507952160173">복사</button>
 											</div>
 										</div>
 									</div>
 								</div>
 
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
-									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 박○○</div>
+									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 엄인숙</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
-										</div>
+
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">신한 110-077-598600</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="신한 110077598600">복사</button>
 											</div>
 										</div>
 									</div>
@@ -332,14 +325,11 @@ try {
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">신부 원대연</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
-										</div>
+
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
-												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
-												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="000-000-000">복사</button>
+												<span class="info-account text-[9px] text-gray-800 font-medium">기업 336-081080-01-010</span>
+												<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="기업 33608108001010">복사</button>
 											</div>
 										</div>
 									</div>
@@ -348,10 +338,7 @@ try {
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">부 이○○</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
-										</div>
+
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
 												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
@@ -364,10 +351,7 @@ try {
 								<div class="contact-card cursor-pointer bg-white p-2 rounded-lg border border-gray-100 shadow-sm space-y-2 hover:bg-gray-50 transition-colors">
 									<div class="info-name text-xs font-bold text-gray-900 border-b pb-1">모 최○○</div>
 									<div class="flex flex-col gap-1">
-										<div class="flex justify-between items-center bg-gray-50 p-1.5 rounded">
-											<span class="info-phone text-[9px] text-gray-500">010-0000-0000</span>
-											<button class="copy-btn text-[8px] font-bold bg-white border border-gray-200 px-1 rounded" data-copy="010-0000-0000">복사</button>
-										</div>
+
 										<div class="flex flex-col bg-gray-50 p-1.5 rounded">
 											<div class="flex justify-between items-center mb-0.5">
 												<span class="info-account text-[9px] text-gray-800 font-medium">은행 000-000-000</span>
@@ -396,7 +380,7 @@ try {
 						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">오시는 길</span>
 					</button>
 					<button class="tab-btn flex flex-col items-center justify-center flex-1 h-full" data-tab="heart">
-						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">연락처</span>
+						<span class="text-[clamp(14px,4.5vw,18px)] font-bold leading-[1.2] tracking-tighter">마음전할곳</span>
 					</button>
 				</div>
 			</nav>
@@ -512,7 +496,7 @@ try {
 					if (isAnimating || !canFlip || targetIndex === currentPage) return;
 					isAnimating = true;
 					const animationDuration = 100;
-					const stepDuration = 100;
+					const stepDuration = 50;
 					if (targetIndex > currentPage) {
 						for (let i = currentPage; i < targetIndex; i++) {
 							const pageToFlip = document.getElementById('tab-' + tabOrder[i]);
@@ -766,11 +750,10 @@ try {
 					});
 				}
 
-				// 연락처 모달 제어
+				// 마음전할곳 모달 제어
 				const modal = document.getElementById('contact-modal');
 				const modalBox = document.getElementById('modal-content-box');
 				const modalTitle = document.getElementById('modal-title');
-				const modalPhone = document.getElementById('modal-phone');
 				const modalAccount = document.getElementById('modal-account');
 				const closeBtn = document.getElementById('modal-close-btn');
 
@@ -823,11 +806,9 @@ try {
 					card.addEventListener('click', (e) => {
 						e.stopPropagation();
 						const name = card.querySelector('.info-name').innerText;
-						const phone = card.querySelector('.info-phone').innerText;
 						const account = card.querySelector('.info-account').innerText;
 
 						modalTitle.innerText = name;
-						modalPhone.innerText = phone;
 						modalAccount.innerText = account;
 
 						modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -908,6 +889,16 @@ try {
 				});
 
 				// 닫기 및 전역 클릭
+				const closeBalloonBtn = document.getElementById('close-balloon');
+				if (closeBalloonBtn) {
+					closeBalloonBtn.addEventListener('click', (e) => {
+						e.stopPropagation();
+						transTabs.forEach(t => t.classList.remove('active'));
+						balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+						currentTransType = null;
+					});
+				}
+				
 				closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
 				textModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeTextModal(); });
 				
@@ -936,7 +927,11 @@ try {
 					btn.addEventListener('click', (e) => {
 						e.stopPropagation();
 						const text = btn.dataset.copy || document.getElementById(btn.dataset.copyTarget)?.innerText;
-						if (text) copyToClipboard(text, btn);
+						if (text) {
+							// 하이픈 제거 및 복사
+							const processedText = text.replace(/-/g, '');
+							copyToClipboard(processedText, btn);
+						}
 					});
 				});
 
