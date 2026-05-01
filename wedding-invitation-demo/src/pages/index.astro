@@ -246,7 +246,7 @@ try {
 									</button>
 									<div id="balloon-content" class="text-[13px] leading-relaxed">정보가 여기에 표시됩니다.</div>
 									<div class="flex justify-center mt-3">
-										<div class="inline-flex items-center gap-1.5 bg-gray-700 px-3 py-1 rounded-full border border-gray-600">
+										<div id="open-large-view" class="inline-flex items-center gap-1.5 bg-gray-700 px-3 py-1 rounded-full border border-gray-600 cursor-pointer hover:bg-gray-600 transition-colors">
 											<span class="text-[12px] text-gray-100 font-bold">🔍 크게 보기</span>
 										</div>
 									</div>
@@ -880,28 +880,25 @@ try {
 					});
 				});
 
-				// 말풍선 클릭 시 큰 모달 열기
+				// 말풍선 내부 인터랙션 제어 (이벤트 위임)
 				balloon.addEventListener('click', (e) => {
-					e.stopPropagation();
-					if (currentTransType) {
-						openTextModal(transTitles[currentTransType], transData[currentTransType]);
-					}
-				});
+					e.stopPropagation(); // 말풍선 내부 클릭이 window로 퍼지지 않게 방지
 
-				// 닫기 및 전역 클릭
-				const closeBalloonBtn = document.getElementById('close-balloon');
-				if (closeBalloonBtn) {
-					closeBalloonBtn.addEventListener('click', (e) => {
-						e.stopPropagation();
+					const openBtn = e.target.closest('#open-large-view');
+					const closeBtn = e.target.closest('#close-balloon');
+
+					if (openBtn) {
+						if (currentTransType) {
+							openTextModal(transTitles[currentTransType], transData[currentTransType]);
+						}
+					} else if (closeBtn) {
 						transTabs.forEach(t => t.classList.remove('active'));
 						balloon.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
 						currentTransType = null;
-					});
-				}
-				
-				closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
-				textModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); closeTextModal(); });
-				
+					}
+				});
+
+				// 전역 클릭 (외부 클릭 시 닫기)
 				window.addEventListener('click', (e) => {
 					if (modal.classList.contains('pointer-events-auto')) {
 						if (!modalBox.contains(e.target) && !e.target.closest('.contact-card')) {
