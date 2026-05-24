@@ -209,56 +209,58 @@ try {
 
 				<!-- 탭 3: 오시는 길 -->
 				<div id="tab-location" class="tab-panel hidden-under" data-page="2">
-					<section class="px-4 pt-3 pb-0">
-						<h3 class="text-lg font-semibold text-center mb-3 text-gray-900">오시는 길</h3>
-						<div id="venue-box" class="text-center mb-3 cursor-pointer hover:bg-gray-50 rounded-xl p-2 transition-colors">
+					<section class="px-4 pt-3 pb-0 flex flex-col h-full">
+						<h3 class="text-lg font-semibold text-center mb-3 text-gray-900 flex-shrink-0">오시는 길</h3>
+						<div id="venue-box" class="text-center mb-3 cursor-pointer hover:bg-gray-50 rounded-xl p-2 transition-colors flex-shrink-0">
 							<h4 class="text-base font-bold mb-1">아이티 컨벤션</h4>
 							<p class="text-sm text-gray-600 mb-1">흥덕IT밸리 2층 그레이스 홀</p>
 							<p class="text-xs text-gray-500">경기도 용인시 기흥구 흥덕1로 13</p>
 						</div>
-						<div class="relative w-full rounded-t-lg overflow-hidden border border-gray-200 bg-gray-50" style="height: clamp(120px, 25vh, 224px);">
+						<div class="relative w-full rounded-t-lg overflow-hidden border border-gray-200 bg-gray-50 flex-1 min-h-[120px] max-h-[224px]">
 							<div id="map-kakao" class="map-view absolute inset-0 z-10" style="display: block; width: 100%; height: 100%;"></div>
 							<div id="map-naver" class="map-view absolute inset-0 z-0" style="display: none; width: 100%; height: 100%;"></div>
 							<div id="map-google" class="map-view absolute inset-0 z-0" style="display: none; width: 100%; height: 100%;">
 								<iframe src="https://maps.google.com/maps?q=아이티컨벤션&t=&z=15&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0"></iframe>
 							</div>
 						</div>
-						<div class="flex space-x-1 mb-1.5 px-1 mt-[-1px]">
+						<div class="flex space-x-1 mb-1.5 px-1 mt-[-1px] flex-shrink-0">
 							<button class="map-tab active flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="kakao">카카오맵</button>
 							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="naver">네이버지도</button>
 							<button class="map-tab flex-1 py-2 text-[11px] font-bold rounded-b-lg transition-all" data-map="google">구글지도</button>
 						</div>
 
-						<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block mx-1 py-3 bg-gray-800 text-white text-center rounded-lg font-bold shadow-md hover:bg-gray-900 transition-colors mb-1.5 no-underline">
-							길찾기
-						</a>
-						
-						<!-- 교통 정보 및 말풍선 -->
-						<div class="relative px-1 mb-4" id="trans-tab-container">
-							<!-- 말풍선 (Tooltip) -->
-							<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60] cursor-pointer">
-								<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto border border-gray-700" style="width: 95%;">
-									<!-- 닫기 버튼 추가 -->
-									<button id="close-balloon" class="absolute right-2 top-2 text-gray-400 hover:text-white p-1">
-										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-										</svg>
-									</button>
-									<div id="balloon-content" class="text-[13px] leading-relaxed">정보가 여기에 표시됩니다.</div>
-									<div class="flex justify-center mt-3">
-										<div id="open-large-view" class="inline-flex items-center gap-1.5 bg-gray-700 px-3 py-1 rounded-full border border-gray-600 cursor-pointer hover:bg-gray-600 transition-colors">
-											<span class="text-[12px] text-gray-100 font-bold">🔍 크게 보기</span>
+						<div class="mt-auto flex flex-col">
+							<a id="route-btn" href="https://map.kakao.com/link/to/아이티컨벤션,37.2709214,127.0661671" target="_blank" class="block mx-1 py-3 bg-gray-800 text-white text-center rounded-lg font-bold shadow-md hover:bg-gray-900 transition-colors mb-1.5 no-underline flex-shrink-0">
+								길찾기
+							</a>
+							
+							<!-- 교통 정보 및 말풍선 -->
+							<div class="relative px-1 mb-4 flex-shrink-0" id="trans-tab-container">
+								<!-- 말풍선 (Tooltip) -->
+								<div id="trans-balloon" class="absolute left-0 bottom-full mb-2 w-full opacity-0 pointer-events-none transition-all duration-300 translate-y-2 z-[60] cursor-pointer">
+									<div class="bg-gray-900 text-white rounded-xl p-4 shadow-xl relative text-center mx-auto border border-gray-700" style="width: 95%;">
+										<!-- 닫기 버튼 추가 -->
+										<button id="close-balloon" class="absolute right-2 top-2 text-gray-400 hover:text-white p-1">
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+											</svg>
+										</button>
+										<div id="balloon-content" class="text-[13px] leading-relaxed">정보가 여기에 표시됩니다.</div>
+										<div class="flex justify-center mt-3">
+											<div id="open-large-view" class="inline-flex items-center gap-1.5 bg-gray-700 px-3 py-1 rounded-full border border-gray-600 cursor-pointer hover:bg-gray-600 transition-colors">
+												<span class="text-[12px] text-gray-100 font-bold">🔍 크게 보기</span>
+											</div>
 										</div>
+										<!-- 말풍선 꼬리 -->
+										<div id="balloon-tail" class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-900"></div>
 									</div>
-									<!-- 말풍선 꼬리 -->
-									<div id="balloon-tail" class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-gray-900"></div>
 								</div>
-							</div>
 
-							<div class="flex border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="shuttle">셔틀버스</button>
-								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="subway">대중교통</button>
-								<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="parking">주차안내</button>
+								<div class="flex border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+									<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="shuttle">셔틀버스</button>
+									<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="subway">대중교통</button>
+									<button class="trans-tab flex-1 py-2.5 text-[11px] font-bold border-l border-gray-200 transition-all hover:bg-gray-50 active:bg-gray-100" data-trans="parking">주차안내</button>
+								</div>
 							</div>
 						</div>
 					</section>
