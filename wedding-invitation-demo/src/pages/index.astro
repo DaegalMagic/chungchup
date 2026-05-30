@@ -212,7 +212,13 @@ try {
 					<section class="px-4 pt-3 pb-0 flex flex-col h-full">
 						<h3 class="text-lg font-semibold text-center mb-3 text-gray-900 flex-shrink-0">오시는 길</h3>
 						<div id="venue-box" class="text-center mb-3 cursor-pointer hover:bg-gray-50 rounded-xl p-2 transition-colors flex-shrink-0">
-							<h4 class="text-base font-bold mb-1">아이티 컨벤션</h4>
+							<h4 class="text-base font-bold mb-1">
+								아이티 컨벤션
+								<a href="http://www.itconvention.co.kr/location/" target="_blank" rel="noopener noreferrer" class="text-sm font-normal text-blue-600 hover:underline ml-1">(홈페이지)</a>
+							</h4>
+							<p class="text-sm text-gray-600 mb-1">
+								<span class="venue-phone" data-tel="0312557000">031-255-7000</span>
+							</p>
 							<p class="text-sm text-gray-600 mb-1">흥덕IT밸리 2층 그레이스 홀</p>
 							<p class="text-xs text-gray-500">경기도 용인시 기흥구 흥덕1로 13</p>
 						</div>
@@ -773,8 +779,32 @@ try {
 				const textModalBody = document.getElementById('text-modal-body');
 				const textModalCloseBtn = document.getElementById('text-modal-close-btn');
 
-				function openTextModal(title, content) {
-					textModalTitle.innerText = title;
+				const VENUE_HOME_URL = 'http://www.itconvention.co.kr/location/';
+
+				function isMobilePhoneDevice() {
+					return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+				}
+
+				function setupVenuePhoneLinks() {
+					if (!isMobilePhoneDevice()) return;
+					document.querySelectorAll('.venue-phone').forEach((el) => {
+						if (el.closest('a')) return;
+						const tel = el.dataset.tel;
+						if (!tel) return;
+						const link = document.createElement('a');
+						link.href = `tel:${tel}`;
+						link.className = 'text-gray-600 hover:text-gray-900 no-underline';
+						link.textContent = el.textContent;
+						el.replaceWith(link);
+					});
+				}
+
+				function openTextModal(title, content, opts = {}) {
+					if (opts.titleHtml) {
+						textModalTitle.innerHTML = opts.titleHtml;
+					} else {
+						textModalTitle.innerText = title;
+					}
 					textModalBody.innerHTML = content;
 					
 					// 인사말의 경우 각 문장을 한 줄씩 표시하되, 화면보다 길면 자연스럽게 줄바꿈
@@ -829,13 +859,16 @@ try {
 					});
 				}
 
+				setupVenuePhoneLinks();
+
 				const venueBox = document.getElementById('venue-box');
 				if (venueBox) {
 					venueBox.addEventListener('click', (e) => {
+						if (e.target.closest('a')) return;
 						e.stopPropagation();
-						const title = venueBox.querySelector('h4').innerText;
-						const info = Array.from(venueBox.querySelectorAll('p')).map(p => p.innerText).join('<br>');
-						openTextModal(title, info);
+						const info = Array.from(venueBox.querySelectorAll('p')).map(p => p.innerText.trim()).join('<br>');
+						const titleHtml = `아이티 컨벤션 <a href="${VENUE_HOME_URL}" target="_blank" rel="noopener noreferrer" class="text-base font-normal text-blue-600 hover:underline ml-1">(홈페이지)</a>`;
+						openTextModal('', info, { titleHtml });
 					});
 				}
 
